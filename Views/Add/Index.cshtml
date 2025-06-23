@@ -1,0 +1,303 @@
+﻿@{
+	ViewData["Title"] = "Add New Application / System / Device";
+}
+
+<form id="regForm" action="">
+	<!-- One "tab" for each step in the form: -->
+	<div class="tab">
+		Application / System / Device Name
+		<p><input class="form-text" type="text" name="inputName" placeholder=""></p>
+
+		Owner / Custodian
+		<p>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioOwner" id="radioOwner1">
+				<label class="form-check-label" for="radioOwner1">
+					Business Unit / Division / Department
+				</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioOwner" id="radioOwner2">
+				<label class="form-check-label" for="radioOwner2">
+					IT Division
+				</label>
+			</div>
+		</p>
+
+		Application / System / Device Criticality
+		<p>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
+				<label class="form-check-label" for="radioCritical1">
+					Highly Critical
+				</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+				<label class="form-check-label" for="radioCritical2">
+					Critical
+				</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+				<label class="form-check-label" for="radioCritical2">
+					Required
+				</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+				<label class="form-check-label" for="radioCritical2">
+					Deferrable
+				</label>
+			</div>
+		</p>
+
+		Connection(s)
+		<p>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection1">
+				<label class="form-check-label" for="checkConnection1">
+					Internal
+				</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection2">
+				<label class="form-check-label" for="checkConnection2">
+					Input
+				</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection3">
+				<label class="form-check-label" for="checkConnection3">
+					External
+				</label>
+			</div>
+		</p>
+
+		Developer
+		<p>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioDeveloper" id="radioDeveloper1">
+				<label class="form-check-label" for="radioDeveloper1">
+					Internal
+				</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="radioDeveloper" id="radioDeveloper2">
+				<label class="form-check-label" for="radioDeveloper2">
+					External
+				</label>
+			</div>
+		</p>
+
+		Related IT Support / Infrastructure Teams
+		<p>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection1">
+				<label class="form-check-label" for="checkConnection1">
+					Windows
+				</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection2">
+				<label class="form-check-label" for="checkConnection2">
+					Unix
+				</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection3">
+				<label class="form-check-label" for="checkConnection3">
+					Database
+				</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection4">
+				<label class="form-check-label" for="checkConnection4">
+					Middleware
+				</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" value="" id="checkConnection5">
+				<label class="form-check-label" for="checkConnection5">
+					Mainframe
+				</label>
+			</div>
+		</p>
+	</div>
+
+	<div class="tab">
+		<div class="category-header">
+			<div class="category-frame1">
+				<div class="category-container">
+					<div class="category-titleicon">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+							<path d="M0.440043 12.8497L0.145043 14.9121C0.126812 15.0402 0.138622 15.1707 0.17954 15.2933C0.220458 15.416 0.289361 15.5275 0.380797 15.6189C0.472232 15.7103 0.583692 15.7792 0.706356 15.8202C0.829021 15.8611 0.959525 15.8729 1.08754 15.8546L3.15004 15.5596C3.46254 15.5155 4.24588 13.4122 4.24588 13.4122C4.24588 13.4122 4.63921 13.7496 4.80004 13.8005C5.14338 13.9088 5.47754 13.5722 5.59004 13.2305L5.91254 11.7538C5.91254 11.7538 6.39338 11.9972 6.56754 12.033C6.78921 12.0788 7.00421 11.9422 7.15671 11.7888C7.24803 11.6973 7.31679 11.5857 7.35754 11.463L7.57921 10.0872C7.57921 10.0872 8.14171 10.243 8.33421 10.2655C8.55338 10.2905 8.76671 10.1788 8.92338 10.0213L9.87171 9.07382C10.6744 9.33413 11.5335 9.36778 12.3541 9.17104C13.1747 8.9743 13.9251 8.55481 14.5225 7.95882C15.3806 7.09853 15.8625 5.93305 15.8625 4.71798C15.8625 3.50292 15.3806 2.33744 14.5225 1.47715C13.6623 0.61908 12.4968 0.137207 11.2817 0.137207C10.0666 0.137207 8.90117 0.61908 8.04088 1.47715C7.44488 2.07459 7.0254 2.82497 6.82866 3.6456C6.63192 4.46623 6.66556 5.32525 6.92588 6.12798L0.675043 12.378C0.547752 12.5056 0.465295 12.6711 0.440043 12.8497ZM12.9992 3.00048C13.4536 3.45657 13.7088 4.07415 13.7088 4.71798C13.7088 5.36181 13.4536 5.9794 12.9992 6.43548L9.56421 3.00048C10.0203 2.54606 10.6379 2.2909 11.2817 2.2909C11.9255 2.2909 12.5431 2.54606 12.9992 3.00048Z" fill="#1C2534" />
+						</svg>
+						<div class="category-title">Symmetric Key Algorithms</div>
+					</div>
+				</div>
+				<div class="category-checkboxselection">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="tab">
+		Birthday:
+		<p><input placeholder="dd" oninput="this.className = ''"></p>
+		<p><input placeholder="mm" oninput="this.className = ''"></p>
+		<p><input placeholder="yyyy" oninput="this.className = ''"></p>
+	</div>
+
+	<div class="tab">
+		Login Info:
+		<p><input placeholder="Username..." oninput="this.className = ''"></p>
+		<p><input placeholder="Password..." oninput="this.className = ''"></p>
+	</div>
+
+	<div style="overflow:auto;">
+		<div style="float:right;">
+			<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+			<button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+		</div>
+	</div>
+
+	<!-- Circles which indicates the steps of the form: -->
+	<div style="text-align:center;margin-top:40px;">
+		<span class="step"></span>
+		<span class="step"></span>
+		<span class="step"></span>
+		<span class="step"></span>
+	</div>
+
+</form>
+
+<style>
+	/* Style the form */
+	#regForm {
+		background-color: #ffffff;
+		margin: 100px auto;
+		padding: 40px;
+		width: 70%;
+		min-width: 300px;
+	}
+
+	/* Style the input fields */
+	/* input {
+				  padding: 10px;
+				  width: 100%;
+				  font-size: 17px;
+				  font-family: Raleway;
+				  border: 1px solid #aaaaaa;
+				} */
+
+	/* Mark input boxes that gets an error on validation: */
+	input.invalid {
+		background-color: #ffdddd;
+	}
+
+	/* Hide all steps by default: */
+	.tab {
+		display: none;
+	}
+
+	/* Make circles that indicate the steps of the form: */
+	.step {
+		height: 15px;
+		width: 15px;
+		margin: 0 2px;
+		background-color: #bbbbbb;
+		border: none;
+		border-radius: 50%;
+		display: inline-block;
+		opacity: 0.5;
+	}
+
+		/* Mark the active step: */
+		.step.active {
+			opacity: 1;
+		}
+
+		/* Mark the steps that are finished and valid: */
+		.step.finish {
+			background-color: #04AA6D;
+		}
+</style>
+
+<script>
+	  var currentTab = 0; // Current tab is set to be the first tab (0)
+	showTab(currentTab); // Display the current tab
+
+	function showTab(n) {
+	  // This function will display the specified tab of the form ...
+	  var x = document.getElementsByClassName("tab");
+	  x[n].style.display = "block";
+	  // ... and fix the Previous/Next buttons:
+	  if (n == 0) {
+		document.getElementById("prevBtn").style.display = "none";
+	  } else {
+		document.getElementById("prevBtn").style.display = "inline";
+	  }
+	  if (n == (x.length - 1)) {
+		document.getElementById("nextBtn").innerHTML = "Submit";
+	  } else {
+		document.getElementById("nextBtn").innerHTML = "Next";
+	  }
+	  // ... and run a function that displays the correct step indicator:
+	  fixStepIndicator(n)
+	}
+
+	function nextPrev(n) {
+	  // This function will figure out which tab to display
+	  var x = document.getElementsByClassName("tab");
+	  // Exit the function if any field in the current tab is invalid:
+	  if (n == 1 && !validateForm()) return false;
+	  // Hide the current tab:
+	  x[currentTab].style.display = "none";
+	  // Increase or decrease the current tab by 1:
+	  currentTab = currentTab + n;
+	  // if you have reached the end of the form... :
+	  if (currentTab >= x.length) {
+		//...the form gets submitted:
+		document.getElementById("regForm").submit();
+		return false;
+	  }
+	  // Otherwise, display the correct tab:
+	  showTab(currentTab);
+	}
+
+	function validateForm() {
+	  // This function deals with validation of the form fields
+	  var x, y, i, valid = true;
+	  x = document.getElementsByClassName("tab");
+	  y = x[currentTab].getElementsByTagName("input");
+	  // A loop that checks every input field in the current tab:
+	  for (i = 0; i < y.length; i++) {
+		// If a field is empty...
+		if (y[i].value == "") {
+		  // add an "invalid" class to the field:
+		  y[i].className += " invalid";
+		  // and set the current valid status to false:
+		  valid = false;
+		}
+	  }
+
+		  valid = true
+	  // If the valid status is true, mark the step as finished and valid:
+	  if (valid) {
+		document.getElementsByClassName("step")[currentTab].className += " finish";
+	  }
+	  return valid; // return the valid status
+	}
+
+	function fixStepIndicator(n) {
+	  // This function removes the "active" class of all steps...
+	  var i, x = document.getElementsByClassName("step");
+	  for (i = 0; i < x.length; i++) {
+		x[i].className = x[i].className.replace(" active", "");
+	  }
+	  //... and adds the "active" class to the current step:
+	  x[n].className += " active";
+	}
+</script>
