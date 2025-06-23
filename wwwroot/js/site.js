@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 
 //dataTables
-const table = new DataTable('#example', {
+const tableMain = new DataTable('#tableMain', {
     layout: {
         topStart: null,
         topEnd: null,
@@ -12,7 +12,7 @@ const table = new DataTable('#example', {
     scrollCollapse: true,
     scrollX: true,
     scrollY: "100%",
-    search:false,
+    search: false,
     "columnDefs": [{
         "targets": [4, 5, 6, 8, 9, 10, 12, 13, 14, 16, 17, 18],
         "visible": false
@@ -20,7 +20,7 @@ const table = new DataTable('#example', {
     {
         searchable: false,
         orderable: false,
-        targets: [0,19]
+        targets: [0, 19]
     }],
     order: [[1, 'asc']],
     fixedColumns: {
@@ -29,10 +29,10 @@ const table = new DataTable('#example', {
     },
 });
 
-table.on('order.dt search.dt', function () {
+tableMain.on('order.dt search.dt', function () {
     let i = 1;
 
-    table
+    tableMain
         .cells(null, 0, { search: 'applied', order: 'applied' })
         .every(function (cell) {
             this.data(i++);
@@ -40,7 +40,7 @@ table.on('order.dt search.dt', function () {
 }).draw();
 
 $('#myInputTextField').keyup(function () {
-    table.column(1).search($(this).val()).draw();
+    tableMain.column(1).search($(this).val()).draw();
 })
 
 document.querySelectorAll('td.toggle-vis').forEach((el) => {
@@ -48,9 +48,39 @@ document.querySelectorAll('td.toggle-vis').forEach((el) => {
         e.preventDefault();
 
         var columnIdxs = e.target.getAttribute('data-column').split(",");
-        var column = table.column(columnIdxs[0]);
-        var columns = table.columns(columnIdxs);
+        var column = tableMain.column(columnIdxs[0]);
+        var columns = tableMain.columns(columnIdxs);
         // Toggle the visibility
         columns.visible(!column.visible());
     });
 });
+
+
+const tableITD = new DataTable('#tableITD', {
+    responsive: true,
+    layout: {
+        topStart: null,
+        topEnd: null,
+    }
+});
+
+tableITD.on('click', 'tbody tr', (e) => {
+    let classList = e.currentTarget.classList;
+
+    if (classList.contains('selected')) {
+        classList.remove('selected');
+    }
+    else {
+        tableITD.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+        classList.add('selected');
+    }
+});
+
+$('.btn-itdTeam').bind('click', function () {
+    console.log(tableITD.row('.selected').data());
+});
+
+//Select ITD Team
+function selTeam() {
+    $('#teamModal').modal('show');
+}
