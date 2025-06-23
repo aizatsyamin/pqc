@@ -144,7 +144,6 @@ body {
 .category-title {
     flex: 1 0 0;
     color: #1C2534;
-    font-family: Montserrat;
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
@@ -158,4 +157,75 @@ body {
     align-items: center;
     gap: 10px;
     align-self: stretch;
+}
+
+.category-frame2-text {
+    flex: 1 0 0;
+    color: #000;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.category-checkboxselection {
+    display: flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 8px;
+}
+
+.category-add {
+    display: flex;
+    width: 1368px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+}
+
+. {
+    display: flex;
+    width: 1368px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+}
+
+.button {
+    display: inline-flex;
+    padding: 10px 32px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    cursor:pointer;
+}
+
+.button-primary {
+    border-radius: 8px;
+    background: #1C2534;
+    color: #FFF;
+}
+
+    .button-primary:hover {
+        background: #181F2C;
+    }
+
+    .button-primary:active {
+        background: #141A24;
+    }
+
+.button-text {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.button-icon {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
 }
