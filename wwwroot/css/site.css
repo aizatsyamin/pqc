@@ -1,5 +1,6 @@
 html {
     font-size: 14px;
+    font-family: Montserrat;
 }
 
 @media (min-width: 768px) {
@@ -22,6 +23,11 @@ body {
 }
 
 /*Custom*/
+
+.container {
+    width:100% !important;
+    max-width:100% !important;
+}
 
 .container-badge {
     display: flex;
@@ -110,7 +116,7 @@ body {
 
 .category-header {
     display: flex;
-    /*width: 1368px;*/
+    width: 100%;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -150,6 +156,10 @@ body {
     line-height: normal;
 }
 
+    .category-title.disabled {
+        color: #515151 !important;
+    }
+
 .category-frame2 {
     display: flex;
     padding: 0px 12px;
@@ -177,7 +187,7 @@ body {
 
 .category-add {
     display: flex;
-    width: 1368px;
+    width: 100%;
     flex-direction: column;
     align-items: flex-start;
     gap: 36px;
@@ -190,7 +200,7 @@ body {
     justify-content: flex-end;
     align-items: center;
     gap: 12px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .button-primary {
@@ -249,7 +259,7 @@ body {
 
 .header-search-input {
     display: flex;
-  /*  padding: 10px 14px;*/
+    /*  padding: 10px 14px;*/
     align-items: center;
     gap: 8px;
     flex: 1 0 0;
@@ -287,7 +297,7 @@ body {
 
 .modal-dialog {
     display: flex;
-/*    width: 1416px;
+    /*    width: 1416px;
     height: 885px;*/
     padding: 24px;
     flex-direction: column;
@@ -341,6 +351,196 @@ body {
     padding: 10px 12px 10px 40px;
 }
 
-#tableITD_wrapper{
-    width:100%;
+#tableITD_wrapper {
+    width: 100%;
+}
+
+/*Form step*/
+
+.form-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+}
+
+.form-step-item {
+    display: flex;
+    padding: 12px 24px;
+    align-items: center;
+    flex: 1 0 0;
+    background: #E9E9E9;
+}
+
+    .form-step-item .text {
+        color: #333;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: 0.5px;
+    }
+
+    .form-step-item.active {
+        background: #4B5766 !important;
+    }
+
+        .form-step-item.active .text {
+            flex: 1 0 0;
+            color: #FFF;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 0.5px;
+        }
+
+.form-content {
+    display: flex;
+    padding: 12px 48px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: #FFF;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.form-text{
+    width: 100%;
+}
+
+.form-text-label {
+    align-self: stretch;
+    color: #000;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.form-group-radio {
+    display: flex;
+    align-items: flex-start;
+    gap: 56px;
+    align-self: stretch;
+}
+
+.form-group-check {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.category-form {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+}
+
+    .category-form.footer {
+        display: flex;
+        align-items: flex-start;
+        gap: 36px;
+        align-self: stretch;
+    }
+
+.form-select{
+    width: 100%;
+}
+
+.form-footer {
+    display: flex;
+    padding: 24px 20px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+
+.float-right{
+    float:right;
+}
+
+/* Style the form */
+#regForm {
+    /* background-color: #ffffff;
+                                                                                                                                            margin: 48px auto;
+                                                                                                                                            padding: 40px;
+                                                                                                                                            width: 100%; */
+    /* min-width: 300px; */
+    width: 100%;
+}
+
+/* Style the input fields */
+/* input {
+                                                                                                                                                                                  padding: 10px;
+                                                                                                                                                                                  width: 100%;
+                                                                                                                                                                                  font-size: 17px;
+                                                                                                                                                                                  font-family: Raleway;
+                                                                                                                                                                                  border: 1px solid #aaaaaa;
+                                                                                                                                                                                } */
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+    background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+    display: none;
+    padding: 12px 48px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: #FFF;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+    /* Mark the active step: */
+    .step.active {
+        opacity: 1;
+    }
+
+    /* Mark the steps that are finished and valid: */
+    .step.finish {
+        background-color: #04AA6D;
+    }
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1 0 0;
+    align-self: stretch;
+    color: #1F1F1F;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 36px; /* 128.571% */
+    letter-spacing: 0.5px;
 }

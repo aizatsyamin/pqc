@@ -1,249 +1,317 @@
 ﻿@{
     ViewData["Title"] = "Add New Application / System / Device";
 }
-
 <div class="add-screen">
     <div class="add-content">
         <form id="regForm" action="">
-            <!-- One "tab" for each step in the form: -->
-            <div class="tab">
-                Application / System / Device Name
-                <p><input class="form-text" type="text" name="inputName" placeholder=""></p>
-
-                Owner / Custodian
-                <p>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioOwner" id="radioOwner1">
-                        <label class="form-check-label" for="radioOwner1">
-                            Business Unit / Division / Department
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioOwner" id="radioOwner2">
-                        <label class="form-check-label" for="radioOwner2">
-                            IT Division
-                        </label>
-                    </div>
-                </p>
-
-                ITD Team In Charge (TIC)
-                <p><input class="form-text" type="text" name="inputName" placeholder="Select ITD Team" onclick="selTeam()" readonly></p>
-
-                Application / System / Device Criticality
-                <p>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                        <label class="form-check-label" for="radioCritical1">
-                            Highly Critical
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                        <label class="form-check-label" for="radioCritical2">
-                            Critical
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                        <label class="form-check-label" for="radioCritical2">
-                            Required
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                        <label class="form-check-label" for="radioCritical2">
-                            Deferrable
-                        </label>
-                    </div>
-                </p>
-
-                Connection(s)
-                <p>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection1">
-                        <label class="form-check-label" for="checkConnection1">
-                            Internal
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection2">
-                        <label class="form-check-label" for="checkConnection2">
-                            Input
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection3">
-                        <label class="form-check-label" for="checkConnection3">
-                            External
-                        </label>
-                    </div>
-                </p>
-
-                Developer
-                <p>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioDeveloper" id="radioDeveloper1">
-                        <label class="form-check-label" for="radioDeveloper1">
-                            Internal
-                        </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="radioDeveloper" id="radioDeveloper2">
-                        <label class="form-check-label" for="radioDeveloper2">
-                            External
-                        </label>
-                    </div>
-                </p>
-
-                Related IT Support / Infrastructure Teams
-                <p>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection1">
-                        <label class="form-check-label" for="checkConnection1">
-                            Windows
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection2">
-                        <label class="form-check-label" for="checkConnection2">
-                            Unix
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection3">
-                        <label class="form-check-label" for="checkConnection3">
-                            Database
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection4">
-                        <label class="form-check-label" for="checkConnection4">
-                            Middleware
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="checkConnection5">
-                        <label class="form-check-label" for="checkConnection5">
-                            Mainframe
-                        </label>
-                    </div>
-                </p>
+            <div class="form-step">
+                <div class="form-step-item active">
+                    <span class="text">1. Application / System / Device Information</span>
+                </div>
+                <div class="form-step-item">
+                    <span class="text">2. Cryptographic Algorithm(s)</span>
+                </div>
+                <div class="form-step-item">
+                    <span class="text">3. Details of Data Encryption</span>
+                </div>
             </div>
 
+            <!-- One "tab" for each step in the form: -->
             <div class="tab">
-                <div class="category-header">
-                    <div class="category-frame1">
-                        <div class="category-container">
-                            <div class="category-titleicon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M0.440043 12.8497L0.145043 14.9121C0.126812 15.0402 0.138622 15.1707 0.17954 15.2933C0.220458 15.416 0.289361 15.5275 0.380797 15.6189C0.472232 15.7103 0.583692 15.7792 0.706356 15.8202C0.829021 15.8611 0.959525 15.8729 1.08754 15.8546L3.15004 15.5596C3.46254 15.5155 4.24588 13.4122 4.24588 13.4122C4.24588 13.4122 4.63921 13.7496 4.80004 13.8005C5.14338 13.9088 5.47754 13.5722 5.59004 13.2305L5.91254 11.7538C5.91254 11.7538 6.39338 11.9972 6.56754 12.033C6.78921 12.0788 7.00421 11.9422 7.15671 11.7888C7.24803 11.6973 7.31679 11.5857 7.35754 11.463L7.57921 10.0872C7.57921 10.0872 8.14171 10.243 8.33421 10.2655C8.55338 10.2905 8.76671 10.1788 8.92338 10.0213L9.87171 9.07382C10.6744 9.33413 11.5335 9.36778 12.3541 9.17104C13.1747 8.9743 13.9251 8.55481 14.5225 7.95882C15.3806 7.09853 15.8625 5.93305 15.8625 4.71798C15.8625 3.50292 15.3806 2.33744 14.5225 1.47715C13.6623 0.61908 12.4968 0.137207 11.2817 0.137207C10.0666 0.137207 8.90117 0.61908 8.04088 1.47715C7.44488 2.07459 7.0254 2.82497 6.82866 3.6456C6.63192 4.46623 6.66556 5.32525 6.92588 6.12798L0.675043 12.378C0.547752 12.5056 0.465295 12.6711 0.440043 12.8497ZM12.9992 3.00048C13.4536 3.45657 13.7088 4.07415 13.7088 4.71798C13.7088 5.36181 13.4536 5.9794 12.9992 6.43548L9.56421 3.00048C10.0203 2.54606 10.6379 2.2909 11.2817 2.2909C11.9255 2.2909 12.5431 2.54606 12.9992 3.00048Z" fill="#1C2534" />
-                                </svg>
-                                <div class="category-title">Symmetric Key Algorithms</div>
-                            </div>
-                        </div>
-                        <div class="category-checkboxselection">
-                            <div class="category-checkboxselection">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCategory1">
-                                <label class="form-check-label" for="checkCategory1">
-                                    Not Aplicable
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="category-frame2">
-                        <span class="category-frame2">
-                            Single secret key for both encryption and decryption. Examples - AES, 3DEA, ECB, CBC, etc.
-                        </span>
-                    </div>
-                    <div class="category-add">
-                        <span class="button button-primary">
-                            <span class="button-text">Add</span>
-                            <span class="button-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
-                                </svg>
-                            </span>
-                        </span>
-                        <div class="category-form">
-                            Purpose / Use
-                            <p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                    <label class="form-check-label" for="radioCritical1">
-                                        Encryption
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                    <label class="form-check-label" for="radioCritical2">
-                                        Message Authentication
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                    <label class="form-check-label" for="radioCritical3">
-                                        Others
-                                    </label>
-                                </div>
-                            </p>
+                <div class="form-field">
+                    <label class="form-text-label">Application / System / Device Name</label>
+                    <input class="form-text" type="text" name="inputApp" placeholder="" required>
+                </div>
 
-                            Modes
-                            <p>
-                                <select name="inputName">
-                                </select>
-                            </p>
-
-                            Key Length
-                            <p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                    <label class="form-check-label" for="radioCritical1">
-                                        128 bit
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                    <label class="form-check-label" for="radioCritical2">
-                                        256 bit
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                    <label class="form-check-label" for="radioCritical3">
-                                        Others
-                                    </label>
-                                </div>
-                            </p>
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Owner / Custodian
+                    </label>
+                    <div class="form-group-radio">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="Business Unit / Division / Department" name="radioOwner" id="radioOwner1" required>
+                            <label class="form-check-label" for="radioOwner1">
+                                Business Unit / Division / Department
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="IT Division" name="radioOwner" id="radioOwner2" required>
+                            <label class="form-check-label" for="radioOwner2">
+                                IT Division
+                            </label>
                         </div>
                     </div>
                 </div>
 
+                <div class="form-field">
+                    <label class="form-text-label">
+                        ITD Team In Charge (TIC)
+                    </label>
+                    <input class="form-text" type="text" id="inputITDTeam" name="inputITDTeam" placeholder="Select ITD Team" onclick="selTeam()" readonly required>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Application / System / Device Criticality
+                    </label>
+                    <div class=" form-group-radio">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="Highly Critical" name="inputCritical" id="radioCritical1" required>
+                            <label class="form-check-label" for="radioCritical1">
+                                Highly Critical
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="Critical" name="inputCritical" id="radioCritical2" required>
+                            <label class="form-check-label" for="radioCritical2">
+                                Critical
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="Required" name="inputCritical" id="radioCritical3" required>
+                            <label class="form-check-label" for="radioCritical3">
+                                Required
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="Deferrable" name="inputCritical" id="radioCritical4" required>
+                            <label class="form-check-label" for="radioCritical4">
+                                Deferrable
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Connection(s)
+                    </label>
+                    <div class="form-group-check">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Internal" name="inputConn" id="checkConnection1" required>
+                            <label class="form-check-label" for="checkConnection1">
+                                Internal
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Input" name="inputConn" id="checkConnection2" required>
+                            <label class="form-check-label" for="checkConnection2">
+                                Input
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="External" name="inputConn" id="checkConnection3" required>
+                            <label class="form-check-label" for="checkConnection3">
+                                External
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Developer
+                    </label>
+                    <div class="form-group-radio">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="Internal" name="inputDeveloper" id="radioDeveloper1" required>
+                            <label class="form-check-label" for="radioDeveloper1">
+                                Internal
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" value="External" name="inputDeveloper" id="radioDeveloper2" required>
+                            <label class="form-check-label" for="radioDeveloper2">
+                                External
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Related IT Support / Infrastructure Teams
+                    </label>
+                    <div class="form-group-check">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Windows" name="inputInfraTeam" id="checkInfraTeam1" required>
+                            <label class="form-check-label" for="checkInfraTeam1">
+                                Windows
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Unix" name="inputInfraTeam" id="checkInfraTeam2" required>
+                            <label class="form-check-label" for="checkInfraTeam2">
+                                Unix
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Database" name="inputInfraTeam" id="checkInfraTeam3" required>
+                            <label class="form-check-label" for="checkInfraTeam3">
+                                Database
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Middleware" name="inputInfraTeam" id="checkInfraTeam4" required>
+                            <label class="form-check-label" for="checkInfraTeam4">
+                                Middleware
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Mainframe" name="inputInfraTeam" id="checkInfraTeam5" required>
+                            <label class="form-check-label" for="checkInfraTeam5">
+                                Mainframe
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab">
+                <div class="category-main">
+                    <div class="category-header">
+                        <div class="category-frame1">
+                            <div class="category-container">
+                                <div class="category-titleicon ctI1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M0.440043 12.8497L0.145043 14.9121C0.126812 15.0402 0.138622 15.1707 0.17954 15.2933C0.220458 15.416 0.289361 15.5275 0.380797 15.6189C0.472232 15.7103 0.583692 15.7792 0.706356 15.8202C0.829021 15.8611 0.959525 15.8729 1.08754 15.8546L3.15004 15.5596C3.46254 15.5155 4.24588 13.4122 4.24588 13.4122C4.24588 13.4122 4.63921 13.7496 4.80004 13.8005C5.14338 13.9088 5.47754 13.5722 5.59004 13.2305L5.91254 11.7538C5.91254 11.7538 6.39338 11.9972 6.56754 12.033C6.78921 12.0788 7.00421 11.9422 7.15671 11.7888C7.24803 11.6973 7.31679 11.5857 7.35754 11.463L7.57921 10.0872C7.57921 10.0872 8.14171 10.243 8.33421 10.2655C8.55338 10.2905 8.76671 10.1788 8.92338 10.0213L9.87171 9.07382C10.6744 9.33413 11.5335 9.36778 12.3541 9.17104C13.1747 8.9743 13.9251 8.55481 14.5225 7.95882C15.3806 7.09853 15.8625 5.93305 15.8625 4.71798C15.8625 3.50292 15.3806 2.33744 14.5225 1.47715C13.6623 0.61908 12.4968 0.137207 11.2817 0.137207C10.0666 0.137207 8.90117 0.61908 8.04088 1.47715C7.44488 2.07459 7.0254 2.82497 6.82866 3.6456C6.63192 4.46623 6.66556 5.32525 6.92588 6.12798L0.675043 12.378C0.547752 12.5056 0.465295 12.6711 0.440043 12.8497ZM12.9992 3.00048C13.4536 3.45657 13.7088 4.07415 13.7088 4.71798C13.7088 5.36181 13.4536 5.9794 12.9992 6.43548L9.56421 3.00048C10.0203 2.54606 10.6379 2.2909 11.2817 2.2909C11.9255 2.2909 12.5431 2.54606 12.9992 3.00048Z" fill="#1C2534" />
+                                    </svg>
+                                    <div class="category-title ctT1">Symmetric Key Algorithms</div>
+                                </div>
+                            </div>
+                            <div class="category-checkboxselection">
+                                <div class="category-checkboxselection">
+                                    <input class="form-check-input" type="checkbox" value="" id="checkCategory1" onchange="checkCat(this,1)">
+                                    <label class="form-check-label" for="checkCategory1">
+                                        Not Applicable
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="category-frame2 catD1">
+                            <span class="">
+                                Single secret key for both encryption and decryption. Examples - AES, 3DEA, ECB, CBC, etc.
+                            </span>
+                        </div>
+                        <div class="category-add">
+                            <span class="button button-primary catB1" onclick="openCat(1)">
+                                <span class="button-text">Add</span>
+                                <span class="button-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
+                                    </svg>
+                                </span>
+                            </span>
+                            <div class="category-form cat1">
+                                <div class="form-field">
+                                    <label class="form-text-label">
+                                        Purpose / Use
+                                    </label>
+                                    <div class="form-group-radio">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
+                                            <label class="form-check-label" for="radioCritical1">
+                                                Encryption
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+                                            <label class="form-check-label" for="radioCritical2">
+                                                Message Authentication
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
+                                            <label class="form-check-label" for="radioCritical3">
+                                                Others
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label class="form-text-label">
+                                        Modes
+                                    </label>
+                                    <select class="form-select" name="inputName">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-field">
+                                    <label class="form-text-label">
+                                        Key Length
+                                    </label>
+                                    <div class="form-group-radio">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
+                                            <label class="form-check-label" for="radioCritical1">
+                                                128 bit
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+                                            <label class="form-check-label" for="radioCritical2">
+                                                256 bit
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
+                                            <label class="form-check-label" for="radioCritical3">
+                                                Others
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="footer">
+                                    <button type="button" class="button button-secondary" onclick="closeCat(1)">
+                                        <span class="button-text">Cancel</span>
+                                        <span class="button-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
+                                                <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <button type="button" class="button button-primary" onclick>
+                                        <span class="button-text">Save</span>
+                                        <span class="button-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                                <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="category-header">
                     <div class="category-frame1">
                         <div class="category-container">
-                            <div class="category-titleicon">
+                            <div class="category-titleicon ctI2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M0.00122163 1.50216C0.00105271 1.76563 0.070282 2.02449 0.201943 2.2527C0.333604 2.48092 0.523052 2.67043 0.751222 2.80216V9.20216C0.55236 9.31744 0.382652 9.47688 0.255202 9.66817C0.127751 9.85946 0.0459673 10.0775 0.016165 10.3054C-0.0136373 10.5333 0.00933925 10.765 0.0833206 10.9827C0.157302 11.2003 0.280309 11.398 0.442844 11.5605C0.605378 11.7231 0.803093 11.8461 1.02072 11.9201C1.23835 11.994 1.47007 12.017 1.69799 11.9872C1.9259 11.9574 2.14393 11.8756 2.33521 11.7482C2.5265 11.6207 2.68594 11.451 2.80122 11.2522H4.75122V13.2022C4.55236 13.3174 4.38265 13.4769 4.2552 13.6682C4.12775 13.8595 4.04597 14.0775 4.01617 14.3054C3.98636 14.5333 4.00934 14.765 4.08332 14.9827C4.1573 15.2003 4.28031 15.398 4.44284 15.5605C4.60538 15.7231 4.80309 15.8461 5.02072 15.9201C5.23835 15.994 5.47007 16.017 5.69799 15.9872C5.9259 15.9574 6.14393 15.8756 6.33521 15.7482C6.5265 15.6207 6.68594 15.451 6.80122 15.2522H13.2012C13.3165 15.451 13.4759 15.6207 13.6672 15.7482C13.8585 15.8756 14.0765 15.9574 14.3045 15.9872C14.5324 16.017 14.7641 15.994 14.9817 15.9201C15.1994 15.8461 15.3971 15.7231 15.5596 15.5605C15.7221 15.398 15.8451 15.2003 15.9191 14.9827C15.9931 14.765 16.0161 14.5333 15.9863 14.3054C15.9565 14.0775 15.8747 13.8595 15.7472 13.6682C15.6198 13.4769 15.4501 13.3174 15.2512 13.2022V6.80216C15.4501 6.68688 15.6198 6.52744 15.7472 6.33615C15.8747 6.14486 15.9565 5.92684 15.9863 5.69892C16.0161 5.471 15.9931 5.23929 15.9191 5.02166C15.8451 4.80403 15.7221 4.60632 15.5596 4.44378C15.3971 4.28125 15.1994 4.15824 14.9817 4.08426C14.7641 4.01028 14.5324 3.9873 14.3045 4.0171C14.0765 4.04691 13.8585 4.12869 13.6672 4.25614C13.4759 4.38359 13.3165 4.5533 13.2012 4.75216H11.2512V2.80216C11.4501 2.68688 11.6198 2.52744 11.7472 2.33615C11.8747 2.14486 11.9565 1.92684 11.9863 1.69892C12.0161 1.471 11.9931 1.23929 11.9191 1.02166C11.8451 0.80403 11.7221 0.606316 11.5596 0.443781C11.3971 0.281246 11.1994 0.158239 10.9817 0.084258C10.7641 0.0102767 10.5324 -0.0126999 10.3045 0.0171024C10.0765 0.0469047 9.85852 0.128689 9.66723 0.256139C9.47594 0.38359 9.3165 0.553298 9.20122 0.752159H2.80122C2.63634 0.465717 2.38146 0.241753 2.0762 0.115063C1.77093 -0.0116264 1.43237 -0.0339479 1.11312 0.0515668C0.793862 0.137081 0.511788 0.325644 0.310722 0.587958C0.109655 0.850272 0.000853636 1.17165 0.00122163 1.50216ZM6.80122 13.7522C6.66944 13.5237 6.47973 13.3339 6.25122 13.2022V11.2522H9.20122C9.3165 11.451 9.47594 11.6207 9.66723 11.7482C9.85852 11.8756 10.0765 11.9574 10.3045 11.9872C10.5324 12.017 10.7641 11.994 10.9817 11.9201C11.1994 11.8461 11.3971 11.7231 11.5596 11.5605C11.7221 11.398 11.8451 11.2003 11.9191 10.9827C11.9931 10.765 12.0161 10.5333 11.9863 10.3054C11.9565 10.0775 11.8747 9.85946 11.7472 9.66817C11.6198 9.47688 11.4501 9.31744 11.2512 9.20216V6.25216H13.2012C13.3332 6.48016 13.5232 6.67016 13.7512 6.80216V13.2022C13.5227 13.3339 13.333 13.5237 13.2012 13.7522H6.80122ZM2.25122 9.20216V2.80216C2.47973 2.67038 2.66944 2.48066 2.80122 2.25216H9.20122C9.33322 2.48016 9.52322 2.67016 9.75122 2.80216V4.75216H6.80122C6.68594 4.5533 6.5265 4.38359 6.33521 4.25614C6.14393 4.12869 5.9259 4.04691 5.69799 4.0171C5.47007 3.9873 5.23835 4.01028 5.02072 4.08426C4.80309 4.15824 4.60538 4.28125 4.44284 4.44378C4.28031 4.60632 4.1573 4.80403 4.08332 5.02166C4.00934 5.23929 3.98636 5.471 4.01617 5.69892C4.04597 5.92684 4.12775 6.14486 4.2552 6.33615C4.38265 6.52744 4.55236 6.68688 4.75122 6.80216V9.75216H2.80122C2.66944 9.52365 2.47973 9.33394 2.25122 9.20216ZM9.75122 9.20216C9.52272 9.33394 9.33301 9.52365 9.20122 9.75216H6.25122V6.80216C6.47973 6.67038 6.66944 6.48066 6.80122 6.25216H9.75122V9.20216Z" fill="#1C2534" />
                                 </svg>
-                                <div class="category-title">Asymmetric Key Algorithms</div>
+                                <div class="category-title ctT2">Asymmetric Key Algorithms</div>
                             </div>
                         </div>
                         <div class="category-checkboxselection">
                             <div class="category-checkboxselection">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCategory2">
+                                <input class="form-check-input" type="checkbox" value="" id="checkCategory2" onchange="checkCat(this,2)">
                                 <label class="form-check-label" for="checkCategory2">
-                                    Not Aplicable
+                                    Not Applicable
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="category-frame2">
-                        <span class="category-frame2">
+                    <div class="category-frame2  catD2">
+                        <span class="">
                             Public / private key pairs. Examples - RSA, ECDSA, ECDH, etc.
                         </span>
                     </div>
                     <div class="category-add">
-                        <span class="button button-primary">
+                        <span class="button button-primary catB2" onclick="openCat(2)">
                             <span class="button-text">Add</span>
                             <span class="button-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -251,50 +319,79 @@
                                 </svg>
                             </span>
                         </span>
-                        <div class="category-form">
-                            Purpose / Use
-                            <p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                    <label class="form-check-label" for="radioCritical1">
-                                        Encryption
-                                    </label>
+                        <div class="category-form cat2">
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Purpose / Use
+                                </label>
+                                <div class="form-group-radio">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
+                                        <label class="form-check-label" for="radioCritical1">
+                                            Encryption
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+                                        <label class="form-check-label" for="radioCritical2">
+                                            Message Authentication
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
+                                        <label class="form-check-label" for="radioCritical3">
+                                            Others
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                    <label class="form-check-label" for="radioCritical2">
-                                        Message Authentication
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                    <label class="form-check-label" for="radioCritical3">
-                                        Others
-                                    </label>
-                                </div>
-                            </p>
+                            </div>
 
-                            Modes
-                            <p>
-                                <select name="inputName">
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Modes
+                                </label>
+                                <select class="form-select" name="inputName">
+                                    <option>Select</option>
                                 </select>
-                            </p>
+                            </div>
 
-                            Key Size
-                            <p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                    <label class="form-check-label" for="radioCritical1">
-                                        &ge; 2048-bits
-                                    </label>
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Key Size
+                                </label>
+                                <div class="form-group-radio">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
+                                        <label class="form-check-label" for="radioCritical1">
+                                            &ge; 2048-bits
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+                                        <label class="form-check-label" for="radioCritical2">
+                                            &lt; 2048-bits
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                    <label class="form-check-label" for="radioCritical2">
-                                        &lt; 2048-bits
-                                    </label>
-                                </div>
-                            </p>
+                            </div>
+                            <div class="footer">
+                                <button type="button" class="button button-secondary" onclick="closeCat(2)">
+                                    <span class="button-text">Cancel</span>
+                                    <span class="button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
+                                            <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
+                                        </svg>
+                                    </span>
+                                </button>
+                                <button type="button" class="button button-primary">
+                                    <span class="button-text">Save</span>
+                                    <span class="button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                            <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -302,29 +399,29 @@
                 <div class="category-header">
                     <div class="category-frame1">
                         <div class="category-container">
-                            <div class="category-titleicon">
+                            <div class="category-titleicon ctI3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
                                     <path d="M1.1665 5.50016H12.8332M1.1665 10.5002H12.8332M6.1665 1.3335L2.83317 14.6668M11.1665 1.3335L7.83317 14.6668" stroke="#1C2534" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <div class="category-title">Hash Function</div>
+                                <div class="category-title ctT3">Hash Function</div>
                             </div>
                         </div>
                         <div class="category-checkboxselection">
                             <div class="category-checkboxselection">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCategory3">
+                                <input class="form-check-input" type="checkbox" value="" id="checkCategory3" onchange="checkCat(this,3)">
                                 <label class="form-check-label" for="checkCategory3">
-                                    Not Aplicable
+                                    Not Applicable
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="category-frame2">
-                        <span class="category-frame2">
+                    <div class="category-frame2  catD3">
+                        <span class="">
                             One-way fixed-size "fingerprint" of data for integrity checks. Examples - SHA-2, SHA-3, MD5, etc.
                         </span>
                     </div>
                     <div class="category-add">
-                        <span class="button button-primary">
+                        <span class="button button-primary catB3" onclick="openCat(3)">
                             <span class="button-text">Add</span>
                             <span class="button-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -332,43 +429,71 @@
                                 </svg>
                             </span>
                         </span>
-                        <div class="category-form">
-                            Purpose / Use
-                            <p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                    <label class="form-check-label" for="radioCritical1">
-                                        Data Integrity
-                                    </label>
+                        <div class="category-form cat3">
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Purpose / Use
+                                </label>
+                                <div class="form-group-radio">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
+                                        <label class="form-check-label" for="radioCritical1">
+                                            Data Integrity
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+                                        <label class="form-check-label" for="radioCritical2">
+                                            Key Derivation
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
+                                        <label class="form-check-label" for="radioCritical3">
+                                            Selection
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical4">
+                                        <label class="form-check-label" for="radioCritical4">
+                                            Others
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                    <label class="form-check-label" for="radioCritical2">
-                                        Key Derivation
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                    <label class="form-check-label" for="radioCritical3">
-                                        Selection
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical4">
-                                    <label class="form-check-label" for="radioCritical4">
-                                        Others
-                                    </label>
-                                </div>
-                            </p>
+                            </div>
 
-                            Core Hash Algorithm
-                            <p><input class="form-text" type="text" name="inputName" placeholder=""></p>
-
-                            Variants
-                            <p>
-                                <select name="inputName">
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Core Hash Algorithm
+                                </label>
+                                <input class="form-text" type="text" name="inputName" placeholder="">
+                            </div>
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Variants
+                                </label>
+                                <select class="form-select" name="inputName">
+                                    <option>Select</option>
                                 </select>
-                            </p>
+                            </div>
+                            <div class="footer">
+                                <button type="button" class="button button-secondary" onclick="closeCat(3)">
+                                    <span class="button-text">Cancel</span>
+                                    <span class="button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
+                                            <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
+                                        </svg>
+                                    </span>
+                                </button>
+                                <button type="button" class="button button-primary">
+                                    <span class="button-text">Save</span>
+                                    <span class="button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                            <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -376,29 +501,29 @@
                 <div class="category-header">
                     <div class="category-frame1">
                         <div class="category-container">
-                            <div class="category-titleicon">
+                            <div class="category-titleicon ctI4">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
                                     <path d="M2.6981 0.958496C2.2006 0.958496 1.6206 1.09683 1.14644 1.391C0.663102 1.68933 0.221436 2.20266 0.221436 2.93766V11.0627C0.221436 11.7977 0.663102 12.3102 1.14644 12.6093C1.62144 12.9035 2.2006 13.0418 2.6981 13.0418H11.2798C11.8776 13.0419 12.4517 12.8083 12.8798 12.391L17.3381 8.04433C17.4774 7.90847 17.5882 7.74609 17.6638 7.56676C17.7394 7.38743 17.7784 7.19478 17.7784 7.00016C17.7784 6.80554 17.7394 6.6129 17.6638 6.43357C17.5882 6.25424 17.4774 6.09186 17.3381 5.956L12.8798 1.60933C12.4517 1.192 11.8776 0.958447 11.2798 0.958496H2.6981Z" fill="#1C2534" />
                                 </svg>
-                                <div class="category-title">Message Authentication Code (MAC)</div>
+                                <div class="category-title ctT4">Message Authentication Code (MAC)</div>
                             </div>
                         </div>
                         <div class="category-checkboxselection">
                             <div class="category-checkboxselection">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCategory4">
+                                <input class="form-check-input" type="checkbox" value="" id="checkCategory4" onchange="checkCat(this, 4)">
                                 <label class="form-check-label" for="checkCategory4">
-                                    Not Aplicable
+                                    Not Applicable
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="category-frame2">
-                        <span class="category-frame2">
+                    <div class="category-frame2  catD4">
+                        <span class="">
                             Single key for data integrity and authentication. Examples - HMAC, CMAC, etc.
                         </span>
                     </div>
                     <div class="category-add">
-                        <span class="button button-primary">
+                        <span class="button button-primary catB4" onclick="openCat(4)">
                             <span class="button-text">Add</span>
                             <span class="button-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -406,162 +531,213 @@
                                 </svg>
                             </span>
                         </span>
-                        <div class="category-form">
-                            Purpose / Use
-                            <p>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                    <label class="form-check-label" for="radioCritical1">
-                                        Data Integrity
-                                    </label>
+                        <div class="category-form cat4">
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Purpose / Use
+                                </label>
+                                <div class="from-group-radio">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
+                                        <label class="form-check-label" for="radioCritical1">
+                                            Data Integrity
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
+                                        <label class="form-check-label" for="radioCritical2">
+                                            Data Authentication
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
+                                        <label class="form-check-label" for="radioCritical3">
+                                            Selection
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical4">
+                                        <label class="form-check-label" for="radioCritical4">
+                                            Others
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                    <label class="form-check-label" for="radioCritical2">
-                                        Data Authentication
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                    <label class="form-check-label" for="radioCritical3">
-                                        Selection
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical4">
-                                    <label class="form-check-label" for="radioCritical4">
-                                        Others
-                                    </label>
-                                </div>
-                            </p>
+                            </div>
 
-                            Construction Type
-                            <p>
-                                <select name="inputName">
+                            <div class="form-field">
+                                <label class="form-text-label">
+                                    Construction Type
+                                </label>
+                                <select class="form-select" name="inputName">
+                                    <option>Select</option>
                                 </select>
-                            </p>
+                            </div>
+
+                            <div class="footer">
+                                <button type="button" class="button button-secondary" onclick="closeCat(4)">
+                                    <span class="button-text">Cancel</span>
+                                    <span class="button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
+                                            <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
+                                        </svg>
+                                    </span>
+                                </button>
+                                <button type="button" class="button button-primary">
+                                    <span class="button-text">Save</span>
+                                    <span class="button-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                            <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="tab">
-                <div class="">
-                    Period to Protect The Data
-                    <p><input class="form-text" type="text" name="inputName" placeholder=""> Years</p>
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Period to Protect The Data
+                    </label>
+                    <input class="form-text" type="text" name="inputPeriodData" placeholder="" required>
+                </div>
 
-                    Server Name Where Sensitive Data is Stored
-                    <p>
-                        <select name="inputName">
-                        </select>
-                    </p>
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Server Name Where Sensitive Data is Stored
+                    </label>
+                    <select class="form-select" name="InputDataStore" required>
+                        <option>Select</option>
+                    </select>
+                </div>
 
-                    Type of Database
-                    <p>
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Type of Database
+                    </label>
+                    <div class="form-group-radio">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                            <label class="form-check-label" for="radioCritical1">
+                            <input class="form-check-input" type="radio" value="Not Applicable" name="inputDBType" id="radioDBType1" required>
+                            <label class="form-check-label" for="radioDBType1">
                                 Not Applicable
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                            <label class="form-check-label" for="radioCritical2">
+                            <input class="form-check-input" type="radio" value="Selection" name="inputDBType" id="radioDBType2" required>
+                            <label class="form-check-label" for="radioDBType2">
                                 Selection
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                            <label class="form-check-label" for="radioCritical3">
+                            <input class="form-check-input" type="radio" value="Applicable" name="inputDBType" id="radioDBType3" required>
+                            <label class="form-check-label" for="radioDBType3">
                                 Applicable
                             </label>
                         </div>
-                    </p>
+                    </div>
+                </div>
 
-                    Protocol Type
-                    <p>
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Protocol Type
+                    </label>
+                    <div class="form-group-radio">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                            <label class="form-check-label" for="radioCritical1">
+                            <input class="form-check-input" type="radio" value="TLS 1.2" name="inputProtocol" id="radioProtocol1" required>
+                            <label class="form-check-label" for="radioProtocol1">
                                 TLS 1.2
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                            <label class="form-check-label" for="radioCritical2">
+                            <input class="form-check-input" type="radio" value="TLS 1.3" name="inputProtocol" id="radioProtocol2" required>
+                            <label class="form-check-label" for="radioProtocol2">
                                 TLS 1.3
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                            <label class="form-check-label" for="radioCritical3">
+                            <input class="form-check-input" type="radio" value="SSHv2" name="inputProtocol" id="radioProtocol3" required>
+                            <label class="form-check-label" for="radioProtocol3">
                                 SSHv2
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical4">
-                            <label class="form-check-label" for="radioCritical4">
+                            <input class="form-check-input" type="radio" value="Others" name="inputProtocol" id="radioProtocol4" required>
+                            <label class="form-check-label" for="radioProtocol4">
                                 Others
                             </label>
                         </div>
-                    </p>
+                    </div>
+                </div>
 
-                    Implementation Type
-                    <p>
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Implementation Type
+                    </label>
+                    <div class="form-group-radio">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                            <label class="form-check-label" for="radioCritical1">
+                            <input class="form-check-input" type="radio" value="Open SSL" name="inputImpType" id="radioImpType1" required>
+                            <label class="form-check-label" for="radioImpType1">
                                 Open SSL
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                            <label class="form-check-label" for="radioCritical2">
+                            <input class="form-check-input" type="radio" value="Bouncy Castle" name="inputImpType" id="radioImpType2" required>
+                            <label class="form-check-label" for="radioImpType2">
                                 Bouncy Castle
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                            <label class="form-check-label" for="radioCritical3">
+                            <input class="form-check-input" type="radio" value="Others" name="inputImpType" id="radioImpType3" required>
+                            <label class="form-check-label" for="radioImpType3">
                                 Others
                             </label>
                         </div>
-                    </p>
+                    </div>
+                </div>
 
-                    Roadmap Available?
-                    <p>
+                <div class="form-field">
+                    <label class="form-text-label">
+                        Roadmap Available?
+                    </label>
+                    <div class="form-group-radio">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                            <label class="form-check-label" for="radioCritical1">
+                            <input class="form-check-input" type="radio" value="Yes" name="inputRoadmap" id="radioRoadmap1" required>
+                            <label class="form-check-label" for="radioRoadmap1">
                                 Yes
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                            <label class="form-check-label" for="radioCritical2">
+                            <input class="form-check-input" type="radio" value="In Progress" name="inputRoadmap" id="radioRoadmap2" required>
+                            <label class="form-check-label" for="radioRoadmap2">
                                 In Progress
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                            <label class="form-check-label" for="radioCritical3">
+                            <input class="form-check-input" type="radio" value="No" name="inputRoadmap" id="radioRoadmap3" required>
+                            <label class="form-check-label" for="radioRoadmap3">
                                 No
                             </label>
                         </div>
-                    </p>
-
+                    </div>
                 </div>
             </div>
 
-            <div style="overflow:auto;">
-                <div style="float:right;">
-                    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-                    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-                </div>
+            <div class="form-footer float-right">
+                    <button type="button" class="button button-secondary" id="prevBtn" onclick="nextPrev(-1)">
+                        <span class="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="18" viewBox="0 0 10 18" fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.397604 8.0557L8.07979 0.5L10 2.38859L3.27791 9L10 15.6114L8.07979 17.5L0.397604 9.9443C0.143018 9.69383 7.12132e-07 9.35416 7.43094e-07 9C7.74056e-07 8.64584 0.143019 8.30617 0.397604 8.0557Z" fill="black" />
+                            </svg>
+                        </span>
+                        <span class="button-text">Previous</span>
+                    </button>
+                    <button type="button" class="button button-secondary" id="nextBtn" onclick="nextPrev(1)"><span class="button-text">Next</span></button>
             </div>
 
             <!-- Circles which indicates the steps of the form: -->
-            <div style="text-align:center;margin-top:40px;">
+            <div style="text-align:center;margin-top:40px;display:none;">
                 <span class="step"></span>
                 <span class="step"></span>
                 <span class="step"></span>
@@ -570,7 +746,6 @@
         </form>
     </div>
 </div>
-
 <div class="modal fade" id="teamModal" tabindex="-1" role="dialog" aria-labelledby="teamModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -579,7 +754,7 @@
                     Select ITD Team In Charge (TIC)
                 </div>
                 <div class="modal-searchbar">
-                    <input class="modal-searchbar-input" type="text" id="myInputTextField" placeholder="Search ITD Team">
+                    <input class="modal-searchbar-input" type="text" id="modal-searchbar-input" placeholder="Search ITD Team">
                     <span class="button button-primary btn-itdTeam">
                         <span class="button-text">Save Selection</span>
                         <span class="button-icon">
@@ -593,14 +768,17 @@
                 <table id="tableITD" class="cell-border">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>List of ITD Team</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            <td>1</td>
                             <td>ITD 1</td>
                         </tr>
                         <tr>
+                            <td>2</td>
                             <td>ITD 2</td>
                         </tr>
                     </tbody>
@@ -609,135 +787,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    /* Style the form */
-    #regForm {
-        background-color: #ffffff;
-        margin: 48px auto;
-        padding: 40px;
-        width: 100%;
-        /* min-width: 300px; */
-    }
-
-    /* Style the input fields */
-    /* input {
-                                              padding: 10px;
-                                              width: 100%;
-                                              font-size: 17px;
-                                              font-family: Raleway;
-                                              border: 1px solid #aaaaaa;
-                                            } */
-
-    /* Mark input boxes that gets an error on validation: */
-    input.invalid {
-        background-color: #ffdddd;
-    }
-
-    /* Hide all steps by default: */
-    .tab {
-        display: none;
-    }
-
-    /* Make circles that indicate the steps of the form: */
-    .step {
-        height: 15px;
-        width: 15px;
-        margin: 0 2px;
-        background-color: #bbbbbb;
-        border: none;
-        border-radius: 50%;
-        display: inline-block;
-        opacity: 0.5;
-    }
-
-        /* Mark the active step: */
-        .step.active {
-            opacity: 1;
-        }
-
-        /* Mark the steps that are finished and valid: */
-        .step.finish {
-            background-color: #04AA6D;
-        }
-</style>
-
-<script>
-      var currentTab = 0; // Current tab is set to be the first tab (0)
-    showTab(currentTab); // Display the current tab
-
-    function showTab(n) {
-      // This function will display the specified tab of the form ...
-      var x = document.getElementsByClassName("tab");
-      x[n].style.display = "block";
-      // ... and fix the Previous/Next buttons:
-      if (n == 0) {
-        document.getElementById("prevBtn").style.display = "none";
-      } else {
-        document.getElementById("prevBtn").style.display = "inline";
-      }
-      if (n == (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
-      } else {
-        document.getElementById("nextBtn").innerHTML = "Next";
-      }
-      // ... and run a function that displays the correct step indicator:
-      fixStepIndicator(n)
-    }
-
-    function nextPrev(n) {
-      // This function will figure out which tab to display
-      var x = document.getElementsByClassName("tab");
-      // Exit the function if any field in the current tab is invalid:
-      if (n == 1 && !validateForm()) return false;
-      // Hide the current tab:
-      x[currentTab].style.display = "none";
-      // Increase or decrease the current tab by 1:
-      currentTab = currentTab + n;
-      // if you have reached the end of the form... :
-      if (currentTab >= x.length) {
-        //...the form gets submitted:
-        document.getElementById("regForm").submit();
-        return false;
-      }
-      // Otherwise, display the correct tab:
-      showTab(currentTab);
-    }
-
-    function validateForm() {
-      // This function deals with validation of the form fields
-      var x, y, i, valid = true;
-      x = document.getElementsByClassName("tab");
-      y = x[currentTab].getElementsByTagName("input");
-      // A loop that checks every input field in the current tab:
-      for (i = 0; i < y.length; i++) {
-        // If a field is empty...
-        if (y[i].value == "") {
-          // add an "invalid" class to the field:
-          y[i].className += " invalid";
-          // and set the current valid status to false:
-          valid = false;
-        }
-      }
-
-          valid = true
-      // If the valid status is true, mark the step as finished and valid:
-      if (valid) {
-        document.getElementsByClassName("step")[currentTab].className += " finish";
-      }
-      return valid; // return the valid status
-    }
-
-    function fixStepIndicator(n) {
-      // This function removes the "active" class of all steps...
-      var i, x = document.getElementsByClassName("step");
-      for (i = 0; i < x.length; i++) {
-        x[i].className = x[i].className.replace(" active", "");
-      }
-      //... and adds the "active" class to the current step:
-      x[n].className += " active";
-    }
-
-
-    
-</script>
