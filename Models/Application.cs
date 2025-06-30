@@ -5,6 +5,7 @@ namespace pqc.Models
         public int appId { get; set; }
         public string appName { get; set; }
         public string appBusinessUnit { get; set; }
+        public string appItdTeam{ get; set; }
         public string appCritical { get; set; }
         public string appConnection { get; set; }
         public string? appConnectionRemarks { get; set; }

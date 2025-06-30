@@ -3,7 +3,7 @@
 }
 <div class="add-screen">
     <div class="add-content">
-        <form id="regForm" action="">
+        <form id="regForm">
             <div class="form-step">
                 <div class="form-step-item active">
                     <span class="text">1. Application / System / Device Information</span>
@@ -124,6 +124,7 @@
                             <label class="form-check-label" for="radioDeveloper2">
                                 External
                             </label>
+                            <input class="inputDeveloperRemarks" type="text" name="inputDeveloperRemarks" placeholder="Please Specify" required style="display:none;">
                         </div>
                     </div>
                 </div>
@@ -182,7 +183,7 @@
                             </div>
                             <div class="category-checkboxselection">
                                 <div class="category-checkboxselection">
-                                    <input class="form-check-input" type="checkbox" value="" id="checkCategory1" onchange="checkCat(this,1)">
+                                    <input class="form-check-input" type="checkbox" value="Not Applicable" id="checkCategory1" onchange="checkCat(this,1)">
                                     <label class="form-check-label" for="checkCategory1">
                                         Not Applicable
                                     </label>
@@ -194,97 +195,16 @@
                                 Single secret key for both encryption and decryption. Examples - AES, 3DEA, ECB, CBC, etc.
                             </span>
                         </div>
-                        <div class="category-add">
-                            <span class="button button-primary catB1" onclick="openCat(1)">
-                                <span class="button-text">Add</span>
-                                <span class="button-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
-                                    </svg>
-                                </span>
-                            </span>
-                            <div class="category-form cat1">
-                                <div class="form-field">
-                                    <label class="form-text-label">
-                                        Purpose / Use
-                                    </label>
-                                    <div class="form-group-radio">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="radioc1Use" id="radioc1Use1" required>
-                                            <label class="form-check-label" for="radioc1Use1">
-                                                Encryption
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="radioc1Use" id="radioc1Use2" required>
-                                            <label class="form-check-label" for="radioc1Use2">
-                                                Message Authentication
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="radioc1Use" id="radioc1Use3" required>
-                                            <label class="form-check-label" for="radioc1Use3">
-                                                Others
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-field">
-                                    <label class="form-text-label">
-                                        Modes
-                                    </label>
-                                    <select class="form-select" name="selectC1Modes">
-                                        <option value="">Select</option>
-                                        <option value="1">1</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-field">
-                                    <label class="form-text-label">
-                                        Key Length
-                                    </label>
-                                    <div class="form-group-radio">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="radioC1KeyLength" id="radioC1KeyLength1">
-                                            <label class="form-check-label" for="radioC1KeyLength1">
-                                                128 bit
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="radioC1KeyLength" id="radioC1KeyLength2">
-                                            <label class="form-check-label" for="radioC1KeyLength2">
-                                                256 bit
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="radioC1KeyLength" id="radioC1KeyLength3">
-                                            <label class="form-check-label" for="radioC1KeyLength3">
-                                                Others
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer">
-                                    <button type="button" class="button button-secondary" onclick="closeCat(1)">
-                                        <span class="button-text">Cancel</span>
-                                        <span class="button-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
-                                                <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
-                                            </svg>
-                                        </span>
-                                    </button>
-                                    <button type="button" class="button button-primary" onclick="saveCat1()">
-                                        <span class="button-text">Save</span>
-                                        <span class="button-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                                <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
-                                            </svg>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="category-add category-add-cat1">
                         </div>
+                        <span class="button button-primary catB1" onclick="openCat1()">
+                            <span class="button-text">Add</span>
+                            <span class="button-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
+                                </svg>
+                            </span>
+                        </span>
                     </div>
                 </div>
                 <div class="category-header">
@@ -299,7 +219,7 @@
                         </div>
                         <div class="category-checkboxselection">
                             <div class="category-checkboxselection">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCategory2" onchange="checkCat(this,2)">
+                                <input class="form-check-input" type="checkbox" value="Not Applicable" id="checkCategory2" onchange="checkCat(this,2)">
                                 <label class="form-check-label" for="checkCategory2">
                                     Not Applicable
                                 </label>
@@ -311,90 +231,16 @@
                             Public / private key pairs. Examples - RSA, ECDSA, ECDH, etc.
                         </span>
                     </div>
-                    <div class="category-add">
-                        <span class="button button-primary catB2" onclick="openCat(2)">
-                            <span class="button-text">Add</span>
-                            <span class="button-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
-                                </svg>
-                            </span>
-                        </span>
-                        <div class="category-form cat2">
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Purpose / Use
-                                </label>
-                                <div class="form-group-radio">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                        <label class="form-check-label" for="radioCritical1">
-                                            Encryption
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                        <label class="form-check-label" for="radioCritical2">
-                                            Message Authentication
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                        <label class="form-check-label" for="radioCritical3">
-                                            Others
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Modes
-                                </label>
-                                <select class="form-select" name="inputName">
-                                    <option>Select</option>
-                                </select>
-                            </div>
-
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Key Size
-                                </label>
-                                <div class="form-group-radio">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                        <label class="form-check-label" for="radioCritical1">
-                                            &ge; 2048-bits
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                        <label class="form-check-label" for="radioCritical2">
-                                            &lt; 2048-bits
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="footer">
-                                <button type="button" class="button button-secondary" onclick="closeCat(2)">
-                                    <span class="button-text">Cancel</span>
-                                    <span class="button-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
-                                            <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
-                                        </svg>
-                                    </span>
-                                </button>
-                                <button type="button" class="button button-primary" onclick="saveCat2()">
-                                    <span class="button-text">Save</span>
-                                    <span class="button-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                            <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="category-add  category-add-cat2">
                     </div>
+                    <span class="button button-primary catB2" onclick="openCat2()">
+                        <span class="button-text">Add</span>
+                        <span class="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
+                            </svg>
+                        </span>
+                    </span>
                 </div>
 
                 <div class="category-header">
@@ -409,7 +255,7 @@
                         </div>
                         <div class="category-checkboxselection">
                             <div class="category-checkboxselection">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCategory3" onchange="checkCat(this,3)">
+                                <input class="form-check-input" type="checkbox" value="Not Applicable" id="checkCategory3" onchange="checkCat(this,3)">
                                 <label class="form-check-label" for="checkCategory3">
                                     Not Applicable
                                 </label>
@@ -421,82 +267,16 @@
                             One-way fixed-size "fingerprint" of data for integrity checks. Examples - SHA-2, SHA-3, MD5, etc.
                         </span>
                     </div>
-                    <div class="category-add">
-                        <span class="button button-primary catB3" onclick="openCat(3)">
-                            <span class="button-text">Add</span>
-                            <span class="button-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
-                                </svg>
-                            </span>
-                        </span>
-                        <div class="category-form cat3">
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Purpose / Use
-                                </label>
-                                <div class="form-group-radio">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                        <label class="form-check-label" for="radioCritical1">
-                                            Data Integrity
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                        <label class="form-check-label" for="radioCritical2">
-                                            Key Derivation
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                        <label class="form-check-label" for="radioCritical3">
-                                            Selection
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical4">
-                                        <label class="form-check-label" for="radioCritical4">
-                                            Others
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Core Hash Algorithm
-                                </label>
-                                <input class="form-text" type="text" name="inputName" placeholder="">
-                            </div>
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Variants
-                                </label>
-                                <select class="form-select" name="inputName">
-                                    <option>Select</option>
-                                </select>
-                            </div>
-                            <div class="footer">
-                                <button type="button" class="button button-secondary" onclick="closeCat(3)">
-                                    <span class="button-text">Cancel</span>
-                                    <span class="button-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
-                                            <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
-                                        </svg>
-                                    </span>
-                                </button>
-                                <button type="button" class="button button-primary" onclick="saveCat3()">
-                                    <span class="button-text">Save</span>
-                                    <span class="button-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                            <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="category-add category-add-cat3">
                     </div>
+                    <span class="button button-primary catB3" onclick="openCat3()">
+                        <span class="button-text">Add</span>
+                        <span class="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
+                            </svg>
+                        </span>
+                    </span>
                 </div>
 
                 <div class="category-header">
@@ -511,7 +291,7 @@
                         </div>
                         <div class="category-checkboxselection">
                             <div class="category-checkboxselection">
-                                <input class="form-check-input" type="checkbox" value="" id="checkCategory4" onchange="checkCat(this, 4)">
+                                <input class="form-check-input" type="checkbox" value="Not Applicable" id="checkCategory4" onchange="checkCat(this, 4)">
                                 <label class="form-check-label" for="checkCategory4">
                                     Not Applicable
                                 </label>
@@ -523,77 +303,16 @@
                             Single key for data integrity and authentication. Examples - HMAC, CMAC, etc.
                         </span>
                     </div>
-                    <div class="category-add">
-                        <span class="button button-primary catB4" onclick="openCat(4)">
-                            <span class="button-text">Add</span>
-                            <span class="button-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
-                                </svg>
-                            </span>
-                        </span>
-                        <div class="category-form cat4">
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Purpose / Use
-                                </label>
-                                <div class="from-group-radio">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical1">
-                                        <label class="form-check-label" for="radioCritical1">
-                                            Data Integrity
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical2">
-                                        <label class="form-check-label" for="radioCritical2">
-                                            Data Authentication
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical3">
-                                        <label class="form-check-label" for="radioCritical3">
-                                            Selection
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCritical" id="radioCritical4">
-                                        <label class="form-check-label" for="radioCritical4">
-                                            Others
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-field">
-                                <label class="form-text-label">
-                                    Construction Type
-                                </label>
-                                <select class="form-select" name="inputName">
-                                    <option>Select</option>
-                                </select>
-                            </div>
-
-                            <div class="footer">
-                                <button type="button" class="button button-secondary" onclick="closeCat(4)">
-                                    <span class="button-text">Cancel</span>
-                                    <span class="button-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="18" viewBox="0 0 14 18" fill="none">
-                                            <path d="M14 1H10.5L9.5 0H4.5L3.5 1H0V3H14M1 16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H11C11.5304 18 12.0391 17.7893 12.4142 17.4142C12.7893 17.0391 13 16.5304 13 16V4H1V16Z" fill="black" />
-                                        </svg>
-                                    </span>
-                                </button>
-                                <button type="button" class="button button-primary" onclick="saveCat4()">
-                                    <span class="button-text">Save</span>
-                                    <span class="button-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                            <path d="M18 4V16C18 16.55 17.8043 17.021 17.413 17.413C17.0217 17.805 16.5507 18.0007 16 18H2C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H14L18 4ZM9 15C9.83333 15 10.5417 14.7083 11.125 14.125C11.7083 13.5417 12 12.8333 12 12C12 11.1667 11.7083 10.4583 11.125 9.875C10.5417 9.29167 9.83333 9 9 9C8.16667 9 7.45833 9.29167 6.875 9.875C6.29167 10.4583 6 11.1667 6 12C6 12.8333 6.29167 13.5417 6.875 14.125C7.45833 14.7083 8.16667 15 9 15ZM3 7H12V3H3V7Z" fill="white" />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="category-add category-add-cat4">
                     </div>
+                    <span class="button button-primary catB4" onclick="openCat4()">
+                        <span class="button-text">Add</span>
+                        <span class="button-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M6.85714 9.14286H0V6.85714H6.85714V0H9.14286V6.85714H16V9.14286H9.14286V16H6.85714V9.14286Z" fill="white" />
+                            </svg>
+                        </span>
+                    </span>
                 </div>
             </div>
 
@@ -602,16 +321,14 @@
                     <label class="form-text-label">
                         Period to Protect The Data
                     </label>
-                    <input class="form-text" type="text" name="inputPeriodData" placeholder="" required>
+                    <input class="form-text" type="number" name="inputPeriodData" placeholder="" required>
                 </div>
 
                 <div class="form-field">
                     <label class="form-text-label">
                         Server Name Where Sensitive Data is Stored
                     </label>
-                    <select class="form-select" name="InputDataStore" required>
-                        <option>Select</option>
-                    </select>
+                    <input class="form-text" type="text" name="inputDataStore" placeholder="" required>
                 </div>
 
                 <div class="form-field">
@@ -668,6 +385,7 @@
                             <label class="form-check-label" for="radioProtocol4">
                                 Others
                             </label>
+                            <input class="inputProtocolRemarks" type="text" name="inputProtocolRemarks" placeholder="Please Specify" required style="display:none;">
                         </div>
                     </div>
                 </div>
@@ -694,6 +412,7 @@
                             <label class="form-check-label" for="radioImpType3">
                                 Others
                             </label>
+                            <input class="inputImpTypeRemarks" type="text" name="inputImpTypeRemarks" placeholder="Please Specify" required style="display:none;">
                         </div>
                     </div>
                 </div>
@@ -723,18 +442,110 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="rmYes" style="display:none;">
+                    <div class="form-field">
+                        <label class="form-text-label">
+                            PQC Algorithm
+                        </label>
+                        <div class="form-group-check">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="ML-KEM" name="inputRoadmapAlgorithm" id="inputRoadmapAlgorithm1" required>
+                                <label class="form-check-label" for="inputRoadmapAlgorithm1">
+                                    ML-KEM
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="ML-DSA" name="inputRoadmapAlgorithm" id="inputRoadmapAlgorithm2" required>
+                                <label class="form-check-label" for="inputRoadmapAlgorithm2">
+                                    ML-DSA
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="SLH-DSA" name="inputRoadmapAlgorithm" id="inputRoadmapAlgorithm3" required>
+                                <label class="form-check-label" for="inputRoadmapAlgorithm3">
+                                    SLH-DSA
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="HQC" name="inputRoadmapAlgorithm" id="inputRoadmapAlgorithm4" required>
+                                <label class="form-check-label" for="inputRoadmapAlgorithm4">
+                                    HQC
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="Others" name="inputRoadmapAlgorithm" id="inputRoadmapAlgorithm5" required>
+                                <label class="form-check-label" for="inputRoadmapAlgorithm5">
+                                    Others
+                                </label>
+                                <input class="inputRoadmapAlgorithmRemarks" type="text" name="inputRoadmapAlgorithmRemarks" placeholder="Please Specify" required style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rmIp" style="display:none;">
+                    <div class="form-field">
+                        <label class="form-text-label">
+                            Target Date
+                        </label>
+                        <select class="form-select" name="inputRoadmapYear" required>
+                            <option value="">Select Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                        </select>
+                        <select class="form-select" name="inputRoadmapQuater" required>
+                            <option value="">Select Quater</option>
+                            <option value="1">Quater 1</option>
+                            <option value="2">Quater 2</option>
+                            <option value="3">Quater 3</option>
+                            <option value="4">Quater 5</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="rmYesIp" style="display:none;">
+                    <div class="form-field">
+                        <label class="form-text-label">Estimate Cost</label>
+                        <input class="form-text" type="number" name="inputRoadmapCost" placeholder="" required>
+                    </div>
+                </div>
+
+                <div class="rmAll" style="display:none;">
+                    <div class="form-field">
+                        <label class="form-text-label">
+                            Requires Raising to Regulators for PQC Adoption?
+                        </label>
+                        <div class="form-group-radio">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="Yes" name="inputRoadmapRegulators" id="inputRoadmapRegulators1" required>
+                                <label class="form-check-label" for="inputRoadmapRegulators1">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="In Progress" name="inputRoadmapRegulators" id="inputRoadmapRegulators2" required>
+                                <label class="form-check-label" for="inputRoadmapRegulators2">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="form-footer float-right">
-                    <button type="button" class="button button-secondary" id="prevBtn" onclick="nextPrev(-1)">
-                        <span class="button-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="18" viewBox="0 0 10 18" fill="none">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.397604 8.0557L8.07979 0.5L10 2.38859L3.27791 9L10 15.6114L8.07979 17.5L0.397604 9.9443C0.143018 9.69383 7.12132e-07 9.35416 7.43094e-07 9C7.74056e-07 8.64584 0.143019 8.30617 0.397604 8.0557Z" fill="black" />
-                            </svg>
-                        </span>
-                        <span class="button-text">Previous</span>
-                    </button>
-                    <button type="button" class="button button-secondary" id="nextBtn" onclick="nextPrev(1)"><span class="button-text">Next</span></button>
+                <button type="button" class="button button-secondary" id="prevBtn" onclick="nextPrev(-1)">
+                    <span class="button-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="18" viewBox="0 0 10 18" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0.397604 8.0557L8.07979 0.5L10 2.38859L3.27791 9L10 15.6114L8.07979 17.5L0.397604 9.9443C0.143018 9.69383 7.12132e-07 9.35416 7.43094e-07 9C7.74056e-07 8.64584 0.143019 8.30617 0.397604 8.0557Z" fill="black" />
+                        </svg>
+                    </span>
+                    <span class="button-text">Previous</span>
+                </button>
+                <button type="button" class="button button-secondary" id="nextBtn" onclick="nextPrev(1)"><span class="button-text">Next</span></button>
             </div>
 
             <!-- Circles which indicates the steps of the form: -->

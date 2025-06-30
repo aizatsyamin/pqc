@@ -443,7 +443,7 @@ body {
 }
 
 .category-form {
-    display: none;
+    display: flex;
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
@@ -555,4 +555,8 @@ input.invalid {
     align-self: stretch;
     border-radius: 8px;
     background: #E9E9E9;
+}
+
+.error{
+    color:red;
 }
