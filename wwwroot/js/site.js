@@ -800,6 +800,7 @@ function regFormSubmit() {
         "regForm": {
             "appName": $('input[name=inputApp]').val(),
             "appBusinessUnit": $('input[name=radioOwner]').val(),
+            "appBusinessUnitRemarks": $('input[name=radioOwnerRemarks]').val(),
             "appItdTeam": $('input[name=inputITDTeam]').val(),
             "appCritical": $('input[name=inputCritical]').val(),
             "appConnection": conArr,
@@ -897,6 +898,10 @@ $('input[name=inputDeveloper]').on("change", function () {
     }
 })
 
+$('input[name=radioOwner]').on("change", function () {
+    $(".radioOwnerRemarks").show();
+})
+
 //validate
 
 $('#regForm').validate({
@@ -933,7 +938,7 @@ function cat1Data() {
 
 
         }
-    } 
+    }
 
     return cArray;
 }
@@ -988,8 +993,6 @@ function cat3Data() {
             } else {
                 continue;
             }
-
-
         }
     }
 
