@@ -206,7 +206,7 @@ function closeCat(n) {
     $(".catB" + n).show();
 }
 
-function checkCat(sel,n) {
+function checkCat(sel, n) {
     var ischeck = $(sel).is(':checked');
     if (ischeck) {
         $(".cat" + n).hide();
@@ -221,4 +221,34 @@ function checkCat(sel,n) {
         $(".ctI" + n).removeClass("disabled");
         $(".ctT" + n).removeClass("disabled");
     }
+}
+
+//Validate
+//$("#regForm").validate({
+//    errorPlacement: function (error, element) {
+//        error.insertAfter($(".form-check"));
+//    }
+//});
+
+function saveCat1() {
+    var rLength = $(".catR1").length;
+
+    var contentC1 = $(".cat1").html().replaceAll("<input ", "<input disabled ").replaceAll("<select ", "<select disabled ").replaceAll('class="footer"', 'class="footer cRFooter' + rLength +'"');
+    contentC1 = `<div class="category-form rOnly catR1">` + contentC1 + `</div>`;
+
+    var c1Footer = `<button type="button" class="button button-secondary" onclick="editCat(` + rLength + `)">
+                                        <span class="button-text">Edit</span>
+                                        <span class="button-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+<path d="M0.5 15.5V11.9583L11.5 0.979167C11.6667 0.826389 11.8508 0.708333 12.0525 0.625C12.2542 0.541667 12.4658 0.5 12.6875 0.5C12.9092 0.5 13.1244 0.541667 13.3333 0.625C13.5422 0.708333 13.7228 0.833333 13.875 1L15.0208 2.16667C15.1875 2.31944 15.3092 2.5 15.3858 2.70833C15.4625 2.91667 15.5006 3.125 15.5 3.33333C15.5 3.55556 15.4619 3.7675 15.3858 3.96917C15.3097 4.17083 15.1881 4.35472 15.0208 4.52083L4.04167 15.5H0.5ZM12.6667 4.5L13.8333 3.33333L12.6667 2.16667L11.5 3.33333L12.6667 4.5Z" fill="black"/>
+</svg>
+                                        </span>
+                                    </button>`;
+
+
+    $("input").prop('readonly', true);
+    $(contentC1).insertAfter(".cat1");
+    $(".cRFooter"+rLength).html(c1Footer)
+    $(".cat1").hide();
+    $(".catB1").show();
 }

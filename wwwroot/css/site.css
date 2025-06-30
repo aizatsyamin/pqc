@@ -544,3 +544,15 @@ input.invalid {
     line-height: 36px; /* 128.571% */
     letter-spacing: 0.5px;
 }
+
+
+.category-form.rOnly {
+    display: flex;
+    padding: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+    align-self: stretch;
+    border-radius: 8px;
+    background: #E9E9E9;
+}
