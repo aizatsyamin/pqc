@@ -1,0 +1,5 @@
+Design details: https://www.figma.com/design/HkU8y36s4jbdM9yVBgoOC1/Desktop-Calculator-Design-Details?node-id=0-1&t=kcA2pzijrtIrH07H-1
+
+Phone mock up: https://www.figma.com/make/oofAB5bqa3X52c3nsCpJBF/60th-Diamond-Jubilee--Left-Phone-?t=1JkhLnn7GfGolwcM-20&fullscreen=1
+
+Desktop mock up: https://www.figma.com/make/uxSzJ30DK7rXVyrCdTey1i/60th-Diamond-Jubilee--Right-Desktop-?t=LDyhXIThR0P9aFZ4-20&fullscreen=1
