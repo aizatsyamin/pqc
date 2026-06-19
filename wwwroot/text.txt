@@ -1,5 +1,57 @@
-Design details: https://www.figma.com/design/HkU8y36s4jbdM9yVBgoOC1/Desktop-Calculator-Design-Details?node-id=0-1&t=kcA2pzijrtIrH07H-1
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Umbraco.Cms.Web.BackOffice.Controllers;
 
-Phone mock up: https://www.figma.com/make/oofAB5bqa3X52c3nsCpJBF/60th-Diamond-Jubilee--Left-Phone-?t=1JkhLnn7GfGolwcM-20&fullscreen=1
+namespace YourProject.Filters
+{
+    public class MediaSizeValidationFilter : IActionFilter
+    {
+        private readonly IConfiguration _configuration;
 
-Desktop mock up: https://www.figma.com/make/uxSzJ30DK7rXVyrCdTey1i/60th-Diamond-Jubilee--Right-Desktop-?t=LDyhXIThR0P9aFZ4-20&fullscreen=1
+        public MediaSizeValidationFilter(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            // Only intercept Umbraco's Backoffice Media and Content controllers
+            if (context.Controller is MediaController || context.Controller is ContentController)
+            {
+                var httpContext = context.HttpContext;
+
+                if (httpContext.Request.HasFormContentType && httpContext.Request.Form.Files.Any())
+                {
+                    var allowedImageExtensions = new[] { "jpg", "jpeg", "png", "gif", "webp", "svg", "ico", "bmp", "tiff", "tif" };
+                    int maxSize = int.Parse(_configuration.GetSection("Media")["MaxSize"] ?? "2097152");
+                    string maxText = _configuration.GetSection("Media")["MaxText"] ?? "2MB";
+
+                    foreach (var file in httpContext.Request.Form.Files)
+                    {
+                        var extension = Path.GetExtension(file.FileName).ToLower().TrimStart('.');
+
+                        if (allowedImageExtensions.Contains(extension))
+                        {
+                            if (file.Length > maxSize)
+                            {
+                                // Return a 400 Bad Request. 
+                                // Umbraco's UI catches this, stops the spinner, and reads the Message property.
+                                context.Result = new BadRequestObjectResult(new 
+                                { 
+                                    Message = $"Image size exceeds the allowed limit of {maxText}. Upload rejected." 
+                                });
+                                
+                                return; // Stop execution before Umbraco deletes the old file
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            // Not needed
+        }
+    }
+}
