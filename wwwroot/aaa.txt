@@ -1,47 +1,19 @@
 $(document).ready(function() {
-    // Listen for a click on any box
+    
+    // This single block replaces all the highlighted vanilla JS
     $('.fp-box').on('click', function() {
+        
         // Toggle the 'selected' class on the clicked box
         $(this).toggleClass('selected');
-
+        
         // Check if the box is now selected
         if ($(this).hasClass('selected')) {
             
             // 1. Get the string from data-product using jQuery
             let productString = $(this).attr('data-product');
             
-            // Make sure the attribute actually exists and isn't empty
-            if (productString) {
-                // 2. Split the string into an array by commas
-                // We use .map($.trim) to clean up any accidental extra spaces in your HTML
-                let productArray = productString.split(',').map($.trim);
-                
-                // You now have a real array!
-                console.log("Array for this box:", productArray);
-                // Output example: ["savings", "investment"]
-            }
-        } else {
-            console.log("Box deselected.");
+            // ... the rest of your logic ...
         }
     });
 
-    // --- Bonus: How to get ALL arrays when SUBMIT is clicked ---
-    $('.fp-submit-btn').on('click', function() {
-        let allSelectedProducts = [];
-
-        // Loop through only the boxes that have the 'selected' class
-        $('.fp-box.selected').each(function() {
-            let productString = $(this).attr('data-product');
-            
-            if (productString) {
-                let productArray = productString.split(',').map($.trim);
-                
-                // Merge this box's array into our master array
-                // Using the spread operator (...) to combine them flatly
-                allSelectedProducts.push(...productArray); 
-            }
-        });
-
-        console.log("Final Submission Array:", allSelectedProducts);
-    });
 });
