@@ -1,0 +1,39 @@
+/* Custom Red for primary buttons */
+.bg-red {
+    background-color: #ff0000 !important;
+}
+
+/* Badge Styling */
+.custom-badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+.badge-active {
+    background-color: #d1e7dd; /* Light Green */
+    color: #0f5132;
+}
+.badge-inactive {
+    background-color: #e2e3e5; /* Light Gray */
+    color: #41464c;
+}
+.badge-instock {
+    background-color: #d1e7dd; /* Light Green */
+    color: #0f5132;
+}
+.badge-lowstock {
+    background-color: #ffebd6; /* Light Orange */
+    color: #d97706;
+}
+.badge-outstock {
+    background-color: #f8d7da; /* Light Red */
+    color: #842029;
+}
+
+/* DataTables Overrides to match Figma */
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: none !important;
+}
+table.dataTable.no-footer {
+    border-bottom: 1px solid #dee2e6 !important;
+}

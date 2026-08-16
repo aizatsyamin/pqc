@@ -1,0 +1,130 @@
+<!-- Main Content Container -->
+<div class="container-fluid bg-white p-4 rounded shadow-sm">
+    
+    <!-- Top Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold">Products</h2>
+        <div class="d-flex gap-2">
+            <button class="btn btn-light border"><i class="bi bi-download"></i> Download CSV</button>
+            <button class="btn btn-light border"><i class="bi bi-upload"></i> Import CSV</button>
+            <button class="btn btn-danger bg-red border-0"><i class="bi bi-plus"></i> Add Product</button>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="row mb-4 gx-2">
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="customSearch" placeholder="Search product name or description">
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="filterCategory">
+                <option value="">Category: All</option>
+                <option value="Packaging">Packaging</option>
+                <option value="Spare Parts">Spare Parts</option>
+                <option value="Finished Goods">Finished Goods</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="filterStatus">
+                <option value="">Status: All</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="filterSupplier">
+                <option value="">Supplier: All</option>
+                <option value="Sentra Pack">Sentra Pack</option>
+                <option value="Teguh Hardware">Teguh Hardware</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-light border w-100" id="resetFilters">Reset Filter</button>
+        </div>
+    </div>
+
+    <!-- DataTables Table -->
+    <table id="productTable" class="table table-hover align-middle w-100">
+        <thead class="table-light text-muted">
+            <tr>
+                <th style="width: 40px;"><input type="checkbox" class="form-check-input" id="selectAll"></th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>SKU</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Inventory</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Row 1 -->
+            <tr>
+                <td><input type="checkbox" class="form-check-input row-check"></td>
+                <td>
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <i class="bi bi-image text-muted"></i>
+                    </div>
+                </td>
+                <td>
+                    <strong class="text-dark">Corrugated Box 400x300</strong><br>
+                    <small class="text-muted">Sentra Pack Sdn Bhd</small>
+                </td>
+                <td class="text-muted">PKG-4013</td>
+                <td class="text-muted">Packaging</td>
+                <td class="text-muted">RM 4.85</td>
+                <td><span class="badge custom-badge badge-active">Active</span></td>
+                <td><span class="badge custom-badge badge-instock">In Stock</span></td>
+                <td>
+                    <a href="#" class="text-secondary me-2"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#" class="text-danger"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+            <!-- Row 2 -->
+            <tr>
+                <td><input type="checkbox" class="form-check-input row-check"></td>
+                <td>
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <i class="bi bi-image text-muted"></i>
+                    </div>
+                </td>
+                <td>
+                    <strong class="text-dark">Filter Cartridge 10in</strong><br>
+                    <small class="text-muted">Teguh Hardware</small>
+                </td>
+                <td class="text-muted">SPR-0431</td>
+                <td class="text-muted">Spare Parts</td>
+                <td class="text-muted">RM 15.50</td>
+                <td><span class="badge custom-badge badge-active">Active</span></td>
+                <td><span class="badge custom-badge badge-lowstock">Low Stock</span></td>
+                <td>
+                    <a href="#" class="text-secondary me-2"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#" class="text-danger"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+             <!-- Row 3 -->
+             <tr>
+                <td><input type="checkbox" class="form-check-input row-check"></td>
+                <td>
+                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <i class="bi bi-image text-muted"></i>
+                    </div>
+                </td>
+                <td>
+                    <strong class="text-dark">Finished Assembly Kit B</strong><br>
+                    <small class="text-muted">Nusa Polymers</small>
+                </td>
+                <td class="text-muted">FIN-3320</td>
+                <td class="text-muted">Finished Goods</td>
+                <td class="text-muted">RM 148.00</td>
+                <td><span class="badge custom-badge badge-inactive">Inactive</span></td>
+                <td><span class="badge custom-badge badge-instock">In Stock</span></td>
+                <td>
+                    <a href="#" class="text-secondary me-2"><i class="bi bi-pencil-square"></i></a>
+                    <a href="#" class="text-danger"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
