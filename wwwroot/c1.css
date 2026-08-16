@@ -1,0 +1,55 @@
+/* Custom Red Theme */
+.bg-red { background-color: #ff0000 !important; }
+.text-red { color: #ff0000 !important; }
+
+/* Badge Styling */
+.custom-badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+.badge-active {
+    background-color: #d1e7dd; 
+    color: #0f5132;
+}
+.badge-inactive {
+    background-color: #e2e3e5; 
+    color: #41464c;
+}
+
+/* Custom Red Radio Button Styling (for the Drawer) */
+.custom-radio:checked {
+    background-color: #ff0000;
+    border-color: #ff0000;
+}
+.custom-radio {
+    width: 1.25em;
+    height: 1.25em;
+    margin-top: 0.1em;
+}
+
+/* DataTables Pagination Styling (The Red Blocks) */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: 4px !important;
+    padding: 0.5rem 0.75rem !important;
+    margin-left: 5px !important;
+    border: none !important;
+    font-weight: bold;
+    color: #333 !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #f8f9fa !important;
+    color: #000 !important;
+    border: none !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #ff0000 !important; /* Red background for active page */
+    color: white !important;
+    border: none !important;
+}
+.dataTables_info {
+    font-weight: bold;
+    color: #000 !important;
+    padding-top: 1.5rem !important;
+}
