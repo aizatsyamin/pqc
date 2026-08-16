@@ -1,0 +1,367 @@
+<!-- Main Content Container -->
+<div class="container-fluid bg-light-gray p-4 rounded">
+    
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold">Supplier</h2>
+        <div class="d-flex gap-2">
+            <button class="btn btn-light border"><i class="bi bi-download"></i> Export CSV</button>
+            <!-- Triggers Add Supplier Drawer (s2.png) -->
+            <button class="btn btn-danger bg-red border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addSupplierDrawer">
+                <i class="bi bi-plus"></i> Add Supplier
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="row mb-4 gx-2 bg-white p-3 shadow-sm rounded mx-0 align-items-center">
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="customSearch" placeholder="Search name">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" id="filterStatus">
+                <option value="">Status: All</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-light border w-100" id="resetFilters">Reset Filter</button>
+        </div>
+    </div>
+
+    <!-- Supplier Table (s1.png) -->
+    <div class="bg-white p-3 shadow-sm rounded">
+        <table id="supplierTable" class="table table-hover align-middle w-100 mb-0 border-bottom">
+            <thead class="table-light text-muted">
+                <tr>
+                    <th>Supplier Name <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Contact Person <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Phone Number <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Email <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Full Address <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Row 1: Clicking the row opens Details (s3.png) -->
+                <!-- Note: The details shown in s3.png are for Global Supplies, so we'll link this row to it -->
+                <tr class="supplier-row" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#editSupplierDrawerABC">
+                    <td class="fw-bold text-dark">ABC Trading Sdn. Bhd.</td>
+                    <td class="text-dark">Ahmad Rahman</td>
+                    <td class="text-muted">+60 12-345 6789</td>
+                    <td class="text-muted">ahmad@abctrading.com</td>
+                    <td class="text-muted" style="max-width: 250px;">No. 12, Jalan Perindustrian 3, Taman Perindustrian Jaya, 47810 Petaling Jaya, Selangor</td>
+                </tr>
+                <!-- Row 2 -->
+                <tr class="supplier-row" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#detailsSupplierDrawer">
+                    <td class="fw-bold text-dark">Eastern Distribution Sdn. Bhd.</td>
+                    <td class="text-dark">Jason Lee</td>
+                    <td class="text-muted">+60 16-789 0123</td>
+                    <td class="text-muted">jason@easterndistribution.com</td>
+                    <td class="text-muted" style="max-width: 250px;">Lot 88, Jalan Tebrau, 81100 Johor Bahru, Johor</td>
+                </tr>
+                <!-- Row 3 (Linked to s3.png details) -->
+                <tr class="supplier-row" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#detailsSupplierDrawer">
+                    <td class="fw-bold text-dark">Global Supplies (M) Sdn. Bhd.</td>
+                    <td class="text-dark">Michelle Tan</td>
+                    <td class="text-muted">+60 17-456 7890</td>
+                    <td class="text-muted">michelle@globalsupplies.com</td>
+                    <td class="text-muted" style="max-width: 250px;">No. 5, Jalan Utama 2/8, Kawasan Perindustrian Bukit Raja, 41050 Klang, Selangor</td>
+                </tr>
+                <!-- Row 4 -->
+                <tr class="supplier-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">Loh Label Supply Sdn. Bhd.</td>
+                    <td class="text-dark">Serena Loh</td>
+                    <td class="text-muted">+60 18-334 6677</td>
+                    <td class="text-muted">serena@lohlabel.com.my</td>
+                    <td class="text-muted" style="max-width: 250px;">No. 19, Jalan Usaha 2, Kawasan Perindustrian Ayer Keroh, 75450 Ayer Keroh, Melaka</td>
+                </tr>
+                <!-- Row 5 -->
+                <tr class="supplier-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">Nusa Polymers Sdn. Bhd.</td>
+                    <td class="text-dark">Ravi Kumar</td>
+                    <td class="text-muted">+60 19-882 3344</td>
+                    <td class="text-muted">ravi@nusapolymers.com</td>
+                    <td class="text-muted" style="max-width: 250px;">Lot 226, Jalan Semariang, 93050 Kuching, Sarawak</td>
+                </tr>
+                 <!-- Row 6 -->
+                 <tr class="supplier-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">Sentra Pack Sdn. Bhd.</td>
+                    <td class="text-dark">Nurul Aisyah</td>
+                    <td class="text-muted">+60 13-221 4567</td>
+                    <td class="text-muted">nurul@sentrapack.com.my</td>
+                    <td class="text-muted" style="max-width: 250px;">No. 27, Persiaran Perusahaan, Seksyen 23, 40300 Shah Alam, Selangor</td>
+                </tr>
+                <!-- Row 7 -->
+                <tr class="supplier-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">Teguh Hardware Sdn. Bhd.</td>
+                    <td class="text-dark">Lim Wei Sheng</td>
+                    <td class="text-muted">+60 12-990 1122</td>
+                    <td class="text-muted">weisheng@teguhhardware.com</td>
+                    <td class="text-muted" style="max-width: 250px;">No. 4, Lebuh Tenggiri, Bandar Bayan Baru, 11900 Bayan Lepas, Pulau Pinang</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: ADD SUPPLIER (s2.png)           -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="addSupplierDrawer" style="width: 480px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold">Add Supplier</h4>
+            <small class="text-light opacity-75">Add a supplier for products and inventory.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-white">
+        <form class="flex-grow-1">
+            
+            <small class="text-muted fw-bold text-uppercase d-block mb-3" style="font-size:10px;">SUPPLIER INFORMATION</small>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Supplier Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="e.g. ABC Trading Sdn. Bhd.">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold d-block mb-2">Status <span class="text-danger">*</span></label>
+                <div class="d-flex gap-4">
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio border-danger" type="radio" name="addSupStatus" id="addSupActive" checked>
+                        <label class="form-check-label fw-bold" for="addSupActive">Active</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio" type="radio" name="addSupStatus" id="addSupInactive">
+                        <label class="form-check-label fw-bold" for="addSupInactive">Inactive</label>
+                    </div>
+                </div>
+            </div>
+
+            <small class="text-muted fw-bold text-uppercase d-block mb-3 mt-4" style="font-size:10px;">CONTACT INFORMATION</small>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Contact Person Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="e.g. Ahmad Rahman">
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-6">
+                    <label class="form-label fw-bold">Phone Number <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g. +60 12-345 6789">
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" placeholder="e.g. ahmad@abctrading.com">
+                </div>
+            </div>
+
+            <small class="text-muted fw-bold text-uppercase d-block mb-3 mt-4" style="font-size:10px;">SUPPLIER ADDRESS</small>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Address Line 1 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" placeholder="e.g. No. 12, Jalan Perindustrian 3">
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Address Line 2</label>
+                <input type="text" class="form-control" placeholder="e.g. Taman Perindustrian Jaya">
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label class="form-label fw-bold">Postcode <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g. 47810">
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">City <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g. Petaling Jaya">
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-6">
+                    <label class="form-label fw-bold">State / Federal Territory <span class="text-danger">*</span></label>
+                    <select class="form-select">
+                        <option selected disabled>Select a state</option>
+                        <option>Selangor</option>
+                        <option>Johor</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">Country <span class="text-danger">*</span></label>
+                    <select class="form-select">
+                        <option selected>Malaysia</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2 border-top bg-light-gray mx-n4 mb-n4 px-4 py-3">
+            <button type="button" class="btn btn-light border px-4 fw-bold" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-danger bg-red border-0 px-4">Add Supplier</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: EDIT SUPPLIER (s4.png)          -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="editSupplierDrawerABC" style="width: 480px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold">Edit Supplier</h4>
+            <small class="text-light opacity-75">Update this supplier record.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-white">
+        <form class="flex-grow-1">
+            
+            <small class="text-muted fw-bold text-uppercase d-block mb-3" style="font-size:10px;">SUPPLIER INFORMATION</small>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Supplier Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="ABC Trading Sdn. Bhd.">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold d-block mb-2">Status <span class="text-danger">*</span></label>
+                <div class="d-flex gap-4">
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio border-danger" type="radio" name="editSupStatusABC" id="editSupActiveABC" checked>
+                        <label class="form-check-label fw-bold" for="editSupActiveABC">Active</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio" type="radio" name="editSupStatusABC" id="editSupInactiveABC">
+                        <label class="form-check-label fw-bold" for="editSupInactiveABC">Inactive</label>
+                    </div>
+                </div>
+            </div>
+
+            <small class="text-muted fw-bold text-uppercase d-block mb-3 mt-4" style="font-size:10px;">CONTACT INFORMATION</small>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Contact Person Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="Ahmad Rahman">
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-6">
+                    <label class="form-label fw-bold">Phone Number <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" value="+60 12-345 6789">
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" value="ahmad@abctrading.com">
+                </div>
+            </div>
+
+            <small class="text-muted fw-bold text-uppercase d-block mb-3 mt-4" style="font-size:10px;">SUPPLIER ADDRESS</small>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Address Line 1 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="No. 12, Jalan Perindustrian 3">
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Address Line 2</label>
+                <input type="text" class="form-control" value="Taman Perindustrian Jaya">
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label class="form-label fw-bold">Postcode <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" value="47810">
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">City <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" value="Petaling Jaya">
+                </div>
+            </div>
+            
+            <div class="row mb-4">
+                <div class="col-6">
+                    <label class="form-label fw-bold">State / Federal Territory <span class="text-danger">*</span></label>
+                    <select class="form-select">
+                        <option selected>Selangor</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">Country <span class="text-danger">*</span></label>
+                    <select class="form-select">
+                        <option selected>Malaysia</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2 border-top bg-light-gray mx-n4 mb-n4 px-4 py-3">
+            <button type="button" class="btn btn-light border px-4 fw-bold text-dark" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-danger bg-red border-0 px-4">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: SUPPLIER DETAILS (s3.png)       -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="detailsSupplierDrawer" style="width: 480px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold">Supplier Details</h4>
+            <small class="text-light opacity-75">Global Supplies (M) Sdn. Bhd.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-white">
+        <div class="flex-grow-1">
+            
+            <div class="mb-4">
+                <span class="badge custom-badge badge-active px-3 py-1">Active</span>
+            </div>
+
+            <small class="text-muted fw-bold text-uppercase d-block mb-2" style="font-size:10px;">SUPPLIER INFORMATION</small>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Supplier Name</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">Global Supplies (M) Sdn. Bhd.</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom mb-4">
+                <span class="text-muted" style="font-size: 13px;">Status</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">Active</span>
+            </div>
+
+            <small class="text-muted fw-bold text-uppercase d-block mb-2" style="font-size:10px;">CONTACT INFORMATION</small>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Contact Person Name</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">Michelle Tan</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Phone Number</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">+60 17-456 7890</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom mb-4">
+                <span class="text-muted" style="font-size: 13px;">Email</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">michelle@globalsupplies.com</span>
+            </div>
+            
+            <small class="text-muted fw-bold text-uppercase d-block mb-2" style="font-size:10px;">SUPPLIER ADDRESS</small>
+            <div class="d-flex justify-content-between py-2">
+                <span class="text-muted" style="font-size: 13px;">Address</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px; max-width: 250px;">
+                    No. 5, Jalan Utama 2/8<br>
+                    Kawasan Perindustrian Bukit Raja<br>
+                    41050 Klang<br>
+                    Selangor, Malaysia
+                </span>
+            </div>
+        </div>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2 border-top bg-light-gray mx-n4 mb-n4 px-4 py-3">
+            <button type="button" class="btn btn-light border px-4 fw-bold text-dark" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-danger bg-red border-0 px-4">
+                <i class="bi bi-sliders me-1"></i> Edit Supplier
+            </button>
+        </div>
+    </div>
+</div>
