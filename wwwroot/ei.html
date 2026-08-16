@@ -1,0 +1,105 @@
+<!-- Main Content Container -->
+<div class="container-fluid bg-white p-4 rounded shadow-sm">
+    
+    <!-- Page Title -->
+    <h3 class="fw-bold mb-4">Edit Inventory</h3>
+
+    <!-- Product Summary Card (Grey Box) -->
+    <div class="card bg-light border-0 mb-5 p-3 rounded">
+        <div class="d-flex align-items-center">
+            <!-- Product Image Placeholder -->
+            <div class="bg-white border rounded d-flex justify-content-center align-items-center me-3" style="width: 56px; height: 56px;">
+                <i class="bi bi-image text-muted fs-4"></i>
+            </div>
+            <!-- Product Details -->
+            <div>
+                <h6 class="fw-bold mb-1 text-dark">Corrugated Box 400&times;300</h6>
+                <small class="text-muted">PKG-4013 &middot; Packaging &middot; WH-01 Shah Alam</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Form Grid -->
+    <form>
+        <div class="row g-4 mb-5">
+            
+            <!-- Row 1 -->
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-dark">Unit of Measure</label>
+                <select class="form-select">
+                    <option selected>Carton (CTN)</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-dark">Default Storage Location</label>
+                <select class="form-select">
+                    <option selected>WH-01 Shah Alam</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-dark">Inventory Status</label>
+                <select class="form-select">
+                    <option selected>Active — tracked</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-dark">Minimum Stock</label>
+                <input type="number" class="form-control" value="500">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-dark">Maximum Stock</label>
+                <!-- Using select here because the Figma design shows a dropdown arrow for this field -->
+                <select class="form-select">
+                    <option selected>6000</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-dark">Reorder Point</label>
+                <!-- Using select here as per the dropdown arrow in the design -->
+                <select class="form-select">
+                    <option selected>900</option>
+                </select>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="col-md-4">
+                <label class="form-label fw-bold text-dark">Reorder Quantity</label>
+                <input type="number" class="form-control" value="2000">
+            </div>
+        </div>
+
+        <!-- Audit Information Card -->
+        <div class="card border mb-5 p-4 rounded shadow-sm">
+            <h6 class="fw-bold mb-4 text-dark">Audit Information</h6>
+            <div class="row">
+                <div class="col-md-3">
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Created By</small>
+                    <div class="fw-bold text-dark mt-1">Aisyah Rahman</div>
+                </div>
+                <div class="col-md-3">
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Created Date</small>
+                    <div class="fw-bold text-dark mt-1">12 Jan 2026 09:14</div>
+                </div>
+                <div class="col-md-3">
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Last Updated By</small>
+                    <div class="fw-bold text-dark mt-1">Daniel Wong</div>
+                </div>
+                <div class="col-md-3">
+                    <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Last Updated Date</small>
+                    <div class="fw-bold text-dark mt-1">5 May 2026 14:22</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+            <button type="button" class="btn btn-light border px-4 fw-bold text-dark" onclick="history.back()">Cancel</button>
+            <button type="submit" class="btn btn-danger bg-red border-0 px-4">
+                <i class="bi bi-check2"></i> Save Changes
+            </button>
+        </div>
+    </form>
+</div>
