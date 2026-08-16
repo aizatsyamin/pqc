@@ -1,0 +1,18 @@
+/* Container Backgrounds */
+.bg-light-gray { background-color: #f8f9fa !important; }
+
+/* Custom Red Radio Button Styling */
+.custom-radio:checked {
+    background-color: #ff0000;
+    border-color: #ff0000;
+}
+.custom-radio {
+    width: 1.25em;
+    height: 1.25em;
+    margin-top: 0.15em;
+}
+
+/* Remove default table borders */
+#inventoryListTable thead th, #inventoryListTable tbody td {
+    border-bottom: 1px solid #e9ecef;
+}

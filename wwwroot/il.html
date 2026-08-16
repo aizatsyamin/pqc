@@ -1,0 +1,296 @@
+<!-- Main Content Container -->
+<div class="container-fluid bg-light-gray p-4 rounded">
+    
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold">Inventory List</h2>
+        <div class="d-flex gap-2">
+            <button class="btn btn-light border"><i class="bi bi-download"></i> Export CSV</button>
+            <!-- Button triggers Transfer Stock Drawer -->
+            <button class="btn btn-light border" type="button" data-bs-toggle="offcanvas" data-bs-target="#transferStockDrawer">
+                <i class="bi bi-arrow-left-right"></i> Transfer Stock
+            </button>
+            <!-- Button triggers Adjust Stock Drawer -->
+            <button class="btn btn-danger bg-red border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#adjustStockDrawer">
+                <i class="bi bi-sliders"></i> Adjust Stock
+            </button>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 p-3">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Total Products</small>
+                <h2 class="fw-bold mb-1 mt-2 text-dark">1,284</h2>
+                <small class="text-muted">Tracked across 3 locations</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 p-3">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Total Stock Quantity</small>
+                <h2 class="fw-bold mb-1 mt-2 text-dark">10,937</h2>
+                <small class="text-muted">Available units on hand</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 p-3">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Low Stock Items</small>
+                <h2 class="fw-bold mb-1 mt-2" style="color: #fd7e14;">37</h2>
+                <small class="text-muted">At or below reorder point</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 p-3">
+                <small class="text-muted fw-bold text-uppercase" style="font-size: 11px;">Out of Stock Items</small>
+                <h2 class="fw-bold mb-1 mt-2 text-danger">9</h2>
+                <small class="text-muted">Require immediate replenishment</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="row mb-4 gx-2 bg-white p-3 shadow-sm rounded mx-0">
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="customSearch" placeholder="Search name, SKU or barcode">
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="filterCategory">
+                <option value="">Category: All</option>
+                <option value="Packaging">Packaging</option>
+                <option value="Spare Parts">Spare Parts</option>
+                <option value="Finished Goods">Finished Goods</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="filterLocation">
+                <option value="">Location: All</option>
+                <option value="WH-01 Shah Alam">WH-01 Shah Alam</option>
+                <option value="WH-02 Penang">WH-02 Penang</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="filterStatus">
+                <option value="">Status: All</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-light border w-100" id="resetFilters">Reset Filter</button>
+        </div>
+    </div>
+
+    <!-- DataTables Table Container -->
+    <div class="bg-white p-3 shadow-sm rounded">
+        <table id="inventoryListTable" class="table table-hover align-middle w-100 mb-0 border-bottom">
+            <thead class="table-light text-muted">
+                <tr>
+                    <th style="width: 50px;">Image <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Product Name <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>SKU <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Category <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Location <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Available <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Reserved <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Min <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Row 1 -->
+                <tr>
+                    <td><div class="bg-light rounded" style="width: 40px; height: 40px;"></div></td>
+                    <td>
+                        <strong class="text-dark">Corrugated Box 400x300</strong><br>
+                        <small class="text-muted">Sentra Pack Sdn Bhd</small>
+                    </td>
+                    <td class="text-muted">PKG-4013</td>
+                    <td class="text-muted">Packaging</td>
+                    <td class="text-muted text-wrap" style="width: 120px;">WH-01 Shah Alam</td>
+                    <td class="fw-bold text-dark">2,403</td>
+                    <td class="text-muted">180</td>
+                    <td class="text-muted">500</td>
+                </tr>
+                <!-- Row 2 -->
+                <tr>
+                    <td><div class="bg-light rounded" style="width: 40px; height: 40px;"></div></td>
+                    <td>
+                        <strong class="text-dark">Filter Cartridge 10in</strong><br>
+                        <small class="text-muted">Teguh Hardware</small>
+                    </td>
+                    <td class="text-muted">SPR-0431</td>
+                    <td class="text-muted">Spare Parts</td>
+                    <td class="text-muted text-wrap" style="width: 120px;">WH-01 Shah Alam</td>
+                    <td class="fw-bold text-dark">0</td>
+                    <td class="text-muted">0</td>
+                    <td class="text-muted">60</td>
+                </tr>
+                <!-- Row 3 -->
+                <tr>
+                    <td><div class="bg-light rounded" style="width: 40px; height: 40px;"></div></td>
+                    <td>
+                        <strong class="text-dark">Finished Assembly Kit B</strong><br>
+                        <small class="text-muted">Nusa Polymers</small>
+                    </td>
+                    <td class="text-muted">FIN-3320</td>
+                    <td class="text-muted">Finished Goods</td>
+                    <td class="text-muted text-wrap" style="width: 120px;">WH-02 Penang</td>
+                    <td class="fw-bold text-dark">8,000</td>
+                    <td class="text-muted">1,200</td>
+                    <td class="text-muted">2,000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: ADJUST STOCK DRAWER             -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="adjustStockDrawer" aria-labelledby="adjustStockDrawerLabel" style="width: 450px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold" id="adjustStockDrawerLabel">Adjust Stock</h4>
+            <small class="text-light opacity-75">Increase or decrease the available quantity at this location.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-light">
+        <form class="flex-grow-1">
+            <!-- Product Summary Card -->
+            <div class="card border mb-4 p-3 shadow-sm rounded">
+                <div class="row">
+                    <div class="col-7 border-end">
+                        <small class="text-muted fw-bold" style="font-size:10px;">PRODUCT</small>
+                        <div class="fw-bold text-dark">Corrugated Box 400x300</div>
+                        <small class="text-muted">PKG-4013</small>
+                    </div>
+                    <div class="col-5 ps-3">
+                        <small class="text-muted fw-bold" style="font-size:10px;">CURRENT STOCK</small>
+                        <h3 class="fw-bold mb-0 text-dark" id="currentStockDisplay">2,403</h3>
+                        <small class="text-muted">WH-01 Shah Alam</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Adjustment Type <span class="text-danger">*</span></label>
+                <div class="d-flex gap-4 mt-1">
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio border-danger" type="radio" name="adjType" id="adjIncrease" value="increase" checked>
+                        <label class="form-check-label fw-bold" for="adjIncrease">Increase</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio" type="radio" name="adjType" id="adjDecrease" value="decrease">
+                        <label class="form-check-label fw-bold" for="adjDecrease">Decrease</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Adjustment Quantity <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="adjQuantity" placeholder="0" min="0">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Reason <span class="text-danger">*</span></label>
+                <select class="form-select">
+                    <option>Stock Received</option>
+                    <option>Stock Count Adjustment</option>
+                    <option>Damaged Goods</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Remarks</label>
+                <textarea class="form-control" rows="3" placeholder="Reference document, GRN number or explanation."></textarea>
+            </div>
+
+            <!-- Dynamic Result Card -->
+            <div class="card border p-3 rounded shadow-sm bg-white d-flex flex-row justify-content-between align-items-center">
+                <small class="text-muted fw-bold text-uppercase" style="font-size:11px;">Current After Adjustment</small>
+                <h3 class="fw-bold mb-0 text-dark" id="afterAdjStockDisplay">2,403</h3>
+            </div>
+        </form>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-light border px-4 fw-bold" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-danger bg-red border-0 px-4">Update Stock</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: TRANSFER STOCK DRAWER           -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="transferStockDrawer" aria-labelledby="transferStockDrawerLabel" style="width: 450px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold" id="transferStockDrawerLabel">Transfer Stock</h4>
+            <small class="text-light opacity-75">Move inventory between locations. Total stock is unchanged.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-light">
+        <form class="flex-grow-1">
+            <!-- Product Summary Card -->
+            <div class="card border mb-4 p-3 shadow-sm rounded">
+                <div class="row">
+                    <div class="col-7 border-end">
+                        <small class="text-muted fw-bold" style="font-size:10px;">PRODUCT</small>
+                        <div class="fw-bold text-dark">Corrugated Box 400x300</div>
+                        <small class="text-muted">PKG-4013</small>
+                    </div>
+                    <div class="col-5 ps-3">
+                        <small class="text-muted fw-bold" style="font-size:10px;">AVAILABLE QUANTITY</small>
+                        <h3 class="fw-bold mb-0 text-dark">2,403</h3>
+                        <small class="text-muted">Carton</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Current Location</label>
+                <input type="text" class="form-control bg-light" value="WH-01 Shah Alam" readonly disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Destination Location <span class="text-danger">*</span></label>
+                <select class="form-select">
+                    <option>Select a location</option>
+                    <option>WH-02 Penang</option>
+                    <option>WH-03 Johor Bahru</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Transfer Quantity <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="transQuantity" placeholder="0" min="0">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Transfer Reason <span class="text-danger">*</span></label>
+                <select class="form-select">
+                    <option>Replenishment</option>
+                    <option>Internal Request</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Remarks</label>
+                <textarea class="form-control" rows="3" placeholder="Delivery order number, transporter or handling notes."></textarea>
+            </div>
+
+            <!-- Dynamic Result Card -->
+            <div class="card border p-3 rounded shadow-sm bg-white d-flex flex-row justify-content-between align-items-center">
+                <small class="text-muted fw-bold text-uppercase" style="font-size:11px;">Remaining at WH-01 Shah Alam</small>
+                <h3 class="fw-bold mb-0 text-dark" id="remainingStockDisplay">2,403</h3>
+            </div>
+        </form>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-light border px-4 fw-bold" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-danger bg-red border-0 px-4">Transfer Stock</button>
+        </div>
+    </div>
+</div>
