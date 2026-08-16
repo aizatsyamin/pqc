@@ -1,0 +1,21 @@
+/* Red Theme Elements */
+.bg-red { background-color: #ff0000 !important; color: white; }
+.text-red { color: #ff0000 !important; }
+
+/* Wizard Navigation Styling */
+.wizard-nav .step-indicator {
+    padding-bottom: 10px;
+}
+.wizard-nav .step-indicator.active {
+    color: #ff0000 !important;
+    border-bottom: 2px solid #ff0000;
+}
+.wizard-nav .step-indicator.active .step-num {
+    border-color: #ff0000 !important;
+    color: #ff0000;
+}
+
+/* Dashed Image Upload Box */
+.border-dashed {
+    border: 2px dashed #ccc !important;
+}

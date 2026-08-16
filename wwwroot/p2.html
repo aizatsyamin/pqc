@@ -1,0 +1,192 @@
+<!-- Main Content Container -->
+<div class="container-fluid bg-white p-4 rounded shadow-sm">
+    
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+        <div>
+            <h2 class="mb-0 fw-bold d-inline-block me-2">Add Product</h2>
+            <span class="badge bg-secondary">Draft</span>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-light border"><i class="bi bi-download"></i> Save Draft</button>
+            <button class="btn btn-light border">Cancel</button>
+            <button class="btn btn-danger bg-red border-0"><i class="bi bi-plus"></i> Create Product</button>
+        </div>
+    </div>
+
+    <!-- Wizard Stepper Navigation -->
+    <div class="d-flex justify-content-between mb-5 px-3 wizard-nav text-muted fw-semibold">
+        <div class="step-indicator active" data-step="1"><span class="step-num border rounded-circle px-2 py-1 me-1">1</span> Basic Information</div>
+        <div class="step-indicator" data-step="2"><span class="step-num border rounded-circle px-2 py-1 me-1">2</span> Pricing</div>
+        <div class="step-indicator" data-step="3"><span class="step-num border rounded-circle px-2 py-1 me-1">3</span> Inventory Settings</div>
+        <div class="step-indicator" data-step="4"><span class="step-num border rounded-circle px-2 py-1 me-1">4</span> Supplier</div>
+        <div class="step-indicator" data-step="5"><span class="step-num border rounded-circle px-2 py-1 me-1">5</span> Confirmation</div>
+    </div>
+
+    <form id="addProductForm">
+        
+        <!-- STEP 1: Basic Information -->
+        <div class="wizard-step" id="step-1">
+            <h5 class="fw-bold mb-3">Product Image</h5>
+            
+            <!-- Upload Box -->
+            <div class="upload-box border border-dashed rounded text-center p-5 mb-3 bg-light">
+                <i class="bi bi-image text-muted fs-2"></i>
+                <p class="mb-0 fw-bold mt-2">Add product image</p>
+                <small class="text-muted">PNG or JPG, square, up to 2 MB</small>
+            </div>
+            
+            <!-- Attached File (Example) -->
+            <div class="d-flex justify-content-between align-items-center border rounded p-2 mb-4 bg-light">
+                <div class="d-flex align-items-center">
+                    <button type="button" class="btn btn-light border me-3">Choose File</button>
+                    <div>
+                        <div class="fw-bold fs-6">product-image.png</div>
+                        <small class="text-muted">248 KB</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close me-2"></button>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Product Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g. Corrugated Box 400x300">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">SKU <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g. PKG-4013">
+                    <div class="form-text">Three-letter category prefix followed by four digits.</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Barcode</label>
+                    <input type="text" class="form-control" placeholder="EAN-13 / UPC">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Brand</label>
+                    <input type="text" class="form-control" placeholder="e.g. Sentra">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Category <span class="text-danger">*</span></label>
+                    <select class="form-select"><option>Select a category</option></select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Subcategory</label>
+                    <select class="form-select"><option>Select a subcategory</option></select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Description</label>
+                    <textarea class="form-control" rows="4" placeholder="Short internal description..."></textarea>
+                    <div class="form-text">0 / 400 characters</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Status</label>
+                    <select class="form-select"><option>Draft</option><option>Active</option></select>
+                    <div class="form-text">Only Active products can be selected in new stock movements.</div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center border-top pt-4">
+                <span class="fw-bold">Step 1 of 5 - Basic Information</span>
+                <button type="button" class="btn btn-danger bg-red border-0 px-4 next-btn">Next <i class="bi bi-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- STEP 2: Pricing (Initially Hidden) -->
+        <div class="wizard-step" id="step-2" style="display: none;">
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Cost Price <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" placeholder="0.00">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Selling Price <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" placeholder="0.00">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Currency <span class="text-danger">*</span></label>
+                    <select class="form-select"><option>Select a currency</option></select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Tax</label>
+                    <select class="form-select"><option>None</option></select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Discount Price</label>
+                    <input type="number" class="form-control" placeholder="0.00">
+                    <div class="form-text">Optional promotional price. Must be below the selling price.</div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Markup %</label>
+                    <input type="text" class="form-control bg-light" placeholder="—" readonly>
+                    <div class="form-text text-end" style="margin-top:-30px; margin-right:10px; pointer-events:none;"><small class="text-muted fw-bold">AUTO CALCULATED</small></div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center border-top pt-4">
+                <span class="fw-bold">Step 2 of 5 - Pricing</span>
+                <div>
+                    <button type="button" class="btn btn-light border px-4 me-2 prev-btn"><i class="bi bi-arrow-left"></i> Previous</button>
+                    <button type="button" class="btn btn-danger bg-red border-0 px-4 next-btn">Next <i class="bi bi-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Inventory Settings (Initially Hidden) -->
+        <div class="wizard-step" id="step-3" style="display: none;">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Units of Measure <span class="text-danger">*</span></label>
+                    <select class="form-select"><option>Select a unit</option></select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Default Warehouse</label>
+                    <select class="form-select"><option>Select a warehouse</option></select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-bold d-block">Track Inventory</label>
+                    <div class="form-check form-switch fs-5 mt-2">
+                        <input class="form-check-input" type="checkbox" checked>
+                        <label class="form-check-label fs-6 ms-2 fw-bold text-success">Tracked</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reorder Rules Box -->
+            <div class="bg-light rounded p-4 mb-5">
+                <h6 class="fw-bold mb-1">Reorder rules</h6>
+                <p class="text-muted small mb-3">Thresholds that drive Low Stock alerts and replenishment suggestions.</p>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Minimum Stock</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Maximum Stock</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Reorder Point</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Reorder Quantity</label>
+                        <input type="number" class="form-control" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center border-top pt-4">
+                <span class="fw-bold">Step 3 of 5 - Inventory Settings</span>
+                <div>
+                    <button type="button" class="btn btn-light border px-4 me-2 prev-btn"><i class="bi bi-arrow-left"></i> Previous</button>
+                    <button type="button" class="btn btn-danger bg-red border-0 px-4 next-btn">Next <i class="bi bi-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4 & 5 Placeholders (To keep snippet manageable, structure identical to above) -->
+        <!-- Just duplicate the format of Step 2/3 for Supplier and Confirmation based on your Figma design -->
+
+    </form>
+</div>
