@@ -1,0 +1,331 @@
+<!-- Main Content Container -->
+<div class="container-fluid bg-light-gray p-4 rounded">
+    
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold">Tax Management</h2>
+        <div class="d-flex gap-2">
+            <!-- Triggers Add Tax Drawer (t2.png) -->
+            <button class="btn btn-danger bg-red border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addTaxDrawer">
+                <i class="bi bi-plus"></i> Create Tax
+            </button>
+        </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="row mb-4 gx-2 bg-white p-3 shadow-sm rounded mx-0 align-items-center">
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="customSearch" placeholder="Search tax code">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" id="filterType">
+                <option value="">Type: All</option>
+                <option value="Exclusive">Exclusive</option>
+                <option value="Inclusive">Inclusive</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" id="filterStatus">
+                <option value="">Status: All</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-light border w-100" id="resetFilters">Reset Filter</button>
+        </div>
+    </div>
+
+    <!-- Tax Table (t1.png) -->
+    <div class="bg-white p-3 shadow-sm rounded">
+        <table id="taxTable" class="table table-hover align-middle w-100 mb-0 border-bottom">
+            <thead class="table-light text-muted">
+                <tr>
+                    <th>Tax Code <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Rate <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Tax Type <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Effective From <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Effective To <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Status <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                    <th>Actions <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Row 1: Clicking the row opens Details (t3.png) -->
+                <tr class="tax-row" style="cursor: pointer;" data-bs-toggle="offcanvas" data-bs-target="#detailsTaxDrawer">
+                    <td class="fw-bold text-dark">SST-10</td>
+                    <td class="fw-bold text-dark">10%</td>
+                    <td class="text-muted">Exclusive</td>
+                    <td class="text-muted">01/03/2024</td>
+                    <td class="text-muted">&mdash;</td>
+                    <td><span class="badge custom-badge badge-active">Active</span></td>
+                    <td><a href="#" class="text-secondary"><i class="bi bi-three-dots-vertical"></i></a></td>
+                </tr>
+                <!-- Row 2 -->
+                <tr class="tax-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">SST-6</td>
+                    <td class="fw-bold text-dark">6%</td>
+                    <td class="text-muted">Exclusive</td>
+                    <td class="text-muted">01/01/2020</td>
+                    <td class="text-muted">29/02/2024</td>
+                    <td><span class="badge custom-badge badge-active">Active</span></td>
+                    <td><a href="#" class="text-secondary"><i class="bi bi-three-dots-vertical"></i></a></td>
+                </tr>
+                <!-- Row 3 -->
+                <tr class="tax-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">SST-8</td>
+                    <td class="fw-bold text-dark">8%</td>
+                    <td class="text-muted">Exclusive</td>
+                    <td class="text-muted">01/03/2024</td>
+                    <td class="text-muted">&mdash;</td>
+                    <td><span class="badge custom-badge badge-active">Active</span></td>
+                    <td><a href="#" class="text-secondary"><i class="bi bi-three-dots-vertical"></i></a></td>
+                </tr>
+                <!-- Row 4 -->
+                <tr class="tax-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">SVC-6</td>
+                    <td class="fw-bold text-dark">6%</td>
+                    <td class="text-muted">Exclusive</td>
+                    <td class="text-muted">01/01/2023</td>
+                    <td class="text-muted">&mdash;</td>
+                    <td><span class="badge custom-badge badge-active">Active</span></td>
+                    <td><a href="#" class="text-secondary"><i class="bi bi-three-dots-vertical"></i></a></td>
+                </tr>
+                <!-- Row 5 -->
+                <tr class="tax-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">TAX-INC-8</td>
+                    <td class="fw-bold text-dark">8%</td>
+                    <td class="text-muted">Inclusive</td>
+                    <td class="text-muted">01/03/2024</td>
+                    <td class="text-muted">&mdash;</td>
+                    <td><span class="badge custom-badge badge-inactive">Inactive</span></td>
+                    <td><a href="#" class="text-secondary"><i class="bi bi-three-dots-vertical"></i></a></td>
+                </tr>
+                 <!-- Row 6 -->
+                 <tr class="tax-row" style="cursor: pointer;">
+                    <td class="fw-bold text-dark">ZERO-RATED</td>
+                    <td class="fw-bold text-dark">0%</td>
+                    <td class="text-muted">Exclusive</td>
+                    <td class="text-muted">01/01/2020</td>
+                    <td class="text-muted">&mdash;</td>
+                    <td><span class="badge custom-badge badge-inactive">Inactive</span></td>
+                    <td><a href="#" class="text-secondary"><i class="bi bi-three-dots-vertical"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: ADD TAX (t2.png)                -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="addTaxDrawer" style="width: 480px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold">Add Tax</h4>
+            <small class="text-light opacity-75">Add a tax code that products can reference.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-white">
+        <form class="flex-grow-1">
+            
+            <small class="text-muted fw-bold text-uppercase d-block mb-3" style="font-size:10px;">TAX INFORMATION</small>
+            
+            <div class="row mb-3">
+                <div class="col-7">
+                    <label class="form-label fw-bold">Tax Code <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="e.g. SST-8">
+                </div>
+                <div class="col-5">
+                    <label class="form-label fw-bold">Rate (%) <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="number" class="form-control border-end-0" placeholder="e.g. 8">
+                        <span class="input-group-text bg-white text-muted">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Tax Type <span class="text-danger">*</span></label>
+                <select class="form-select">
+                    <option selected disabled>Select a tax type</option>
+                    <option>Exclusive</option>
+                    <option>Inclusive</option>
+                </select>
+                <div class="form-text mt-2" style="font-size: 11px;">
+                    <strong>Inclusive:</strong> Tax is included in the product price. <strong>Exclusive:</strong> Tax is added on top of the product price.
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-6">
+                    <label class="form-label fw-bold">Effective From <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control text-muted">
+                    <div class="form-text" style="font-size: 11px;">Format DD/MM/YYYY</div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">Effective To</label>
+                    <input type="date" class="form-control text-muted">
+                    <div class="form-text" style="font-size: 11px;">Leave blank if there is no end date.</div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold d-block mb-2">Status <span class="text-danger">*</span></label>
+                <div class="d-flex gap-4">
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio border-danger" type="radio" name="addTaxStatus" id="addTaxActive" checked>
+                        <label class="form-check-label fw-bold" for="addTaxActive">Active</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio" type="radio" name="addTaxStatus" id="addTaxInactive">
+                        <label class="form-check-label fw-bold" for="addTaxInactive">Inactive</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2 border-top bg-light-gray mx-n4 mb-n4 px-4 py-3">
+            <button type="button" class="btn btn-light border px-4 fw-bold" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-danger bg-red border-0 px-4">Create Tax</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: EDIT TAX (t4.png)               -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="editTaxDrawer" style="width: 480px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold">Edit Tax</h4>
+            <small class="text-light opacity-75">Update this tax configuration.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-white">
+        <form class="flex-grow-1">
+            
+            <small class="text-muted fw-bold text-uppercase d-block mb-3" style="font-size:10px;">TAX INFORMATION</small>
+            
+            <div class="row mb-3">
+                <div class="col-7">
+                    <label class="form-label fw-bold">Tax Code <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" value="SST-10">
+                </div>
+                <div class="col-5">
+                    <label class="form-label fw-bold">Rate (%) <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input type="number" class="form-control border-end-0" value="10">
+                        <span class="input-group-text bg-white text-muted">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Tax Type <span class="text-danger">*</span></label>
+                <select class="form-select">
+                    <option selected>Exclusive</option>
+                    <option>Inclusive</option>
+                </select>
+                <div class="form-text mt-2" style="font-size: 11px;">
+                    <strong>Inclusive:</strong> Tax is included in the product price. <strong>Exclusive:</strong> Tax is added on top of the product price.
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-6">
+                    <label class="form-label fw-bold">Effective From <span class="text-danger">*</span></label>
+                    <!-- For dates in edit mode, yyyy-mm-dd is the standard HTML format for type="date" values -->
+                    <input type="date" class="form-control text-muted" value="2024-03-01">
+                    <div class="form-text" style="font-size: 11px;">Format DD/MM/YYYY</div>
+                </div>
+                <div class="col-6">
+                    <label class="form-label fw-bold">Effective To</label>
+                    <input type="date" class="form-control text-muted">
+                    <div class="form-text" style="font-size: 11px;">Leave blank if there is no end date.</div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold d-block mb-2">Status <span class="text-danger">*</span></label>
+                <div class="d-flex gap-4">
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio border-danger" type="radio" name="editTaxStatus" id="editTaxActive" checked>
+                        <label class="form-check-label fw-bold" for="editTaxActive">Active</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input custom-radio" type="radio" name="editTaxStatus" id="editTaxInactive">
+                        <label class="form-check-label fw-bold" for="editTaxInactive">Inactive</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2 border-top bg-light-gray mx-n4 mb-n4 px-4 py-3">
+            <button type="button" class="btn btn-light border px-4 fw-bold" data-bs-dismiss="offcanvas">Cancel</button>
+            <button type="button" class="btn btn-danger bg-red border-0 px-4">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OFFCANVAS: TAX DETAILS (t3.png)            -->
+<!-- ========================================== -->
+<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="detailsTaxDrawer" style="width: 450px;">
+    <div class="offcanvas-header bg-dark text-white px-4 py-3">
+        <div>
+            <h4 class="offcanvas-title fw-bold">Tax Details</h4>
+            <small class="text-light opacity-75">SST-10</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white align-self-start mt-1" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-white">
+        <div class="flex-grow-1">
+            
+            <div class="mb-4">
+                <span class="badge custom-badge badge-active px-3 py-1">Active</span>
+            </div>
+
+            <small class="text-muted fw-bold text-uppercase d-block mb-2" style="font-size:10px;">TAX INFORMATION</small>
+            
+            <div class="d-flex justify-content-between py-3 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Tax Code</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">SST-10</span>
+            </div>
+            <div class="d-flex justify-content-between py-3 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Rate</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">10%</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Tax Type</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">Exclusive</span>
+            </div>
+            <div class="d-flex justify-content-between py-3 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Effective From</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">01/03/2024</span>
+            </div>
+            <div class="d-flex justify-content-between py-3 border-bottom">
+                <span class="text-muted" style="font-size: 13px;">Effective To</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">No end date</span>
+            </div>
+            <div class="d-flex justify-content-between py-3 mb-3">
+                <span class="text-muted" style="font-size: 13px;">Status</span>
+                <span class="fw-bold text-dark text-end" style="font-size: 13px;">Active</span>
+            </div>
+
+            <div class="text-muted mt-2" style="font-size: 11px;">
+                <strong>Inclusive:</strong> Tax is included in the product price. <strong>Exclusive:</strong> Tax is added on top of the product price.
+            </div>
+        </div>
+        
+        <div class="mt-auto pt-3 d-flex justify-content-end gap-2 border-top bg-light-gray mx-n4 mb-n4 px-4 py-3">
+            <button type="button" class="btn btn-light border px-4 fw-bold text-dark" data-bs-dismiss="offcanvas">Cancel</button>
+            <!-- Triggers Edit Drawer (t4.png) from inside the Details view -->
+            <button type="button" class="btn btn-danger bg-red border-0 px-4" data-bs-toggle="offcanvas" data-bs-target="#editTaxDrawer">
+                <i class="bi bi-sliders me-1"></i> Edit Tax
+            </button>
+        </div>
+    </div>
+</div>
