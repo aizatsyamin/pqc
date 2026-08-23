@@ -1,103 +1,138 @@
-<div class="container mt-4">
-    <!-- Step Header Wrapper -->
-    <div class="row mb-4 text-center">
-        <!-- Step 1: Initiate -->
-        <div class="col-md-4">
-            <div id="step-header-1" class="step-card step-active">
-                <span class="step-number">1</span> Initiate
+<%@ taglib prefix="c" uri="http://sun.com" %>
+<%@ taglib prefix="spring" uri="http://springframework.org" %>
+<%@ taglib prefix="form" uri="http://springframework.org/form" %>
+
+<div id="main-stepper" class="stepper stepper-pills stepper-pb stepper-links d-flex flex-column" data-kt-stepper="true">
+    
+    <!-- STEPPER HEADER PROGRESS BAR -->
+    <div class="stepper-nav d-flex flex-stack ms-0 mb-0 bg-white w-100 ps-8 pe-8" id="stepperNav">
+        <!-- Step 1 Trigger -->
+        <div class="stepper-item ms-0 me-2 current" data-kt-stepper-element="nav">
+            <div class="stepper-wrapper">
+                <div class="stepper-icon"><span class="stepper-number">1</span></div>
+                <div class="stepper-label"><h3 class="stepper-title">Initiate</h3></div>
             </div>
         </div>
-        <!-- Step 2: Confirm -->
-        <div class="col-md-4">
-            <div id="step-header-2" class="step-card step-disabled">
-                <span class="step-number">2</span> Confirm
+        <!-- Step 2 Trigger -->
+        <div class="stepper-item ms-0 me-2" data-kt-stepper-element="nav">
+            <div class="stepper-wrapper">
+                <div class="stepper-icon"><span class="stepper-number">2</span></div>
+                <div class="stepper-label"><h3 class="stepper-title">Confirm</h3></div>
             </div>
         </div>
-        <!-- Step 3: Acknowledge -->
-        <div class="col-md-4">
-            <div id="step-header-3" class="step-card step-disabled">
-                <span class="step-number">3</span> Acknowledge
+        <!-- Step 3 Trigger -->
+        <div class="stepper-item ms-0 me-0" data-kt-stepper-element="nav">
+            <div class="stepper-wrapper">
+                <div class="stepper-icon"><span class="stepper-number">3</span></div>
+                <div class="stepper-label"><h3 class="stepper-title">Acknowledge</h3></div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content Panel -->
-    <div class="card p-4 shadow-sm">
-        <form id="wizardForm">
+    <!-- MAIN BODY CONTAINER -->
+    <div class="card mt-6 shadow-sm">
+        <form class="form w-100" id="inventory-location-form" method="post" autocomplete="off" novalidate="novalidate">
             
-            <!-- SECTION 1: INITIATE FORM FIELDS -->
-            <div id="step-content-1" class="form-step-section">
-                <h5 class="mb-4 text-secondary border-bottom pb-2">Location Details</h5>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small">Inventory Location <span class="text-danger">*</span></label>
-                        <input type="text" id="inputLocation" class="form-control" value="test" required>
+            <!-- =================================================== -->
+            <!-- STEP 1: INITIATE (Form Inputs Section)             -->
+            <!-- =================================================== -->
+            <div id="input-tab" class="card-body current" data-kt-stepper-element="content">
+                <div class="w-100 mt-0 mb-8 p-0">
+                    <h5 class="mb-5 text-gray-700 fw-bold">Location Details</h5>
+                    
+                    <!-- Inventory Location Field -->
+                    <div class="row mb-4 row-form-group">
+                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 fw-bold required" for="inventoryLocation">Inventory Location</label>
+                        <div class="col-md-8 col-xl-10 text-start fx-row">
+                            <input type="text" id="inventoryLocation" name="inventoryLocation" class="form-control bg-transparent" placeholder="Enter Inventory Location" autocomplete="off" spellcheck="false" required />
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small">Status <span class="text-danger">*</span></label>
-                        <select id="inputStatus" class="form-select">
-                            <option value="Active" selected>Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+
+                    <!-- Status Selection Field -->
+                    <div class="row mb-4 row-form-group">
+                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 fw-bold required" for="locationStatus">Status</label>
+                        <div class="col-md-8 col-xl-10 text-start fx-row">
+                            <select id="locationStatus-select" class="form-select" data-control="select2" data-placeholder="Select Status" name="locationStatus">
+                                <option value="Active" selected>Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-12 mt-3">
-                        <label class="form-label text-muted small">Description</label>
-                        <textarea id="inputDescription" class="form-control" rows="2">test</textarea>
+
+                    <!-- Description Textarea Field -->
+                    <div class="row mb-4 row-form-group">
+                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 fw-bold" for="locationDesc">Description</label>
+                        <div class="col-md-8 col-xl-10 text-start fx-row">
+                            <textarea id="locationDesc" name="locationDesc" class="form-control bg-transparent" rows="3" placeholder="Enter Description" spellcheck="false"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-outline-secondary px-4">Cancel</button>
-                    <button type="button" class="btn btn-danger px-4" onclick="goToStep(2)">Next</button>
+
+                <!-- Step 1 Navigation Bar Controls -->
+                <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-4">
+                    <button type="button" class="btn btn-light px-4">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" data-kt-stepper-action="next">Next</button>
                 </div>
             </div>
 
-            <!-- SECTION 2: CONFIRMATION VIEW -->
-            <div id="step-content-2" class="form-step-section d-none">
-                <h5 class="mb-4 text-secondary border-bottom pb-2">Review Location Details</h5>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <p class="text-muted small mb-1">Inventory Location</p>
-                        <p class="fw-semibold" id="reviewLocation">-</p>
+            <!-- =================================================== -->
+            <!-- STEP 2: CONFIRM (Review Plain-text Grid Section)   -->
+            <!-- =================================================== -->
+            <div class="card-body" data-kt-stepper-element="content">
+                <h5 class="mb-5 text-gray-700 fw-bold">Review Location Details</h5>
+                <div class="w-100 mb-8 border-bottom pb-4">
+                    
+                    <div class="row mb-4">
+                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 text-gray-600">Inventory Location</label>
+                        <div class="col-md-8 col-xl-10 fw-semibold" id="reviewLocation">-</div>
                     </div>
-                    <div class="col-md-6">
-                        <p class="text-muted small mb-1">Description</p>
-                        <p class="fw-semibold" id="reviewDescription">-</p>
+                    
+                    <div class="row mb-4">
+                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 text-gray-600">Description</label>
+                        <div class="col-md-8 col-xl-10 fw-semibold" id="reviewDescription">-</div>
                     </div>
-                    <div class="col-md-6">
-                        <p class="text-muted small mb-1">Status</p>
-                        <p class="fw-semibold" id="reviewStatus">-</p>
+                    
+                    <div class="row mb-4">
+                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 text-gray-600">Status</label>
+                        <div class="col-md-8 col-xl-10 fw-semibold" id="reviewStatus">-</div>
                     </div>
+
                 </div>
+
+                <!-- Step 2 Navigation Bar Controls -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(1)">Back</button>
-                    <button type="button" class="btn btn-danger px-4" onclick="goToStep(3)">Confirm & Submit</button>
+                    <button type="button" class="btn btn-light px-4" data-kt-stepper-action="previous">Back</button>
+                    <button type="button" class="btn btn-danger px-4" data-kt-stepper-action="submit">Confirm & Submit</button>
                 </div>
             </div>
 
-            <!-- SECTION 3: SUCCESS ACKNOWLEDGEMENT -->
-            <div id="step-content-3" class="form-step-section d-none text-center py-4">
-                <!-- Green Success Icon Wrap -->
-                <div class="mb-3 text-success fs-1">
-                    <i class="bi bi-check-circle-fill"></i> <!-- standard Bootstrap Icon -->
+            <!-- =================================================== -->
+            <!-- STEP 3: ACKNOWLEDGE (Success Summary Section)     -->
+            <!-- =================================================== -->
+            <div class="card-body text-center py-8" data-kt-stepper-element="content">
+                <!-- Visual Success Indicator Badge -->
+                <div class="mb-4 text-success">
+                    <i class="ki-duotone ki-check-circle fs-3x text-success"></i>
                 </div>
-                <h5 class="fw-semibold mb-4">Inventory Location Created Successfully</h5>
+                <h4 class="fw-bold mb-6">Inventory Location Created Successfully</h4>
                 
-                <div class="row g-3 justify-content-center text-start border p-3 rounded bg-light max-width-review mx-auto mb-4" style="max-width: 500px;">
-                    <div class="col-md-6">
-                        <p class="text-muted small mb-1">Inventory Location</p>
-                        <p class="fw-semibold" id="finalLocation">-</p>
+                <!-- Output Text Containers styled to match your third screenshot -->
+                <div class="row g-3 text-start mx-auto mb-6 p-4 border rounded bg-light" style="max-width: 650px;">
+                    <div class="col-md-6 mb-2">
+                        <span class="d-block text-gray-500 small">Inventory Location</span>
+                        <strong class="text-gray-800" id="finalLocation">-</strong>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <span class="d-block text-gray-500 small">Description</span>
+                        <strong class="text-gray-800" id="finalDescription">-</strong>
                     </div>
                     <div class="col-md-6">
-                        <p class="text-muted small mb-1">Description</p>
-                        <p class="fw-semibold" id="finalDescription">-</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="text-muted small mb-1">Status</p>
-                        <p class="fw-semibold" id="finalStatus">-</p>
+                        <span class="d-block text-gray-500 small">Status</span>
+                        <strong class="text-gray-800" id="finalStatus">-</strong>
                     </div>
                 </div>
                 
-                <button type="button" class="btn btn-danger px-5" onclick="resetWizard()">Done</button>
+                <button type="button" class="btn btn-danger px-6" id="btnDone">Done</button>
             </div>
 
         </form>
