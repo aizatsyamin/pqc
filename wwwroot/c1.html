@@ -2,122 +2,124 @@
 <%@ taglib prefix="spring" uri="http://springframework.org" %>
 <%@ taglib prefix="form" uri="http://springframework.org/form" %>
 
-<div id="main-stepper" class="stepper stepper-pills stepper-pb stepper-links d-flex flex-column" data-kt-stepper="true">
+<!-- Correct Metronic multi-step wrapper tracking structure -->
+<div class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid" id="main-stepper" data-kt-stepper="true">
     
-    <!-- STEPPER HEADER PROGRESS BAR -->
-    <div class="stepper-nav d-flex flex-stack ms-0 mb-0 bg-white w-100 ps-8 pe-8" id="stepperNav">
-        <!-- Step 1 Trigger -->
-        <div class="stepper-item ms-0 me-2 current" data-kt-stepper-element="nav">
-            <div class="stepper-wrapper">
-                <div class="stepper-icon"><span class="stepper-number">1</span></div>
-                <div class="stepper-label"><h3 class="stepper-title">Initiate</h3></div>
+    <!-- STEPPER HEADER PROGRESS TRACK -->
+    <div class="card d-flex justify-content-center justify-content-xl-start flex-row-fluid border-0 bg-transparent mb-6">
+        <div class="stepper-nav d-flex flex-stack flex-wrap justify-content-center bg-white rounded p-6 w-100 shadow-sm" id="stepperNav">
+            
+            <!-- Step 1 Trigger -->
+            <div class="stepper-item mx-2 current" data-kt-stepper-element="nav">
+                <div class="stepper-wrapper d-flex align-items-center">
+                    <div class="stepper-icon"><span class="stepper-number">1</span></div>
+                    <div class="stepper-label"><h3 class="stepper-title fs-6 mb-0">Initiate</h3></div>
+                </div>
             </div>
-        </div>
-        <!-- Step 2 Trigger -->
-        <div class="stepper-item ms-0 me-2" data-kt-stepper-element="nav">
-            <div class="stepper-wrapper">
-                <div class="stepper-icon"><span class="stepper-number">2</span></div>
-                <div class="stepper-label"><h3 class="stepper-title">Confirm</h3></div>
+            
+            <!-- Step 2 Trigger -->
+            <div class="stepper-item mx-2" data-kt-stepper-element="nav">
+                <div class="stepper-wrapper d-flex align-items-center">
+                    <div class="stepper-icon"><span class="stepper-number">2</span></div>
+                    <div class="stepper-label"><h3 class="stepper-title fs-6 mb-0">Confirm</h3></div>
+                </div>
             </div>
-        </div>
-        <!-- Step 3 Trigger -->
-        <div class="stepper-item ms-0 me-0" data-kt-stepper-element="nav">
-            <div class="stepper-wrapper">
-                <div class="stepper-icon"><span class="stepper-number">3</span></div>
-                <div class="stepper-label"><h3 class="stepper-title">Acknowledge</h3></div>
+            
+            <!-- Step 3 Trigger -->
+            <div class="stepper-item mx-2" data-kt-stepper-element="nav">
+                <div class="stepper-wrapper d-flex align-items-center">
+                    <div class="stepper-icon"><span class="stepper-number">3</span></div>
+                    <div class="stepper-label"><h3 class="stepper-title fs-6 mb-0">Acknowledge</h3></div>
+                </div>
             </div>
+            
         </div>
     </div>
 
-    <!-- MAIN BODY CONTAINER -->
-    <div class="card mt-6 shadow-sm">
+    <!-- MAIN FORM BODY PANEL CONTAINER -->
+    <div class="card card-flush shadow-sm w-100">
         <form class="form w-100" id="inventory-location-form" method="post" autocomplete="off" novalidate="novalidate">
             
             <!-- =================================================== -->
-            <!-- STEP 1: INITIATE (Form Inputs Section)             -->
+            <!-- STEP 1: INITIATE                                   -->
             <!-- =================================================== -->
             <div id="input-tab" class="card-body current" data-kt-stepper-element="content">
-                <div class="w-100 mt-0 mb-8 p-0">
-                    <h5 class="mb-5 text-gray-700 fw-bold">Location Details</h5>
+                <div class="w-100 mb-8">
+                    <h5 class="mb-6 text-gray-800 fw-bold border-bottom pb-3">Location Details</h5>
                     
-                    <!-- Inventory Location Field -->
-                    <div class="row mb-4 row-form-group">
-                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 fw-bold required" for="inventoryLocation">Inventory Location</label>
-                        <div class="col-md-8 col-xl-10 text-start fx-row">
-                            <input type="text" id="inventoryLocation" name="inventoryLocation" class="form-control bg-transparent" placeholder="Enter Inventory Location" autocomplete="off" spellcheck="false" required />
+                    <!-- Inventory Location Field Layout Row -->
+                    <div class="row mb-6 align-items-center">
+                        <label class="col-md-3 fw-bold required text-gray-700" for="inventoryLocation">Inventory Location</label>
+                        <div class="col-md-9">
+                            <input type="text" id="inventoryLocation" name="inventoryLocation" class="form-control form-control-solid" placeholder="Enter Inventory Location" autocomplete="off" required />
                         </div>
                     </div>
 
-                    <!-- Status Selection Field -->
-                    <div class="row mb-4 row-form-group">
-                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 fw-bold required" for="locationStatus">Status</label>
-                        <div class="col-md-8 col-xl-10 text-start fx-row">
-                            <select id="locationStatus-select" class="form-select" data-control="select2" data-placeholder="Select Status" name="locationStatus">
+                    <!-- Status Selection Field Layout Row -->
+                    <div class="row mb-6 align-items-center">
+                        <label class="col-md-3 fw-bold required text-gray-700" for="locationStatus">Status</label>
+                        <div class="col-md-9">
+                            <select id="locationStatus-select" class="form-select form-select-solid" data-control="select2" name="locationStatus">
                                 <option value="Active" selected>Active</option>
                                 <option value="Inactive">Inactive</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Description Textarea Field -->
-                    <div class="row mb-4 row-form-group">
-                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 fw-bold" for="locationDesc">Description</label>
-                        <div class="col-md-8 col-xl-10 text-start fx-row">
-                            <textarea id="locationDesc" name="locationDesc" class="form-control bg-transparent" rows="3" placeholder="Enter Description" spellcheck="false"></textarea>
+                    <!-- Description Field Layout Row -->
+                    <div class="row mb-6">
+                        <label class="col-md-3 fw-bold text-gray-700" for="locationDesc">Description</label>
+                        <div class="col-md-9">
+                            <textarea id="locationDesc" name="locationDesc" class="form-control form-control-solid" rows="3" placeholder="Enter Description"></textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 1 Navigation Bar Controls -->
-                <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-4">
-                    <button type="button" class="btn btn-light px-4">Cancel</button>
-                    <button type="button" class="btn btn-danger px-4" data-kt-stepper-action="next">Next</button>
+                <!-- Correct Full-Width Separate Button Footer Container -->
+                <div class="d-flex justify-content-end gap-3 border-top pt-5 mt-6">
+                    <button type="button" class="btn btn-light-secondary btn-color-gray-600 px-6">Cancel</button>
+                    <button type="button" class="btn btn-danger px-6" data-kt-stepper-action="next">Next</button>
                 </div>
             </div>
 
             <!-- =================================================== -->
-            <!-- STEP 2: CONFIRM (Review Plain-text Grid Section)   -->
+            <!-- STEP 2: CONFIRM                                    -->
             <!-- =================================================== -->
             <div class="card-body" data-kt-stepper-element="content">
-                <h5 class="mb-5 text-gray-700 fw-bold">Review Location Details</h5>
-                <div class="w-100 mb-8 border-bottom pb-4">
+                <div class="w-100 mb-8">
+                    <h5 class="mb-6 text-gray-800 fw-bold border-bottom pb-3">Review Location Details</h5>
                     
                     <div class="row mb-4">
-                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 text-gray-600">Inventory Location</label>
-                        <div class="col-md-8 col-xl-10 fw-semibold" id="reviewLocation">-</div>
+                        <label class="col-md-3 text-gray-600">Inventory Location</label>
+                        <div class="col-md-9 fw-bold text-gray-800" id="reviewLocation">-</div>
                     </div>
-                    
                     <div class="row mb-4">
-                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 text-gray-600">Description</label>
-                        <div class="col-md-8 col-xl-10 fw-semibold" id="reviewDescription">-</div>
+                        <label class="col-md-3 text-gray-600">Description</label>
+                        <div class="col-md-9 fw-bold text-gray-800" id="reviewDescription">-</div>
                     </div>
-                    
                     <div class="row mb-4">
-                        <label class="col-md-4 col-xl-2 text-start text-md-end pe-md-12 text-gray-600">Status</label>
-                        <div class="col-md-8 col-xl-10 fw-semibold" id="reviewStatus">-</div>
+                        <label class="col-md-3 text-gray-600">Status</label>
+                        <div class="col-md-9 fw-bold text-gray-800" id="reviewStatus">-</div>
                     </div>
-
                 </div>
 
-                <!-- Step 2 Navigation Bar Controls -->
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-light px-4" data-kt-stepper-action="previous">Back</button>
-                    <button type="button" class="btn btn-danger px-4" data-kt-stepper-action="submit">Confirm & Submit</button>
+                <!-- Footer Nav Action Structure -->
+                <div class="d-flex justify-content-end gap-3 border-top pt-5 mt-6">
+                    <button type="button" class="btn btn-light-secondary btn-color-gray-600 px-6" data-kt-stepper-action="previous">Back</button>
+                    <button type="button" class="btn btn-danger px-6" data-kt-stepper-action="submit">Confirm & Submit</button>
                 </div>
             </div>
 
             <!-- =================================================== -->
-            <!-- STEP 3: ACKNOWLEDGE (Success Summary Section)     -->
+            <!-- STEP 3: ACKNOWLEDGE                                -->
             <!-- =================================================== -->
-            <div class="card-body text-center py-8" data-kt-stepper-element="content">
-                <!-- Visual Success Indicator Badge -->
+            <div class="card-body text-center py-10" data-kt-stepper-element="content">
                 <div class="mb-4 text-success">
                     <i class="ki-duotone ki-check-circle fs-3x text-success"></i>
                 </div>
-                <h4 class="fw-bold mb-6">Inventory Location Created Successfully</h4>
+                <h4 class="fw-bold text-gray-900 mb-6">Inventory Location Created Successfully</h4>
                 
-                <!-- Output Text Containers styled to match your third screenshot -->
-                <div class="row g-3 text-start mx-auto mb-6 p-4 border rounded bg-light" style="max-width: 650px;">
+                <div class="row g-3 text-start mx-auto mb-8 p-5 border rounded bg-light" style="max-width: 600px;">
                     <div class="col-md-6 mb-2">
                         <span class="d-block text-gray-500 small">Inventory Location</span>
                         <strong class="text-gray-800" id="finalLocation">-</strong>
@@ -132,7 +134,7 @@
                     </div>
                 </div>
                 
-                <button type="button" class="btn btn-danger px-6" id="btnDone">Done</button>
+                <button type="button" class="btn btn-danger px-8" id="btnDone">Done</button>
             </div>
 
         </form>
