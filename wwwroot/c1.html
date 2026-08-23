@@ -1,204 +1,161 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jsp/libs/core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<div id="manage-stocks-stepper" class="w-100 mt-2">
-    
-    <!-- =================================================== -->
-    <!-- 1. STEPPER NAVIGATION TRACK                         -->
-    <!-- =================================================== -->
-    <div class="row text-center g-3 mb-6" id="stockStepperNav">
-        <!-- Step 1 Tab Indicator: Initiate -->
-        <div class="col-md-4">
-            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-mstock-1" style="border-color: #dc3545 !important;">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-danger" id="badge-mstock-1" style="width: 24px; height: 24px;">1</span>
-                <span class="step-title fw-semibold text-dark" id="title-mstock-1">Initiate</span>
-            </div>
-        </div>
-        <!-- Step 2 Tab Indicator: Confirm -->
-        <div class="col-md-4">
-            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-mstock-2" style="border-color: #ced4da;">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-mstock-2" style="width: 24px; height: 24px;">2</span>
-                <span class="step-title fw-semibold text-muted" id="title-mstock-2">Confirm</span>
-            </div>
-        </div>
-        <!-- Step 3 Tab Indicator: Acknowledge -->
-        <div class="col-md-4">
-            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-mstock-3" style="border-color: #ced4da;">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-mstock-3" style="width: 24px; height: 24px;">3</span>
-                <span class="step-title fw-semibold text-muted" id="title-mstock-3">Acknowledge</span>
-            </div>
-        </div>
+<!-- Stock Details Offcanvas (Slide-over / Modal) -->
+<div class="offcanvas offcanvas-end w-50" tabindex="-1" id="stockDetailsOffcanvas" aria-labelledby="stockDetailsLabel">
+    <div class="offcanvas-header bg-light border-bottom">
+        <h5 class="offcanvas-title fw-bold text-dark" id="stockDetailsLabel">Stock Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
-    <!-- =================================================== -->
-    <!-- 2. MAIN PROGRESS CONTAINER PANELS                   -->
-    <!-- =================================================== -->
-    <div class="card p-6 shadow-sm border rounded bg-white">
-        <form id="manage-stocks-wizard-form" autocomplete="off" novalidate="novalidate">
-            
-            <!-- =================================================== -->
-            <!-- STEP 1: INITIATE (Interactive Form Inputs)          -->
-            <!-- =================================================== -->
-            <div class="mstock-step-panel" id="panel-mstock-1">
+    <div class="offcanvas-body p-4">
+        <!-- 1. Stock Details Section -->
+        <div class="card mb-4 border rounded shadow-none">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3 text-secondary">Stock Details</h6>
                 
-                <!-- Section Block A: Stock Details Header -->
-                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Stock Details</h6>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-12">
-                        <label class="form-label text-muted small fw-semibold d-block">Action Type <span class="text-danger">*</span></label>
-                        <div class="form-check form-check-inline mt-1">
-                            <input class="form-check-input" type="radio" name="actionType" id="actionStockIn" value="Stock In" checked>
-                            <label class="form-check-label fw-semibold text-dark" for="actionStockIn">Stock In</label>
-                        </div>
-                        <div class="form-check form-check-inline mt-1">
-                            <input class="form-check-input" type="radio" name="actionType" id="actionStockOut" value="Stock Out">
-                            <label class="form-check-label fw-semibold text-dark" for="actionStockOut">Stock Out</label>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <label class="form-label text-muted small fw-semibold">SKU <span class="text-danger">*</span></label>
-                        <select id="skuSelect" class="form-select" data-control="select2">
-                            <option value="SKU-002" data-name="Dutch Lady Full Cream Milk 1L" data-cat="Dairy & Chilled" data-status="In Stock" data-qty="360" data-reorder="120" data-cost="RM 3.20" data-val="RM 1,152.00">SKU-002 - Dutch Lady Full Cream Milk 1L</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Plain-Text Parameter Overview Box Frame -->
-                <div class="row g-3 mb-5 bg-light p-3 rounded border border-light-subtle">
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Product Name</span><span class="fw-semibold text-dark" id="previewProdName">Dutch Lady Full Cream Milk 1L</span></div>
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Category</span><span class="fw-semibold text-dark" id="previewCategory">Dairy & Chilled</span></div>
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Status</span><span class="fw-semibold text-dark" id="previewStatus">In Stock</span></div>
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Break Bulk</span><span class="fw-semibold text-dark">No</span></div>
-                </div>
-
-                <!-- Section Block B: Stock Information Head -->
-                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Stock Information</h6>
-                <div class="row g-3 mb-5 text-start">
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Available Quantity</span><div class="p-2 border rounded bg-light fw-bold text-dark" id="infoAvailQty">360</div></div>
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Reorder Point</span><div class="p-2 border rounded bg-light fw-semibold text-gray-700" id="infoReorder">120</div></div>
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Unit Cost</span><div class="p-2 border rounded bg-light fw-semibold text-gray-700" id="infoUnitCost">RM 3.20</div></div>
-                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Inventory Value</span><div class="p-2 border rounded bg-light fw-bold text-dark" id="infoInvVal">RM 1,152.00</div></div>
-                </div>
-
-                <!-- Section Block C: Tracking Information Head -->
-                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Tracking Information</h6>
-                <div class="row g-3 mb-5">
-                    <div class="col-md-12">
-                        <label class="form-label text-muted small fw-semibold">Inventory Location <span class="text-danger">*</span></label>
-                        <select id="locationSelect" class="form-select" data-control="select2">
-                            <option value="KL Main Warehouse" selected>KL Main Warehouse</option>
-                        </select>
-                    </div>
+                <div class="row g-3 mb-2">
                     <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Batch / Lot No.</label>
-                        <input type="text" id="batchLot" class="form-control" placeholder="Enter Batch / Lot" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Expiry Date</label>
-                        <input type="date" id="expiryDate" class="form-control" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Barcode</label>
-                        <input type="text" id="barcode" class="form-control" placeholder="Enter Barcode" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small">Inventory Stock Location</label>
-                        <div class="p-2 border rounded bg-light text-muted">0 units</div>
+                        <label class="form-label text-muted small mb-1">SKU</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewSku" value="${stock.sku}" readonly>
                     </div>
                 </div>
 
-                <!-- Section Block D: Transaction Details Head -->
-                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Transaction Details</h6>
-                <div class="row g-3 mb-4">
+                <div class="row g-3 mb-2">
                     <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Purpose <span class="text-danger">*</span></label>
-                        <select id="purposeSelect" class="form-select">
-                            <option value="Stock Adjustment" selected>Stock Adjustment</option>
-                        </select>
+                        <label class="form-label text-muted small mb-1">Product Name</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewProductName" value="${stock.productName}" readonly>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Company Name</label>
-                        <input type="text" id="companyName" class="form-control" value="1" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Reference No.</label>
-                        <input type="text" id="referenceNo" class="form-control" value="1" />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Quantity <span class="text-danger">*</span></label>
-                        <input type="number" id="txQuantity" class="form-control" value="1" min="1" required />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Performed By <span class="text-danger">*</span></label>
-                        <input type="text" id="performedBy" class="form-control" value="1" required />
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Remarks</label>
-                        <input type="text" id="remarks" class="form-control" placeholder="Enter Remarks" />
+                        <label class="form-label text-muted small mb-1">Category</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewCategory" value="${stock.category}" readonly>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-end gap-2 border-top pt-4 mt-5">
-                    <button type="button" class="btn btn-outline-secondary px-5">Cancel</button>
-                    <button type="button" class="btn btn-danger px-5" onclick="switchStockStep(2)">Next</button>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Status</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewStatus" value="${stock.status}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Break Bulk</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewBreakBulk" value="${stock.breakBulk ? 'Yes' : 'No'}" readonly>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <!-- =================================================== -->
-            <!-- STEP 2: CONFIRM (Review Grid Panel)                 -->
-            <!-- =================================================== -->
-            <div class="mstock-step-panel d-none" id="panel-mstock-2">
-                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Review Stock In Details</h6>
+        <!-- 2. Stock Information Section -->
+        <div class="card mb-4 border rounded shadow-none">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3 text-secondary">Stock Information</h6>
                 
-                <table class="table table-borderless align-middle mb-0 gs-5 gy-3">
-                    <tbody class="text-dark fw-semibold small">
-                        <tr class="border-bottom border-light"><td class="text-muted w-25">Movement Type</td><td id="revMovement">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">SKU</td><td id="revSku">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Product Name</td><td id="revProdName">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Current Stock</td><td id="revCurrentStock">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Quantity to Add</td><td id="revQtyAdd">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">New Stock Level</td><td class="text-danger fw-bold" id="revNewStock">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Purpose</td><td id="revPurpose">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Reference No.</td><td id="revRefNo">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Company Name</td><td id="revCompName">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Performed By</td><td id="revPerfBy">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Remarks</td><td id="revRemarks">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Inventory Location</td><td id="revLoc">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Batch / Lot No.</td><td id="revBatch">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Expiry Date</td><td id="revExpiry">-</td></tr>
-                        <tr class="border-bottom border-light"><td class="text-muted">Barcode</td><td id="revBarcode">-</td></tr>
-                        <tr><td class="text-muted">Break Bulk</td><td>No</td></tr>
+                <div class="row g-3 mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Available Quantity</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewAvailQty" value="${stock.availableQty}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Reorder Point</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewReorderPoint" value="${stock.reorderPoint}" readonly>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Unit Cost</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewUnitCost" value="RM ${stock.unitCost}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Inventory Value</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="viewInventoryVal" value="RM ${stock.inventoryValue}" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Tracking Information Section -->
+        <div class="card mb-4 border rounded shadow-none">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <h6 class="fw-bold mb-0 text-secondary">Tracking Information</h6>
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill">
+                        ${stock.batchList.size()} batches
+                    </span>
+                </div>
+
+                <c:forEach items="${stock.batchList}" var="batch" varStatus="status">
+                    <div class="p-3 bg-light rounded mb-3 border">
+                        <div class="fw-bold text-muted small mb-2 text-uppercase">Batch ${status.index + 1}</div>
+
+                        <div class="mb-2">
+                            <label class="form-label text-muted small mb-1">Inventory Location</label>
+                            <input type="text" class="form-control form-control-sm bg-white" value="${batch.locationName}" readonly>
+                        </div>
+
+                        <div class="row g-2 mb-2">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small mb-1">Batch / Lot No.</label>
+                                <input type="text" class="form-control form-control-sm bg-white" value="${batch.batchLotNo}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small mb-1">Batch Available Qty</label>
+                                <input type="text" class="form-control form-control-sm bg-white" value="${batch.batchAvailableQty} units" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small mb-1">Expiry Date</label>
+                                <input type="text" class="form-control form-control-sm bg-white" value="${batch.expiryDate}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small mb-1">Barcode</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control bg-white" value="${batch.barcode}" readonly>
+                                    <span class="input-group-text bg-white text-muted"><i class="bi bi-upc-scan"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+
+        <!-- 4. Inventory Stock Location Summary Table -->
+        <div class="card mb-3 border rounded shadow-none">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3 text-secondary">Inventory Stock Location</h6>
+                
+                <table class="table table-borderless table-sm mb-0">
+                    <thead>
+                        <tr class="text-muted border-bottom small">
+                            <th class="fw-semibold">Inventory Location</th>
+                            <th class="fw-semibold text-end">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${stock.locationSummaryList}" var="loc">
+                            <tr class="small">
+                                <td class="py-2">${loc.locationName}</td>
+                                <td class="py-2 text-end fw-semibold">${loc.quantity}</td>
+                            </tr>
+                        </c:forEach>
+                        <tr class="border-top small fw-bold">
+                            <td class="pt-2">Total</td>
+                            <td class="pt-2 text-end">${stock.availableQty}</td>
+                        </tr>
                     </tbody>
                 </table>
-                
-                <div class="d-flex justify-content-end gap-2 border-top pt-4 mt-4">
-                    <button type="button" class="btn btn-outline-secondary px-5" onclick="switchStockStep(1)">Back</button>
-                    <button type="button" class="btn btn-danger px-5" onclick="switchStockStep(3)">Confirm & Submit</button>
-                </div>
             </div>
+        </div>
 
-            <!-- =================================================== -->
-            <!-- STEP 3: ACKNOWLEDGE (Success Summary)               -->
-            <!-- =================================================== -->
-            <div class="mstock-step-panel d-none text-center py-5" id="panel-mstock-3">
-                <div class="mb-4 text-success" style="font-size: 3rem;">
-                    <i class="bi bi-check-circle-fill"></i>
-                </div>
-                <h5 class="fw-bold text-dark mb-5">Stock In Recorded Successfully</h5>
-                
-                <div class="row g-3 text-start mx-auto border rounded bg-light p-4 mb-5" style="max-width: 650px;">
-                    <div class="col-sm-4"><span class="text-muted d-block small mb-1">Type</span><div class="p-2 bg-white border rounded fw-semibold text-dark" id="ackType">-</div></div>
-                    <div class="col-sm-4"><span class="text-muted d-block small mb-1">SKU</span><div class="p-2 bg-white border rounded fw-semibold text-dark" id="ackSku">-</div></div>
-                    <div class="col-sm-4"><span class="text-muted d-block small mb-1">Product</span><div class="p-2 bg-white border rounded fw-semibold text-dark" id="ackProd">-</div></div>
-                    <div class="col-sm-4"><span class="text-muted d-block small mb-1">Quantity</span><div class="p-2 bg-white border rounded fw-bold text-dark" id="ackQty">-</div></div>
-                    <div class="col-sm-4"><span class="text-muted d-block small mb-1">Purpose</span><div class="p-2 bg-white border rounded fw-semibold text-dark" id="ackPurpose">-</div></div>
-                    <div class="col-sm-4"><span class="text-muted d-block small mb-1">Reference No.</span><div class="p-2 bg-white border rounded fw-semibold text-dark" id="ackRefNo">-</div></div>
-                </div>
-                
-                <button type="button" class="btn btn-danger px-6" onclick="resetStockWizard()">Done</button>
-            </div>
-
-        </form>
+        <!-- Action / Print Button -->
+        <div class="text-end mt-4">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-4" onclick="window.print();">
+                <i class="bi bi-printer me-1"></i> Print
+            </button>
+        </div>
     </div>
 </div>
