@@ -1,65 +1,133 @@
-$(document).ready(function () {
-    // 1. Initial Mock Dataset Array structured exactly from your layout screen
-    var stockData = [
-        { sku: "SKU-001", name: "Tropicana Orange Juice 1L", category: "Beverages", qty: 480, reorder: 100, cost: "RM 4.50", value: "RM 2,160.00", movement: "15-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-002", name: "Dutch Lady Full Cream Milk 1L", category: "Dairy & Chilled", qty: 360, reorder: 120, cost: "RM 3.20", value: "RM 1,152.00", movement: "20-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-003", name: "Mister Potato Chips Original 60g", category: "Snacks & Confectionery", qty: 480, reorder: 240, cost: "RM 1.80", value: "RM 864.00", movement: "10-Mar-2026", type: "up", status: "In Stock" },
-        { sku: "SKU-004", name: "Knife Pure Cooking Oil 5L", category: "Cooking Ingredients", qty: 200, reorder: 50, cost: "RM 22.90", value: "RM 4,580.00", movement: "22-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-005", name: "Kikkoman Soy Sauce 500ml", category: "Condiments & Sauces", qty: 288, reorder: 144, cost: "RM 5.90", value: "RM 1,699.20", movement: "08-Mar-2026", type: "up", status: "In Stock" },
-        { sku: "SKU-006", name: "Spritzer Mineral Water 600ml", category: "Beverages", qty: 576, reorder: 240, cost: "RM 0.75", value: "RM 432.00", movement: "28-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-007", name: "Maggi Chicken Instant Noodles 75g", category: "Snacks & Confectionery", qty: 800, reorder: 400, cost: "RM 0.60", value: "RM 480.00", movement: "15-Mar-2026", type: "up", status: "In Stock" },
-        { sku: "SKU-008", name: "Cap Buruh White Sugar 1kg", category: "Cooking Ingredients", qty: 85, reorder: 100, cost: "RM 2.90", value: "RM 246.50", movement: "25-Mar-2026", type: "down", status: "Low Stock" }
-    ];
+<!-- ========================================== -->
+<!-- 1. SUMMARY METRIC CARDS ROW               -->
+<!-- ========================================== -->
+<div class="row g-3 mb-4">
+    <!-- Total Inventory Value -->
+    <div class="col-md-3">
+        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-2 bg-light-danger p-3 text-danger d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="fs-4 fw-bold">$</i>
+                </div>
+                <div>
+                    <span class="text-muted d-block small mb-1">Total Inventory Value</span>
+                    <h4 class="fw-bold text-dark mb-0">MYR 11,613.7</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Total SKUs -->
+    <div class="col-md-3">
+        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-2 bg-light-success p-3 text-success d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="fs-4 fw-bold">&#128451;</i>
+                </div>
+                <div>
+                    <span class="text-muted d-block small mb-1">Total SKUs</span>
+                    <h4 class="fw-bold text-dark mb-0">8</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // 2. Initialize DataTable Engine Instance
-    var table = $('#stockMovementTable').DataTable({
-        data: stockData,
-        dom: 'tpi', // Hide default entry dropdown search bar layout
-        pageLength: 10,
-        ordering: true,
-        columns: [
-            { data: 'sku', className: 'ps-4 text-primary fw-bold' },
-            { data: 'name', className: 'text-dark' },
-            { data: 'category' },
-            { data: 'qty' },
-            { data: 'reorder' },
-            { data: 'cost' },
-            { data: 'value' },
-            { 
-                data: 'movement',
-                render: function(data, type, row) {
-                    // Injecting visual movement directional arrows matching your table screen
-                    var colorClass = row.type === 'up' ? 'text-success' : 'text-danger';
-                    var arrow = row.type === 'up' ? '&uarr;' : '&darr;';
-                    return `<span class="${colorClass} me-1 fw-bold">${arrow}</span> <span class="text-muted small">${data}</span>`;
-                }
-            },
-            { 
-                data: 'status',
-                className: 'pe-4',
-                render: function(data) {
-                    // Conditional Badge Class injection logic with FORCED text override color rules
-                    if (data === 'In Stock') {
-                        return `<span class="badge bg-success" style="color: #000000 !important; font-weight: 600; min-width: 80px; display:inline-block;">In Stock</span>`;
-                    } else if (data === 'Low Stock') {
-                        return `<span class="badge bg-warning" style="color: #000000 !important; font-weight: 600; min-width: 80px; display:inline-block;">Low Stock</span>`;
-                    }
-                    return `<span class="badge bg-secondary" style="color: #000000 !important;">${data}</span>`;
-                }
-            }
-        ]
-    });
+    <!-- Total Stock In -->
+    <div class="col-md-3">
+        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-2 bg-light-primary p-3 text-primary d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="fs-4 fw-bold">+</i>
+                </div>
+                <div>
+                    <span class="text-muted d-block small mb-1">Total Stock In</span>
+                    <h4 class="fw-bold text-dark mb-0">3,752 units</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // 3. Bind External Input Triggers into custom filtering queries
-    $('#customSearchInput').on('keyup', function () {
-        table.search(this.value).draw();
-    });
+    <!-- Total Stocks Out -->
+    <div class="col-md-3">
+        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-2 bg-light-warning p-3 text-warning d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                    <i class="fs-4 fw-bold">-</i>
+                </div>
+                <div>
+                    <span class="text-muted d-block small mb-1">Total Stocks Out</span>
+                    <h4 class="fw-bold text-dark mb-0">483 units</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    $('#filterStatus').on('change', function () {
-        table.column(8).search(this.value).draw();
-    });
+<!-- ========================================== -->
+<!-- 2. FILTER SEARCH FILTERS PANEL            -->
+<!-- ========================================== -->
+<div class="row g-3 align-items-end mb-4">
+    <div class="col-md-3">
+        <label class="form-label text-muted small fw-semibold">Status</label>
+        <select id="filterStatus" class="form-select" data-control="select2">
+            <option value="">All Status</option>
+            <option value="In Stock">In Stock</option>
+            <option value="Low Stock">Low Stock</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label text-muted small fw-semibold">Category</label>
+        <select id="filterCategory" class="form-select" data-control="select2">
+            <option value="">All Categories</option>
+            <c:forEach var="cat" items="${categoryList}">
+                <option value="${cat}">${cat}</option>
+            </c:forEach>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label text-muted small fw-semibold">Search</label>
+        <input type="text" id="customSearchInput" class="form-control" placeholder="Search SKU or product name..." autocomplete="off">
+    </div>
+</div>
 
-    $('#filterCategory').on('change', function () {
-        table.column(2).search(this.value).draw();
-    });
-});
+<!-- ========================================== -->
+<!-- 3. DATA TABLE WRAPPER                     -->
+<!-- ========================================== -->
+<div class="card shadow-sm border rounded bg-white">
+    <!-- Header Controls inside data section -->
+    <div class="card-header d-flex align-items-center justify-content-between bg-light-danger py-3 border-0">
+        <h5 class="card-title fw-bold text-dark m-0 fs-6">Stocks & Movement</h5>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary px-3 bg-white" id="btnExport">
+                <i class="bi bi-download me-1"></i> Export
+            </button>
+            <button type="button" class="btn btn-sm btn-danger px-3" id="btnManageStocks">
+                + Manage Stocks
+            </button>
+        </div>
+    </div>
+    
+    <!-- Table Frame -->
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table id="stockMovementTable" class="table align-middle table-row-dashed fs-6 gy-5 mx-0 w-100">
+                <thead>
+                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0 bg-light border-bottom">
+                        <th class="ps-4">SKU</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Available Qty</th>
+                        <th>Reorder Point</th>
+                        <th>Unit Cost</th>
+                        <th>Stock Value</th>
+                        <th>Last Movement</th>
+                        <th class="pe-4">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 fw-semibold">
+                    <!-- Data handles rows automatically inside client JS controller -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
