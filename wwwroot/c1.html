@@ -1,115 +1,65 @@
-<%@ taglib prefix="c" uri="http://sun.com" %>
-<%@ taglib prefix="spring" uri="http://springframework.org" %>
-<%@ taglib prefix="form" uri="http://springframework.org/form" %>
+$(document).ready(function () {
+    // 1. Initial Mock Dataset Array structured exactly from your layout screen
+    var stockData = [
+        { sku: "SKU-001", name: "Tropicana Orange Juice 1L", category: "Beverages", qty: 480, reorder: 100, cost: "RM 4.50", value: "RM 2,160.00", movement: "15-Mar-2026", type: "down", status: "In Stock" },
+        { sku: "SKU-002", name: "Dutch Lady Full Cream Milk 1L", category: "Dairy & Chilled", qty: 360, reorder: 120, cost: "RM 3.20", value: "RM 1,152.00", movement: "20-Mar-2026", type: "down", status: "In Stock" },
+        { sku: "SKU-003", name: "Mister Potato Chips Original 60g", category: "Snacks & Confectionery", qty: 480, reorder: 240, cost: "RM 1.80", value: "RM 864.00", movement: "10-Mar-2026", type: "up", status: "In Stock" },
+        { sku: "SKU-004", name: "Knife Pure Cooking Oil 5L", category: "Cooking Ingredients", qty: 200, reorder: 50, cost: "RM 22.90", value: "RM 4,580.00", movement: "22-Mar-2026", type: "down", status: "In Stock" },
+        { sku: "SKU-005", name: "Kikkoman Soy Sauce 500ml", category: "Condiments & Sauces", qty: 288, reorder: 144, cost: "RM 5.90", value: "RM 1,699.20", movement: "08-Mar-2026", type: "up", status: "In Stock" },
+        { sku: "SKU-006", name: "Spritzer Mineral Water 600ml", category: "Beverages", qty: 576, reorder: 240, cost: "RM 0.75", value: "RM 432.00", movement: "28-Mar-2026", type: "down", status: "In Stock" },
+        { sku: "SKU-007", name: "Maggi Chicken Instant Noodles 75g", category: "Snacks & Confectionery", qty: 800, reorder: 400, cost: "RM 0.60", value: "RM 480.00", movement: "15-Mar-2026", type: "up", status: "In Stock" },
+        { sku: "SKU-008", name: "Cap Buruh White Sugar 1kg", category: "Cooking Ingredients", qty: 85, reorder: 100, cost: "RM 2.90", value: "RM 246.50", movement: "25-Mar-2026", type: "down", status: "Low Stock" }
+    ];
 
-<div id="category-stepper-container" class="w-100 mt-2">
-    
-    <!-- 1. STEPPER HEADERS (Horizontal Navigation Track) -->
-    <div class="row text-center g-3 mb-6" id="categoryStepperNav">
-        <!-- Step 1 Header: Initiate -->
-        <div class="col-md-4">
-            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-cat-1" style="border-color: #dc3545 !important;">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-danger" id="badge-cat-1" style="width: 24px; height: 24px;">1</span>
-                <span class="step-title fw-semibold text-dark" id="title-cat-1">Initiate</span>
-            </div>
-        </div>
-        <!-- Step 2 Header: Confirm -->
-        <div class="col-md-4">
-            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-cat-2" style="border-color: #ced4da;">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-cat-2" style="width: 24px; height: 24px;">2</span>
-                <span class="step-title fw-semibold text-muted" id="title-cat-2">Confirm</span>
-            </div>
-        </div>
-        <!-- Step 3 Header: Acknowledge -->
-        <div class="col-md-4">
-            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-cat-3" style="border-color: #ced4da;">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-cat-3" style="width: 24px; height: 24px;">3</span>
-                <span class="step-title fw-semibold text-muted" id="title-cat-3">Acknowledge</span>
-            </div>
-        </div>
-    </div>
+    // 2. Initialize DataTable Engine Instance
+    var table = $('#stockMovementTable').DataTable({
+        data: stockData,
+        dom: 'tpi', // Hide default entry dropdown search bar layout
+        pageLength: 10,
+        ordering: true,
+        columns: [
+            { data: 'sku', className: 'ps-4 text-primary fw-bold' },
+            { data: 'name', className: 'text-dark' },
+            { data: 'category' },
+            { data: 'qty' },
+            { data: 'reorder' },
+            { data: 'cost' },
+            { data: 'value' },
+            { 
+                data: 'movement',
+                render: function(data, type, row) {
+                    // Injecting visual movement directional arrows matching your table screen
+                    var colorClass = row.type === 'up' ? 'text-success' : 'text-danger';
+                    var arrow = row.type === 'up' ? '&uarr;' : '&darr;';
+                    return `<span class="${colorClass} me-1 fw-bold">${arrow}</span> <span class="text-muted small">${data}</span>`;
+                }
+            },
+            { 
+                data: 'status',
+                className: 'pe-4',
+                render: function(data) {
+                    // Conditional Badge Class injection logic with FORCED text override color rules
+                    if (data === 'In Stock') {
+                        return `<span class="badge bg-success" style="color: #000000 !important; font-weight: 600; min-width: 80px; display:inline-block;">In Stock</span>`;
+                    } else if (data === 'Low Stock') {
+                        return `<span class="badge bg-warning" style="color: #000000 !important; font-weight: 600; min-width: 80px; display:inline-block;">Low Stock</span>`;
+                    }
+                    return `<span class="badge bg-secondary" style="color: #000000 !important;">${data}</span>`;
+                }
+            }
+        ]
+    });
 
-    <!-- 2. MAIN FORM CARD CONTEXT -->
-    <div class="card p-6 shadow-sm border rounded bg-white">
-        <form id="category-masterlist-form" autocomplete="off" novalidate="novalidate">
-            
-            <!-- =================================================== -->
-            <!-- SECTION 1: INITIATE (Category Input Fields)        -->
-            <!-- =================================================== -->
-            <div class="cat-step-panel" id="panel-cat-1">
-                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Category Details</h6>
-                
-                <div class="row g-4">
-                    <!-- Category Name Input -->
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Category Name <span class="text-danger">*</span></label>
-                        <input type="text" id="categoryName" class="form-control" placeholder="Enter Category Name" required />
-                    </div>
-                    
-                    <!-- Description Input -->
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small fw-semibold">Description</label>
-                        <input type="text" id="categoryDesc" class="form-control" placeholder="Enter Description" />
-                    </div>
-                </div>
+    // 3. Bind External Input Triggers into custom filtering queries
+    $('#customSearchInput').on('keyup', function () {
+        table.search(this.value).draw();
+    });
 
-                <!-- Step 1 Footer Control Buttons -->
-                <div class="d-flex justify-content-end gap-2 border-top pt-4 mt-5">
-                    <button type="button" class="btn btn-outline-secondary px-5">Cancel</button>
-                    <button type="button" class="btn btn-danger px-5" onclick="switchCategoryStep(2)">Next</button>
-                </div>
-            </div>
+    $('#filterStatus').on('change', function () {
+        table.column(8).search(this.value).draw();
+    });
 
-            <!-- =================================================== -->
-            <!-- SECTION 2: CONFIRM (Review Plain-text Grid)        -->
-            <!-- =================================================== -->
-            <div class="cat-step-panel d-none" id="panel-cat-2">
-                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Review Category Details</h6>
-                
-                <div class="row g-4 mb-4">
-                    <div class="col-md-6">
-                        <span class="text-muted d-block small mb-1">Category Name</span>
-                        <div class="fw-bold text-dark border-bottom pb-2" id="reviewCatName">-</div>
-                    </div>
-                    <div class="col-md-6">
-                        <span class="text-muted d-block small mb-1">Description</span>
-                        <div class="fw-bold text-dark border-bottom pb-2" id="reviewCatDesc">-</div>
-                    </div>
-                </div>
-
-                <!-- Step 2 Footer Control Buttons -->
-                <div class="d-flex justify-content-end gap-2 border-top pt-4">
-                    <button type="button" class="btn btn-outline-secondary px-5" onclick="switchCategoryStep(1)">Back</button>
-                    <button type="button" class="btn btn-danger px-5" onclick="switchCategoryStep(3)">Confirm & Submit</button>
-                </div>
-            </div>
-
-            <!-- =================================================== -->
-            <!-- SECTION 3: ACKNOWLEDGE (Success Notification Layout)-->
-            <!-- =================================================== -->
-            <div class="cat-step-panel d-none text-center py-5" id="panel-cat-3">
-                <!-- Circular Success Indicator Checkmark -->
-                <div class="mb-4 text-success" style="font-size: 3rem;">
-                    <i class="bi bi-check-circle-fill"></i>
-                </div>
-                
-                <h5 class="fw-bold text-dark mb-5">Category Created Successfully</h5>
-                
-                <!-- Summary Data Container Grid matching your reference layout screen -->
-                <div class="row g-3 text-start mx-auto p-4 border rounded bg-light mb-5" style="max-width: 600px;">
-                    <div class="col-sm-6">
-                        <span class="text-muted d-block small mb-1">Category Name</span>
-                        <div class="fw-semibold text-dark p-2 bg-white rounded border border-light" id="finalCatName">-</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <span class="text-muted d-block small mb-1">Description</span>
-                        <div class="fw-semibold text-dark p-2 bg-white rounded border border-light" id="finalCatDesc">-</div>
-                    </div>
-                </div>
-                
-                <button type="button" class="btn btn-danger px-6" onclick="resetCategoryWizard()">Done</button>
-            </div>
-
-        </form>
-    </div>
-</div>
+    $('#filterCategory').on('change', function () {
+        table.column(2).search(this.value).draw();
+    });
+});
