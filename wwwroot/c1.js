@@ -1,65 +1,121 @@
-$(document).ready(function () {
-    // 1. Initial Mock Dataset Array structured exactly from your layout screen
-    var stockData = [
-        { sku: "SKU-001", name: "Tropicana Orange Juice 1L", category: "Beverages", qty: 480, reorder: 100, cost: "RM 4.50", value: "RM 2,160.00", movement: "15-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-002", name: "Dutch Lady Full Cream Milk 1L", category: "Dairy & Chilled", qty: 360, reorder: 120, cost: "RM 3.20", value: "RM 1,152.00", movement: "20-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-003", name: "Mister Potato Chips Original 60g", category: "Snacks & Confectionery", qty: 480, reorder: 240, cost: "RM 1.80", value: "RM 864.00", movement: "10-Mar-2026", type: "up", status: "In Stock" },
-        { sku: "SKU-004", name: "Knife Pure Cooking Oil 5L", category: "Cooking Ingredients", qty: 200, reorder: 50, cost: "RM 22.90", value: "RM 4,580.00", movement: "22-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-005", name: "Kikkoman Soy Sauce 500ml", category: "Condiments & Sauces", qty: 288, reorder: 144, cost: "RM 5.90", value: "RM 1,699.20", movement: "08-Mar-2026", type: "up", status: "In Stock" },
-        { sku: "SKU-006", name: "Spritzer Mineral Water 600ml", category: "Beverages", qty: 576, reorder: 240, cost: "RM 0.75", value: "RM 432.00", movement: "28-Mar-2026", type: "down", status: "In Stock" },
-        { sku: "SKU-007", name: "Maggi Chicken Instant Noodles 75g", category: "Snacks & Confectionery", qty: 800, reorder: 400, cost: "RM 0.60", value: "RM 480.00", movement: "15-Mar-2026", type: "up", status: "In Stock" },
-        { sku: "SKU-008", name: "Cap Buruh White Sugar 1kg", category: "Cooking Ingredients", qty: 85, reorder: 100, cost: "RM 2.90", value: "RM 246.50", movement: "25-Mar-2026", type: "down", status: "Low Stock" }
-    ];
+/**
+ * Manages the step-to-step navigation for the Manage Stocks wizard form.
+ * Handles validation, mathematical calculations, and value assignment dynamically.
+ */
+function switchStockStep(targetStep) {
+    
+    // ==========================================================
+    // STEP 1 -> STEP 2: VALIDATION & DATA SYNCHRONIZATION
+    // ==========================================================
+    if (targetStep === 2) {
+        var txQty = parseInt($("#txQuantity").val()) || 0;
+        var perfBy = $("#performedBy").val().trim();
 
-    // 2. Initialize DataTable Engine Instance
-    var table = $('#stockMovementTable').DataTable({
-        data: stockData,
-        dom: 'tpi', // Hide default entry dropdown search bar layout
-        pageLength: 10,
-        ordering: true,
-        columns: [
-            { data: 'sku', className: 'ps-4 text-primary fw-bold' },
-            { data: 'name', className: 'text-dark' },
-            { data: 'category' },
-            { data: 'qty' },
-            { data: 'reorder' },
-            { data: 'cost' },
-            { data: 'value' },
-            { 
-                data: 'movement',
-                render: function(data, type, row) {
-                    // Injecting visual movement directional arrows matching your table screen
-                    var colorClass = row.type === 'up' ? 'text-success' : 'text-danger';
-                    var arrow = row.type === 'up' ? '&uarr;' : '&darr;';
-                    return `<span class="${colorClass} me-1 fw-bold">${arrow}</span> <span class="text-muted small">${data}</span>`;
-                }
-            },
-            { 
-                data: 'status',
-                className: 'pe-4',
-                render: function(data) {
-                    // Conditional Badge Class injection logic with FORCED text override color rules
-                    if (data === 'In Stock') {
-                        return `<span class="badge bg-success" style="color: #000000 !important; font-weight: 600; min-width: 80px; display:inline-block;">In Stock</span>`;
-                    } else if (data === 'Low Stock') {
-                        return `<span class="badge bg-warning" style="color: #000000 !important; font-weight: 600; min-width: 80px; display:inline-block;">Low Stock</span>`;
-                    }
-                    return `<span class="badge bg-secondary" style="color: #000000 !important;">${data}</span>`;
-                }
-            }
-        ]
-    });
+        // Enforce basic required input verification rules
+        if (txQty <= 0 || !perfBy) {
+            alert("Please fill in all mandatory fields marked with *");
+            return;
+        }
 
-    // 3. Bind External Input Triggers into custom filtering queries
-    $('#customSearchInput').on('keyup', function () {
-        table.search(this.value).draw();
-    });
+        // Extract transaction properties from active form elements
+        var movementType = $("input[name='actionType']:checked").val();
+        var currentAvailQty = parseInt($("#infoAvailQty").text()) || 0;
+        
+        // Calculate the hypothetical new inventory value dynamically based on operation type
+        var calculatedNewStock = (movementType === "Stock In") ? (currentAvailQty + txQty) : (currentAvailQty - txQty);
 
-    $('#filterStatus').on('change', function () {
-        table.column(8).search(this.value).draw();
-    });
+        // Map values directly across to Step 2 Review plain text grid
+        $("#revMovement").text(movementType);
+        $("#revSku").text($("#skuSelect").val());
+        $("#revProdName").text($("#previewProdName").text());
+        $("#revCurrentStock").text(currentAvailQty + " units");
+        $("#revQtyAdd").text(txQty + " units");
+        $("#revNewStock").text(calculatedNewStock + " units");
+        $("#revPurpose").text($("#purposeSelect").val());
+        $("#revRefNo").text($("#referenceNo").val() || "-");
+        $("#revCompName").text($("#companyName").val() || "-");
+        $("#revPerfBy").text(perfBy);
+        $("#revRemarks").text($("#remarks").val() || "-");
+        $("#revLoc").text($("#locationSelect").val());
+        $("#revBatch").text($("#batchLot").val() || "-");
+        $("#revExpiry").text($("#expiryDate").val() || "-");
+        $("#revBarcode").text($("#barcode").val() || "-");
+    }
 
-    $('#filterCategory').on('change', function () {
-        table.column(2).search(this.value).draw();
-    });
-});
+    // ==========================================================
+    // STEP 2 -> STEP 3: FINAL CONFIRMATION AND SUMMARY VALUES
+    // ==========================================================
+    if (targetStep === 3) {
+        $("#ackType").text($("input[name='actionType']:checked").val());
+        $("#ackSku").text($("#skuSelect").val());
+        $("#ackProd").text($("#previewProdName").text());
+        $("#ackQty").text($("#txQuantity").val());
+        $("#ackPurpose").text($("#purposeSelect").val());
+        $("#ackRefNo").text($("#referenceNo").val() || "-");
+    }
+
+    // ==========================================================
+    // UI CORE: PANEL LAYER TOGGLING & VIEW SWITCHING
+    // ==========================================================
+    // Hide all step layout windows simultaneously
+    $(".mstock-step-panel").addClass("d-none");
+    
+    // Reveal the targeted step container module smoothly
+    $("#panel-mstock-" + targetStep).removeClass("d-none");
+
+    // Recalculate visual progress and paint color tracks on top navigation tabs
+    updateStockHeaderUI(targetStep);
+}
+
+/**
+ * Handles the responsive UI header classes (Red for Active, Green for Completed, Gray for Pending).
+ */
+function updateStockHeaderUI(activeStep) {
+    // Reset all tabs to standard gray baseline configs
+    for (var i = 1; i <= 3; i++) {
+        $("#nav-mstock-" + i).css("border-color", "#ced4da");
+        $("#badge-mstock-" + i).removeClass("bg-danger bg-success bg-secondary").addClass("bg-secondary");
+        $("#title-mstock-" + i).removeClass("text-dark text-muted").addClass("text-muted");
+    }
+
+    // Apply color modifications dynamically based on active progress
+    if (activeStep === 1) {
+        // Step 1 Active (Red Profile)
+        $("#nav-mstock-1").css("border-color", "#dc3545");
+        $("#badge-mstock-1").removeClass("bg-secondary").addClass("bg-danger");
+        $("#title-mstock-1").removeClass("text-muted").addClass("text-dark");
+    } 
+    else if (activeStep === 2) {
+        // Step 1 Completed (Green Profile)
+        $("#nav-mstock-1").css("border-color", "#198754");
+        $("#badge-mstock-1").removeClass("bg-secondary").addClass("bg-success");
+        $("#title-mstock-1").removeClass("text-muted").addClass("text-dark");
+
+        // Step 2 Active (Red Profile)
+        $("#nav-mstock-2").css("border-color", "#dc3545");
+        $("#badge-mstock-2").removeClass("bg-secondary").addClass("bg-danger");
+        $("#title-mstock-2").removeClass("text-muted").addClass("text-dark");
+    } 
+    else if (activeStep === 3) {
+        // Steps 1 & 2 Completed (Green Profile Track)
+        $("#nav-mstock-1, #nav-mstock-2").css("border-color", "#198754");
+        $("#badge-mstock-1, #badge-mstock-2").removeClass("bg-secondary").addClass("bg-success");
+        $("#title-mstock-1, #title-mstock-2").removeClass("text-muted").addClass("text-dark");
+
+        // Step 3 Active (Red Header Profile)
+        $("#nav-mstock-3").css("border-color", "#dc3545");
+        $("#badge-mstock-3").removeClass("bg-secondary").addClass("bg-danger");
+        $("#title-mstock-3").removeClass("text-muted").addClass("text-dark");
+    }
+}
+
+/**
+ * Resets all underlying input variables and drops application state back to step 1 cleanly.
+ */
+function resetStockWizard() {
+    // Reset standard plain inputs
+    document.getElementById("manage-stocks-wizard-form").reset();
+    
+    // Jump wizard stack context directly back to step 1 interface layout
+    switchStockStep(1);
+}
