@@ -1,76 +1,73 @@
-function navigateStep(targetStep) {
-    // 1. If moving forward from step 1, validate inputs
+function switchCategoryStep(targetStep) {
+    // 1. Enforce strict input checks before transitioning out of Step 1
     if (targetStep === 2) {
-        var locationInput = $("#inventoryLocation").val().trim();
-        if (!locationInput) {
-            alert("Inventory Location field is required.");
+        var catNameValue = $("#categoryName").val().trim();
+        if (!catNameValue) {
+            alert("Category Name field is required.");
             return;
         }
 
-        // Fill review text tags
-        $("#lblLocation").text(locationInput);
-        $("#lblStatus").text($("#locationStatus").val());
-        $("#lblDescription").text($("#locationDesc").val().trim() || "-");
+        // Map parameter values straight down onto the Step 2 View block
+        $("#reviewCatName").text(catNameValue);
+        $("#reviewCatDesc").text($("#categoryDesc").val().trim() || "-");
     }
 
-    // 2. If confirming on step 2, move text to success screen
+    // 2. Map structural values over onto the final Step 3 success screen container
     if (targetStep === 3) {
-        $("#successLocation").text($("#inventoryLocation").val());
-        $("#successStatus").text($("#locationStatus").val());
-        $("#successDescription").text($("#locationDesc").val().trim() || "-");
+        $("#finalCatName").text($("#categoryName").val().trim());
+        $("#finalCatDesc").text($("#categoryDesc").val().trim() || "-");
+        
+        // NOTE: If you need to make an AJAX POST request to your database, place it here.
     }
 
-    // 3. Hide all tab view components and toggle visible panels
-    $(".step-content-panel").addClass("d-none");
-    $("#panel-step-" + targetStep).removeClass("d-none");
+    // 3. Clear visibility states across panel components and open targeted screen
+    $(".cat-step-panel").addClass("d-none");
+    $("#panel-cat-" + targetStep).removeClass("d-none");
 
-    // 4. Update tab headers color tracks dynamically
-    updateTabHeaderStyles(targetStep);
+    // 4. Update the visual states of the horizontal header trackers
+    updateCategoryHeaderUI(targetStep);
 }
 
-function updateTabHeaderStyles(activeStep) {
-    // Reset tabs to default styling
+function updateCategoryHeaderUI(activeStep) {
+    // Clear styles back to baseline defaults
     for (var i = 1; i <= 3; i++) {
-        var tab = $("#nav-step-" + i);
-        var badge = tab.find(".step-badge");
-        var text = tab.find(".step-title");
-
-        tab.removeClass("border-danger border-success").css("border-color", "#ced4da");
-        badge.removeClass("bg-danger bg-success bg-secondary").addClass("bg-secondary");
-        text.removeClass("text-dark text-muted").addClass("text-muted");
+        $("#nav-cat-" + i).css("border-color", "#ced4da");
+        $("#badge-cat-" + i).removeClass("bg-danger bg-success bg-secondary").addClass("bg-secondary");
+        $("#title-cat-" + i).removeClass("text-dark text-muted").addClass("text-muted");
     }
 
-    // Apply color modifications dynamically based on the active step position
+    // Evaluate step index context configurations dynamically
     if (activeStep === 1) {
-        $("#nav-step-1").addClass("border-danger").css("border-color", "");
-        $("#nav-step-1 .step-badge").removeClass("bg-secondary").addClass("bg-danger");
-        $("#nav-step-1 .step-title").removeClass("text-muted").addClass("text-dark");
+        $("#nav-cat-1").css("border-color", "#dc3545");
+        $("#badge-cat-1").removeClass("bg-secondary").addClass("bg-danger");
+        $("#title-cat-1").removeClass("text-muted").addClass("text-dark");
     } 
     else if (activeStep === 2) {
-        // Step 1 Completed (Green)
-        $("#nav-step-1").addClass("border-success");
-        $("#nav-step-1 .step-badge").removeClass("bg-secondary").addClass("bg-success");
-        $("#nav-step-1 .step-title").removeClass("text-muted").addClass("text-dark");
+        // Step 1 Completed -> Green State Layout
+        $("#nav-cat-1").css("border-color", "#198754");
+        $("#badge-cat-1").removeClass("bg-secondary").addClass("bg-success");
+        $("#title-cat-1").removeClass("text-muted").addClass("text-dark");
 
-        // Step 2 Active (Red)
-        $("#nav-step-2").addClass("border-danger");
-        $("#nav-step-2 .step-badge").removeClass("bg-secondary").addClass("bg-danger");
-        $("#nav-step-2 .step-title").removeClass("text-muted").addClass("text-dark");
+        // Step 2 Active -> Red State Layout
+        $("#nav-cat-2").css("border-color", "#dc3545");
+        $("#badge-cat-2").removeClass("bg-secondary").addClass("bg-danger");
+        $("#title-cat-2").removeClass("text-muted").addClass("text-dark");
     } 
     else if (activeStep === 3) {
-        // Steps 1 & 2 Completed (Green)
-        $("#nav-step-1, #nav-step-2").addClass("border-success");
-        $("#nav-step-1 .step-badge, #nav-step-2 .step-badge").removeClass("bg-secondary").addClass("bg-success");
-        $("#nav-step-1 .step-title, #nav-step-2 .step-title").removeClass("text-muted").addClass("text-dark");
+        // Steps 1 & 2 Completed -> Green State Layout
+        $("#nav-cat-1, #nav-cat-2").css("border-color", "#198754");
+        $("#badge-cat-1, #badge-cat-2").removeClass("bg-secondary").addClass("bg-success");
+        $("#title-cat-1, #title-cat-2").removeClass("text-muted").addClass("text-dark");
 
-        // Step 3 Active (Red Header Outline match)
-        $("#nav-step-3").addClass("border-danger");
-        $("#nav-step-3 .step-badge").removeClass("bg-secondary").addClass("bg-danger");
-        $("#nav-step-3 .step-title").removeClass("text-muted").addClass("text-dark");
+        // Step 3 Active -> Red Outline Tracker
+        $("#nav-cat-3").css("border-color", "#dc3545");
+        $("#badge-cat-3").removeClass("bg-secondary").addClass("bg-danger");
+        $("#title-cat-3").removeClass("text-muted").addClass("text-dark");
     }
 }
 
-function resetFormWizard() {
-    $("#inventory-location-form")[0].reset();
-    navigateStep(1);
+function resetCategoryWizard() {
+    // Standard form reset execution handler
+    document.getElementById("category-masterlist-form").reset();
+    switchCategoryStep(1);
 }
