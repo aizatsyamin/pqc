@@ -1,55 +1,56 @@
-/* Custom Red Theme */
-.bg-red { background-color: #ff0000 !important; }
-.text-red { color: #ff0000 !important; }
-
-/* Badge Styling */
-.custom-badge {
-    padding: 6px 12px;
+/* Step Card Styling */
+.step-card {
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
     font-weight: 500;
-    border-radius: 4px;
-}
-.badge-active {
-    background-color: #d1e7dd; 
-    color: #0f5132;
-}
-.badge-inactive {
-    background-color: #e2e3e5; 
-    color: #41464c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #fff;
+    color: #6c757d;
 }
 
-/* Custom Red Radio Button Styling (for the Drawer) */
-.custom-radio:checked {
-    background-color: #ff0000;
-    border-color: #ff0000;
-}
-.custom-radio {
-    width: 1.25em;
-    height: 1.25em;
-    margin-top: 0.1em;
+/* Base style for circle indicators */
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: bold;
 }
 
-/* DataTables Pagination Styling (The Red Blocks) */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    border-radius: 4px !important;
-    padding: 0.5rem 0.75rem !important;
-    margin-left: 5px !important;
-    border: none !important;
-    font-weight: bold;
-    color: #333 !important;
+/* Red Active Step layout */
+.step-active {
+    border: 1px solid #dc3545 !important;
+    color: #212529 !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background: #f8f9fa !important;
-    color: #000 !important;
-    border: none !important;
+.step-active .step-number {
+    background-color: #dc3545;
+    color: #fff;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.current, 
-.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background: #ff0000 !important; /* Red background for active page */
-    color: white !important;
-    border: none !important;
+
+/* Green Completed Step layout */
+.step-completed {
+    border: 1px solid #198754 !important;
+    color: #212529 !important;
 }
-.dataTables_info {
-    font-weight: bold;
-    color: #000 !important;
-    padding-top: 1.5rem !important;
+.step-completed .step-number {
+    background-color: #198754;
+    color: #fff;
+}
+
+/* Disabled gray layout */
+.step-disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    opacity: 0.7;
+}
+.step-disabled .step-number {
+    background-color: #6c757d;
+    color: #fff;
 }
