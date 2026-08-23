@@ -1,161 +1,160 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!-- Stock Details Offcanvas (Slide-over / Modal) -->
-<div class="offcanvas offcanvas-end w-50" tabindex="-1" id="stockDetailsOffcanvas" aria-labelledby="stockDetailsLabel">
-    <div class="offcanvas-header bg-light border-bottom">
-        <h5 class="offcanvas-title fw-bold text-dark" id="stockDetailsLabel">Stock Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<div class="container-fluid px-0">
+    <!-- Filter Card -->
+    <div class="card border-0 shadow-sm rounded-3 mb-3">
+        <div class="card-body p-3">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label text-secondary small fw-semibold mb-1">Movement Type</label>
+                    <select id="filterMovementType" class="form-select form-select-sm">
+                        <option value="">All Types</option>
+                        <option value="Stock In">Stock In</option>
+                        <option value="Stock Out">Stock Out</option>
+                        <option value="Transfer In">Transfer In</option>
+                        <option value="Transfer Out">Transfer Out</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-secondary small fw-semibold mb-1">SKU</label>
+                    <select id="filterSku" class="form-select form-select-sm">
+                        <option value="">All SKUs</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label text-secondary small fw-semibold mb-1">Search</label>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-search"></i></span>
+                        <input type="text" id="customSearch" class="form-control border-start-0" placeholder="Search reference no, company...">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="offcanvas-body p-4">
-        <!-- 1. Stock Details Section -->
-        <div class="card mb-4 border rounded shadow-none">
-            <div class="card-body">
-                <h6 class="fw-bold mb-3 text-secondary">Stock Details</h6>
-                
-                <div class="row g-3 mb-2">
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">SKU</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewSku" value="${stock.sku}" readonly>
-                    </div>
-                </div>
-
-                <div class="row g-3 mb-2">
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Product Name</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewProductName" value="${stock.productName}" readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Category</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewCategory" value="${stock.category}" readonly>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Status</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewStatus" value="${stock.status}" readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Break Bulk</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewBreakBulk" value="${stock.breakBulk ? 'Yes' : 'No'}" readonly>
-                    </div>
-                </div>
-            </div>
+    <!-- Table Container Card -->
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-danger-subtle bg-opacity-25 border-bottom d-flex justify-content-between align-items-center py-2 px-3">
+            <span class="fw-bold text-dark fs-6">Stock Movement History</span>
+            <span class="text-muted small" id="recordCount">0 records</span>
         </div>
-
-        <!-- 2. Stock Information Section -->
-        <div class="card mb-4 border rounded shadow-none">
-            <div class="card-body">
-                <h6 class="fw-bold mb-3 text-secondary">Stock Information</h6>
-                
-                <div class="row g-3 mb-2">
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Available Quantity</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewAvailQty" value="${stock.availableQty}" readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Reorder Point</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewReorderPoint" value="${stock.reorderPoint}" readonly>
-                    </div>
-                </div>
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Unit Cost</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewUnitCost" value="RM ${stock.unitCost}" readonly>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label text-muted small mb-1">Inventory Value</label>
-                        <input type="text" class="form-control form-control-sm bg-light" id="viewInventoryVal" value="RM ${stock.inventoryValue}" readonly>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Tracking Information Section -->
-        <div class="card mb-4 border rounded shadow-none">
-            <div class="card-body">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <h6 class="fw-bold mb-0 text-secondary">Tracking Information</h6>
-                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill">
-                        ${stock.batchList.size()} batches
-                    </span>
-                </div>
-
-                <c:forEach items="${stock.batchList}" var="batch" varStatus="status">
-                    <div class="p-3 bg-light rounded mb-3 border">
-                        <div class="fw-bold text-muted small mb-2 text-uppercase">Batch ${status.index + 1}</div>
-
-                        <div class="mb-2">
-                            <label class="form-label text-muted small mb-1">Inventory Location</label>
-                            <input type="text" class="form-control form-control-sm bg-white" value="${batch.locationName}" readonly>
-                        </div>
-
-                        <div class="row g-2 mb-2">
-                            <div class="col-md-6">
-                                <label class="form-label text-muted small mb-1">Batch / Lot No.</label>
-                                <input type="text" class="form-control form-control-sm bg-white" value="${batch.batchLotNo}" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-muted small mb-1">Batch Available Qty</label>
-                                <input type="text" class="form-control form-control-sm bg-white" value="${batch.batchAvailableQty} units" readonly>
-                            </div>
-                        </div>
-
-                        <div class="row g-2">
-                            <div class="col-md-6">
-                                <label class="form-label text-muted small mb-1">Expiry Date</label>
-                                <input type="text" class="form-control form-control-sm bg-white" value="${batch.expiryDate}" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-muted small mb-1">Barcode</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control bg-white" value="${batch.barcode}" readonly>
-                                    <span class="input-group-text bg-white text-muted"><i class="bi bi-upc-scan"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
-
-        <!-- 4. Inventory Stock Location Summary Table -->
-        <div class="card mb-3 border rounded shadow-none">
-            <div class="card-body">
-                <h6 class="fw-bold mb-3 text-secondary">Inventory Stock Location</h6>
-                
-                <table class="table table-borderless table-sm mb-0">
-                    <thead>
-                        <tr class="text-muted border-bottom small">
-                            <th class="fw-semibold">Inventory Location</th>
-                            <th class="fw-semibold text-end">Quantity</th>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table id="stockMovementTable" class="table table-hover align-middle w-100 mb-0">
+                    <thead class="table-light small text-muted">
+                        <tr>
+                            <th>Reference No.</th>
+                            <th>Company / Location</th>
+                            <th>SKU</th>
+                            <th>Product Name</th>
+                            <th class="text-center">Quantity</th>
+                            <th>Purpose</th>
+                            <th class="text-center">Movement Type</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <c:forEach items="${stock.locationSummaryList}" var="loc">
-                            <tr class="small">
-                                <td class="py-2">${loc.locationName}</td>
-                                <td class="py-2 text-end fw-semibold">${loc.quantity}</td>
-                            </tr>
-                        </c:forEach>
-                        <tr class="border-top small fw-bold">
-                            <td class="pt-2">Total</td>
-                            <td class="pt-2 text-end">${stock.availableQty}</td>
-                        </tr>
-                    </tbody>
+                    <tbody class="small"></tbody>
                 </table>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Action / Print Button -->
-        <div class="text-end mt-4">
-            <button type="button" class="btn btn-outline-secondary btn-sm px-4" onclick="window.print();">
-                <i class="bi bi-printer me-1"></i> Print
-            </button>
+<!-- Stock Movement Detail Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="movementDetailOffcanvas" style="width: 580px;">
+    <div class="offcanvas-header bg-danger-subtle bg-opacity-25 border-bottom py-2">
+        <h6 class="offcanvas-title fw-bold text-dark">Stock Movement Detail</h6>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-3">
+        <!-- Stock Details Section -->
+        <div class="card border rounded-3 mb-3 shadow-none">
+            <div class="card-body p-3">
+                <h6 class="fw-bold text-secondary mb-3 small">Stock Details</h6>
+                
+                <div class="mb-2">
+                    <label class="form-label text-muted small mb-1">SKU</label>
+                    <input type="text" class="form-control form-control-sm bg-light" id="dtlSku" readonly>
+                </div>
+                
+                <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Product Name</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlProductName" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Category</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlCategory" readonly>
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Status</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlStatus" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Break Bulk</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlBreakBulk" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movement Details Section -->
+        <div class="card border rounded-3 mb-4 shadow-none">
+            <div class="card-body p-3">
+                <h6 class="fw-bold text-secondary mb-3 small">Movement Details</h6>
+                
+                <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Movement Type</label>
+                        <input type="text" class="form-control form-control-sm bg-light text-success fw-bold" id="dtlMovementType" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Date</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlDate" readonly>
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Reference No.</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlRefNo" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Company Name</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlCompanyName" readonly>
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-2">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Quantity</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlQty" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small mb-1">Purpose</label>
+                        <input type="text" class="form-control form-control-sm bg-light" id="dtlPurpose" readonly>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label text-muted small mb-1">Performed By</label>
+                    <input type="text" class="form-control form-control-sm bg-light" id="dtlPerformedBy" readonly>
+                </div>
+
+                <div>
+                    <label class="form-label text-muted small mb-1">Remarks</label>
+                    <textarea class="form-control form-control-sm bg-light" id="dtlRemarks" rows="2" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-end">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-4" data-bs-dismiss="offcanvas">Close</button>
         </div>
     </div>
 </div>
+
+<script src="${pageContext.request.contextPath}/resources/js/stockMovement.js"></script>
