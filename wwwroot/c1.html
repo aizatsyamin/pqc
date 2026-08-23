@@ -1,133 +1,131 @@
-<!-- ========================================== -->
-<!-- 1. SUMMARY METRIC CARDS ROW               -->
-<!-- ========================================== -->
-<div class="row g-3 mb-4">
-    <!-- Total Inventory Value -->
-    <div class="col-md-3">
-        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
-            <div class="d-flex align-items-center gap-3">
-                <div class="rounded-2 bg-light-danger p-3 text-danger d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                    <i class="fs-4 fw-bold">$</i>
-                </div>
-                <div>
-                    <span class="text-muted d-block small mb-1">Total Inventory Value</span>
-                    <h4 class="fw-bold text-dark mb-0">MYR 11,613.7</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+<%@ taglib prefix="c" uri="http://sun.com" %>
+<%@ taglib prefix="spring" uri="http://springframework.org" %>
+<%@ taglib prefix="form" uri="http://springframework.org/form" %>
+
+<div id="manage-stocks-stepper" class="w-100 mt-2">
     
-    <!-- Total SKUs -->
-    <div class="col-md-3">
-        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
-            <div class="d-flex align-items-center gap-3">
-                <div class="rounded-2 bg-light-success p-3 text-success d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                    <i class="fs-4 fw-bold">&#128451;</i>
-                </div>
-                <div>
-                    <span class="text-muted d-block small mb-1">Total SKUs</span>
-                    <h4 class="fw-bold text-dark mb-0">8</h4>
-                </div>
+    <!-- 1. STEPPER HEADERS (Horizontal Navigation Track) -->
+    <div class="row text-center g-3 mb-6" id="stockStepperNav">
+        <!-- Step 1 Header: Initiate -->
+        <div class="col-md-4">
+            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-mstock-1" style="border-color: #dc3545 !important;">
+                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-danger" id="badge-mstock-1" style="width: 24px; height: 24px;">1</span>
+                <span class="step-title fw-semibold text-dark" id="title-mstock-1">Initiate</span>
+            </div>
+        </div>
+        <!-- Step 2 Header: Confirm -->
+        <div class="col-md-4">
+            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-mstock-2" style="border-color: #ced4da;">
+                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-mstock-2" style="width: 24px; height: 24px;">2</span>
+                <span class="step-title fw-semibold text-muted" id="title-mstock-2">Confirm</span>
+            </div>
+        </div>
+        <!-- Step 3 Header: Acknowledge -->
+        <div class="col-md-4">
+            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-mstock-3" style="border-color: #ced4da;">
+                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-mstock-3" style="width: 24px; height: 24px;">3</span>
+                <span class="step-title fw-semibold text-muted" id="title-mstock-3">Acknowledge</span>
             </div>
         </div>
     </div>
 
-    <!-- Total Stock In -->
-    <div class="col-md-3">
-        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
-            <div class="d-flex align-items-center gap-3">
-                <div class="rounded-2 bg-light-primary p-3 text-primary d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                    <i class="fs-4 fw-bold">+</i>
+    <!-- 2. MAIN FORM CARD CONTEXT -->
+    <div class="card p-6 shadow-sm border rounded bg-white">
+        <form id="manage-stocks-wizard-form" autocomplete="off" novalidate="novalidate">
+            
+            <!-- =================================================== -->
+            <!-- SECTION 1: INITIATE (Form Input View)             -->
+            <!-- =================================================== -->
+            <div class="mstock-step-panel" id="panel-mstock-1">
+                
+                <!-- Group 1: Stock Details -->
+                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Stock Details</h6>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-12">
+                        <label class="form-label text-muted small fw-semibold d-block">Action Type <span class="text-danger">*</span></label>
+                        <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input" type="radio" name="actionType" id="actionStockIn" value="Stock In" checked>
+                            <label class="form-check-label fw-semibold text-dark" for="actionStockIn">Stock In</label>
+                        </div>
+                        <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input" type="radio" name="actionType" id="actionStockOut" value="Stock Out">
+                            <label class="form-check-label fw-semibold text-dark" for="actionStockOut">Stock Out</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label text-muted small fw-semibold">SKU <span class="text-danger">*</span></label>
+                        <select id="skuSelect" class="form-select" data-control="select2">
+                            <option value="SKU-002" data-name="Dutch Lady Full Cream Milk 1L" data-cat="Dairy & Chilled" data-status="In Stock" data-qty="360" data-reorder="120" data-cost="RM 3.20" data-val="RM 1,152.00">SKU-002 - Dutch Lady Full Cream Milk 1L</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-muted d-block small mb-1">Total Stock In</span>
-                    <h4 class="fw-bold text-dark mb-0">3,752 units</h4>
+                <div class="row g-3 mb-5 bg-light p-3 rounded border border-light-subtle">
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Product Name</span><span class="fw-semibold text-dark" id="previewProdName">Dutch Lady Full Cream Milk 1L</span></div>
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Category</span><span class="fw-semibold text-dark" id="previewCategory">Dairy & Chilled</span></div>
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Status</span><span class="fw-semibold text-dark" id="previewStatus">In Stock</span></div>
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Break Bulk</span><span class="fw-semibold text-dark">No</span></div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Total Stocks Out -->
-    <div class="col-md-3">
-        <div class="card p-4 shadow-sm h-100 bg-white border border-light">
-            <div class="d-flex align-items-center gap-3">
-                <div class="rounded-2 bg-light-warning p-3 text-warning d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                    <i class="fs-4 fw-bold">-</i>
+                <!-- Group 2: Stock Information -->
+                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Stock Information</h6>
+                <div class="row g-3 mb-5 text-start">
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Available Quantity</span><div class="p-2 border rounded bg-light fw-bold text-dark" id="infoAvailQty">360</div></div>
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Reorder Point</span><div class="p-2 border rounded bg-light fw-semibold text-gray-700" id="infoReorder">120</div></div>
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Unit Cost</span><div class="p-2 border rounded bg-light fw-semibold text-gray-700" id="infoUnitCost">RM 3.20</div></div>
+                    <div class="col-md-3"><span class="text-muted d-block small mb-1">Inventory Value</span><div class="p-2 border rounded bg-light fw-bold text-dark" id="infoInvVal">RM 1,152.00</div></div>
                 </div>
-                <div>
-                    <span class="text-muted d-block small mb-1">Total Stocks Out</span>
-                    <h4 class="fw-bold text-dark mb-0">483 units</h4>
+
+                <!-- Group 3: Tracking Information -->
+                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Tracking Information</h6>
+                <div class="row g-3 mb-5">
+                    <div class="col-md-12">
+                        <label class="form-label text-muted small fw-semibold">Inventory Location <span class="text-danger">*</span></label>
+                        <select id="locationSelect" class="form-select" data-control="select2">
+                            <option value="KL Main Warehouse" selected>KL Main Warehouse</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Batch / Lot No.</label>
+                        <input type="text" id="batchLot" class="form-control" placeholder="Enter Batch / Lot" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Expiry Date</label>
+                        <input type="date" id="expiryDate" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Barcode</label>
+                        <input type="text" id="barcode" class="form-control" placeholder="Enter Barcode" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Inventory Stock Location</label>
+                        <div class="p-2 border rounded bg-light text-muted">0 units</div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- ========================================== -->
-<!-- 2. FILTER SEARCH FILTERS PANEL            -->
-<!-- ========================================== -->
-<div class="row g-3 align-items-end mb-4">
-    <div class="col-md-3">
-        <label class="form-label text-muted small fw-semibold">Status</label>
-        <select id="filterStatus" class="form-select" data-control="select2">
-            <option value="">All Status</option>
-            <option value="In Stock">In Stock</option>
-            <option value="Low Stock">Low Stock</option>
-        </select>
-    </div>
-    <div class="col-md-3">
-        <label class="form-label text-muted small fw-semibold">Category</label>
-        <select id="filterCategory" class="form-select" data-control="select2">
-            <option value="">All Categories</option>
-            <c:forEach var="cat" items="${categoryList}">
-                <option value="${cat}">${cat}</option>
-            </c:forEach>
-        </select>
-    </div>
-    <div class="col-md-6">
-        <label class="form-label text-muted small fw-semibold">Search</label>
-        <input type="text" id="customSearchInput" class="form-control" placeholder="Search SKU or product name..." autocomplete="off">
-    </div>
-</div>
-
-<!-- ========================================== -->
-<!-- 3. DATA TABLE WRAPPER                     -->
-<!-- ========================================== -->
-<div class="card shadow-sm border rounded bg-white">
-    <!-- Header Controls inside data section -->
-    <div class="card-header d-flex align-items-center justify-content-between bg-light-danger py-3 border-0">
-        <h5 class="card-title fw-bold text-dark m-0 fs-6">Stocks & Movement</h5>
-        <div class="d-flex gap-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary px-3 bg-white" id="btnExport">
-                <i class="bi bi-download me-1"></i> Export
-            </button>
-            <button type="button" class="btn btn-sm btn-danger px-3" id="btnManageStocks">
-                + Manage Stocks
-            </button>
-        </div>
-    </div>
-    
-    <!-- Table Frame -->
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table id="stockMovementTable" class="table align-middle table-row-dashed fs-6 gy-5 mx-0 w-100">
-                <thead>
-                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0 bg-light border-bottom">
-                        <th class="ps-4">SKU</th>
-                        <th>Product Name</th>
-                        <th>Category</th>
-                        <th>Available Qty</th>
-                        <th>Reorder Point</th>
-                        <th>Unit Cost</th>
-                        <th>Stock Value</th>
-                        <th>Last Movement</th>
-                        <th class="pe-4">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700 fw-semibold">
-                    <!-- Data handles rows automatically inside client JS controller -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+                <!-- Group 4: Transaction Details -->
+                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Transaction Details</h6>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Purpose <span class="text-danger">*</span></label>
+                        <select id="purposeSelect" class="form-select">
+                            <option value="Stock Adjustment" selected>Stock Adjustment</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Company Name</label>
+                        <input type="text" id="companyName" class="form-control" value="1" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Reference No.</label>
+                        <input type="text" id="referenceNo" class="form-control" value="1" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Quantity <span class="text-danger">*</span></label>
+                        <input type="number" id="txQuantity" class="form-control" value="1" min="1" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Performed By <span class="text-danger">*</span></label>
+                        <input type="text" id="performedBy" class="form-control" value="1" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Remarks</label>
