@@ -1,54 +1,64 @@
-function goToStep(stepNumber) {
-    // 1. Hide all form step view sections
-    $('.form-step-section').addClass('d-none');
-    
-    // 2. Show the target view section
-    $(`#step-content-${stepNumber}`).removeClass('d-none');
-
-    // 3. Sync and structure the Step Progress Cards
-    if (stepNumber === 1) {
-        updateHeader(1, 'active');
-        updateHeader(2, 'disabled');
-        updateHeader(3, 'disabled');
-    } 
-    else if (stepNumber === 2) {
-        // Pop input value strings over into view labels dynamically
-        $('#reviewLocation').text($('#inputLocation').val());
-        $('#reviewStatus').text($('#inputStatus').val());
-        $('#reviewDescription').text($('#inputDescription').val());
-
-        updateHeader(1, 'completed');
-        updateHeader(2, 'active');
-        updateHeader(3, 'disabled');
-    } 
-    else if (stepNumber === 3) {
-        // Move confirmed items into final summary list view block
-        $('#finalLocation').text($('#inputLocation').val());
-        $('#finalStatus').text($('#inputStatus').val());
-        $('#finalDescription').text($('#inputDescription').val());
-
-        updateHeader(1, 'completed');
-        updateHeader(2, 'completed');
-        updateHeader(3, 'active');
+$(document).ready(function () {
+    // 1. Hook into your project's existing Metronic stepper engine instance
+    var stepperElement = document.querySelector("#main-stepper");
+    var stepper = KTStepper.getInstance(stepperElement);
+    if (!stepper) {
+        stepper = new KTStepper(stepperElement);
     }
-}
 
-// Utility function handling header css mutations smoothly
-function updateHeader(id, state) {
-    let header = $(`#step-header-${id}`);
-    header.removeClass('step-active step-completed step-disabled');
-    
-    if (state === 'active') {
-        header.addClass('step-active');
-    } else if (state === 'completed') {
-        header.addClass('step-completed');
-    } else {
-        header.addClass('step-disabled');
-    }
-}
+    // 2. Handle NEXT button logic (Step 1 -> Step 2 transition)
+    stepper.on("kt.stepper.next", function (stepperObj) {
+        var currentStep = stepperObj.getCurrentStepIndex();
 
-// Clean reset configuration function 
-function resetWizard() {
-    $('#wizardForm')[0].reset();
-    goToStep(1);
-}
+        if (currentStep === 1) {
+            // Field validation checks
+            var locationName = $("#inventoryLocation").val().trim();
+            var statusVal = $("#locationStatus-select").val();
+            var descriptionVal = $("#locationDesc").val().trim();
+
+            if (!locationName) {
+                alert("Inventory Location field is required.");
+                return;
+            }
+
+            // Bind values across to Step 2 Review block elements
+            $("#reviewLocation").text(locationName);
+            $("#reviewStatus").text(statusVal);
+            $("#reviewDescription").text(descriptionVal || "-");
+        }
+
+        // Programmatically push to Step 2 Panel
+        stepperObj.goNext();
+    });
+
+    // 3. Handle BACK button logic (Step 2 -> Step 1 transition)
+    stepper.on("kt.stepper.previous", function (stepperObj) {
+        stepperObj.goPrevious();
+    });
+
+    // 4. Handle CONFIRM & SUBMIT button logic (Step 2 -> Step 3 transition)
+    stepper.on("kt.stepper.submit", function (stepperObj) {
+        // Bind values across to the final Step 3 Acknowledgement elements
+        $("#finalLocation").text($("#inventoryLocation").val());
+        $("#finalStatus").text($("#locationStatus-select").val());
+        $("#finalDescription").text($("#locationDesc").val() || "-");
+
+        // NOTE: If you need to make an AJAX payload request to your controller servlet layer 
+        // to persist the record in your database, execute it here before advancing.
+        
+        // Progress form directly into Step 3 success panel view
+        stepperObj.goNext();
+    });
+
+    // 5. Handle DONE button logic (Step 3 Reset transition)
+    $("#btnDone").on("click", function() {
+        // Reset raw HTML input tags
+        $("#inventory-location-form")[0].reset();
+        
+        // Reset custom Select2 framework elements cleanly back to Active default state
+        $("#locationStatus-select").val('Active').trigger('change');
+        
+        // Route wizard panel context back to Step 1 interface view window
+        stepper.goTo(1);
+    });
+});
