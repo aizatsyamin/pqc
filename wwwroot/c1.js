@@ -1,65 +1,54 @@
-$(document).ready(function() {
-    // 1. Initialize DataTable
-    var table = $('#categoryTable').DataTable({
-        // 'rt' = table, 'i' = info (Showing 1 to 10...), 'p' = pagination
-        "dom": 'rt<"d-flex justify-content-between align-items-center mt-3"ip>',
-        "pageLength": 10,
-        "ordering": true,
-        "columnDefs": [
-            { "orderable": false, "targets": [0, 7] } // Disable sorting on Checkbox and Actions
-        ],
-        "language": {
-            // Customize info text to match Figma exactly
-            "info": "Showing _START_ to _END_ of _TOTAL_ records",
-            "paginate": {
-                "previous": "<", // You can use icons here if preferred
-                "next": ">"
-            }
-        }
-    });
+function goToStep(stepNumber) {
+    // 1. Hide all form step view sections
+    $('.form-step-section').addClass('d-none');
+    
+    // 2. Show the target view section
+    $(`#step-content-${stepNumber}`).removeClass('d-none');
 
-    // 2. Custom Search Input functionality
-    $('#customSearch').on('keyup', function() {
-        table.search(this.value).draw();
-    });
+    // 3. Sync and structure the Step Progress Cards
+    if (stepNumber === 1) {
+        updateHeader(1, 'active');
+        updateHeader(2, 'disabled');
+        updateHeader(3, 'disabled');
+    } 
+    else if (stepNumber === 2) {
+        // Pop input value strings over into view labels dynamically
+        $('#reviewLocation').text($('#inputLocation').val());
+        $('#reviewStatus').text($('#inputStatus').val());
+        $('#reviewDescription').text($('#inputDescription').val());
 
-    // 3. Custom Dropdown Filters
-    $('#filterCategory').on('change', function() {
-        table.column(3).search(this.value).draw(); // Parent Category column
-    });
+        updateHeader(1, 'completed');
+        updateHeader(2, 'active');
+        updateHeader(3, 'disabled');
+    } 
+    else if (stepNumber === 3) {
+        // Move confirmed items into final summary list view block
+        $('#finalLocation').text($('#inputLocation').val());
+        $('#finalStatus').text($('#inputStatus').val());
+        $('#finalDescription').text($('#inputDescription').val());
 
-    $('#filterStatus').on('change', function() {
-        table.column(5).search(this.value).draw(); // Status column
-    });
+        updateHeader(1, 'completed');
+        updateHeader(2, 'completed');
+        updateHeader(3, 'active');
+    }
+}
 
-    // 4. Reset Filters Button
-    $('#resetFilters').on('click', function() {
-        $('#customSearch').val('');
-        $('#filterCategory').val('');
-        $('#filterStatus').val('');
-        table.search('').columns().search('').draw();
-    });
+// Utility function handling header css mutations smoothly
+function updateHeader(id, state) {
+    let header = $(`#step-header-${id}`);
+    header.removeClass('step-active step-completed step-disabled');
+    
+    if (state === 'active') {
+        header.addClass('step-active');
+    } else if (state === 'completed') {
+        header.addClass('step-completed');
+    } else {
+        header.addClass('step-disabled');
+    }
+}
 
-    // 5. Select All Checkbox logic
-    $('#selectAll').on('click', function() {
-        var isChecked = $(this).prop('checked');
-        $('.row-check').prop('checked', isChecked);
-    });
-
-    // 6. Handle the "Add category" button click inside the drawer
-    $('#saveCategoryBtn').on('click', function() {
-        // Find the offcanvas element
-        var myOffcanvas = document.getElementById('addCategoryDrawer');
-        // Get the Bootstrap offcanvas instance
-        var bsOffcanvas = bootstrap.Offcanvas.getInstance(myOffcanvas);
-        
-        // Hide the side drawer
-        bsOffcanvas.hide();
-
-        // Wait a tiny bit for the drawer animation to finish, then show the success modal
-        setTimeout(function() {
-            var myModal = new bootstrap.Modal(document.getElementById('successModal'));
-            myModal.show();
-        }, 400); // 400ms delay feels natural
-    });
-});
+// Clean reset configuration function 
+function resetWizard() {
+    $('#wizardForm')[0].reset();
+    goToStep(1);
+}
