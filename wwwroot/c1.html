@@ -1,182 +1,105 @@
-<!-- Include your CSS file here (e.g., <link rel="stylesheet" href=".../inventory.css">) -->
-
-<!-- Main Content Container -->
-<div class="container-fluid bg-white p-4 rounded shadow-sm">
-    
-    <!-- Top Header Section -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0 fw-bold">Categories</h2>
-        <div class="d-flex gap-2">
-            <!-- This button triggers the Offcanvas drawer -->
-            <button class="btn btn-danger bg-red border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addCategoryDrawer" aria-controls="addCategoryDrawer">
-                <i class="bi bi-plus"></i> Add Category
-            </button>
+<div class="container mt-4">
+    <!-- Step Header Wrapper -->
+    <div class="row mb-4 text-center">
+        <!-- Step 1: Initiate -->
+        <div class="col-md-4">
+            <div id="step-header-1" class="step-card step-active">
+                <span class="step-number">1</span> Initiate
+            </div>
+        </div>
+        <!-- Step 2: Confirm -->
+        <div class="col-md-4">
+            <div id="step-header-2" class="step-card step-disabled">
+                <span class="step-number">2</span> Confirm
+            </div>
+        </div>
+        <!-- Step 3: Acknowledge -->
+        <div class="col-md-4">
+            <div id="step-header-3" class="step-card step-disabled">
+                <span class="step-number">3</span> Acknowledge
+            </div>
         </div>
     </div>
 
-    <!-- Filters Section -->
-    <div class="row mb-4 gx-2">
-        <div class="col-md-5">
-            <input type="text" class="form-control" id="customSearch" placeholder="Search category name or description">
-        </div>
-        <div class="col-md-3">
-            <select class="form-select" id="filterCategory">
-                <option value="">Category: All</option>
-                <option value="Packaging">Packaging</option>
-                <option value="Raw Materials">Raw Materials</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select class="form-select" id="filterStatus">
-                <option value="">Status: All</option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-light border w-100" id="resetFilters">Reset Filter</button>
-        </div>
-    </div>
-
-    <!-- DataTables Table -->
-    <table id="categoryTable" class="table table-hover align-middle w-100 mb-0">
-        <thead class="table-light text-muted">
-            <tr>
-                <th style="width: 40px;"><input type="checkbox" class="form-check-input" id="selectAll"></th>
-                <th>Category Name <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
-                <th>Description <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
-                <th>Parent Category <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
-                <th>Products <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
-                <th>Status <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
-                <th>Last Updated <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
-                <th>Actions <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i></th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Row 1 -->
-            <tr>
-                <td><input type="checkbox" class="form-check-input row-check"></td>
-                <td class="fw-bold text-dark">Corrugated Boxes</td>
-                <td class="text-muted text-wrap" style="max-width: 200px;">Single and double wall corrugated cartons.</td>
-                <td class="text-muted">Packaging</td>
-                <td class="fw-bold text-dark">84</td>
-                <td><span class="badge custom-badge badge-active">Active</span></td>
-                <td class="text-muted">5 May 2026</td>
-                <td>
-                    <a href="#" class="text-secondary me-2"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" class="text-danger"><i class="bi bi-trash text-red"></i></a>
-                </td>
-            </tr>
-            <!-- Row 2 -->
-            <tr>
-                <td><input type="checkbox" class="form-check-input row-check"></td>
-                <td class="fw-bold text-dark">Finished Goods</td>
-                <td class="text-muted text-wrap" style="max-width: 200px;">Completed products ready for despatch.</td>
-                <td class="text-muted">-</td>
-                <td class="fw-bold text-dark">331</td>
-                <td><span class="badge custom-badge badge-inactive">Inactive</span></td>
-                <td class="text-muted">2 May 2026</td>
-                <td>
-                    <a href="#" class="text-secondary me-2"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" class="text-danger"><i class="bi bi-trash text-red"></i></a>
-                </td>
-            </tr>
-             <!-- Row 3 -->
-             <tr>
-                <td><input type="checkbox" class="form-check-input row-check"></td>
-                <td class="fw-bold text-dark">Legacy Consumables</td>
-                <td class="text-muted text-wrap" style="max-width: 200px;">Retired consumable lines kept for reporting.</td>
-                <td class="text-muted">Raw Materials</td>
-                <td class="fw-bold text-dark">0</td>
-                <td><span class="badge custom-badge badge-active">Active</span></td>
-                <td class="text-muted">12 Mar 2026</td>
-                <td>
-                    <a href="#" class="text-secondary me-2"><i class="bi bi-pencil-square"></i></a>
-                    <a href="#" class="text-danger"><i class="bi bi-trash text-red"></i></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- ========================================== -->
-<!-- OFFCANVAS DRAWER (Add Category Sidebar)    -->
-<!-- ========================================== -->
-<div class="offcanvas offcanvas-end shadow" tabindex="-1" id="addCategoryDrawer" aria-labelledby="addCategoryDrawerLabel" style="width: 450px;">
-    
-    <!-- Drawer Header (Black Background) -->
-    <div class="offcanvas-header bg-dark text-white px-4 py-3">
-        <div>
-            <h4 class="offcanvas-title fw-bold" id="addCategoryDrawerLabel">Add Category</h4>
-            <small class="text-light opacity-75">Create a category to classify products.</small>
-        </div>
-        <button type="button" class="btn-close btn-close-white text-reset align-self-start mt-1" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    
-    <!-- Drawer Body -->
-    <div class="offcanvas-body px-4 py-4 d-flex flex-column bg-light">
-        <form id="addCategoryForm" class="flex-grow-1">
+    <!-- Main Content Panel -->
+    <div class="card p-4 shadow-sm">
+        <form id="wizardForm">
             
-            <div class="mb-4">
-                <label class="form-label fw-bold">Category Name <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" placeholder="e.g. Packaging">
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-bold">Description</label>
-                <textarea class="form-control bg-white" rows="5" placeholder="What products belong in this category?"></textarea>
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-bold">Parent Category</label>
-                <select class="form-select bg-white">
-                    <option>None (top level)</option>
-                    <option>Packaging</option>
-                    <option>Raw Materials</option>
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label fw-bold d-block mb-3">Status</label>
-                <div class="d-flex gap-4">
-                    <div class="form-check">
-                        <input class="form-check-input custom-radio border-danger" type="radio" name="statusRadio" id="statusActive" checked>
-                        <label class="form-check-label fw-bold" for="statusActive">Active</label>
+            <!-- SECTION 1: INITIATE FORM FIELDS -->
+            <div id="step-content-1" class="form-step-section">
+                <h5 class="mb-4 text-secondary border-bottom pb-2">Location Details</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Inventory Location <span class="text-danger">*</span></label>
+                        <input type="text" id="inputLocation" class="form-control" value="test" required>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input custom-radio" type="radio" name="statusRadio" id="statusInactive">
-                        <label class="form-check-label fw-bold" for="statusInactive">Inactive</label>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small">Status <span class="text-danger">*</span></label>
+                        <select id="inputStatus" class="form-select">
+                            <option value="Active" selected>Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <label class="form-label text-muted small">Description</label>
+                        <textarea id="inputDescription" class="form-control" rows="2">test</textarea>
                     </div>
                 </div>
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="button" class="btn btn-outline-secondary px-4">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" onclick="goToStep(2)">Next</button>
+                </div>
             </div>
-        </form>
-        
-        <!-- Drawer Footer Buttons -->
-        <div class="mt-auto pt-3 d-flex justify-content-end gap-2 border-top">
-            <button type="button" class="btn btn-light border px-4 fw-bold text-muted" data-bs-dismiss="offcanvas">Cancel</button>
-            <button type="button" class="btn btn-danger bg-red border-0 px-4" id="saveCategoryBtn">Add category</button>
-        </div>
-    </div>
-</div>
 
-<!-- ========================================== -->
-<!-- SUCCESS MODAL (Popup after saving)         -->
-<!-- ========================================== -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <!-- Modal Header (Black Background) -->
-            <div class="modal-header bg-dark text-white text-center py-4 border-0 d-block">
-                <h4 class="modal-title fw-bold w-100">Add Category</h4>
+            <!-- SECTION 2: CONFIRMATION VIEW -->
+            <div id="step-content-2" class="form-step-section d-none">
+                <h5 class="mb-4 text-secondary border-bottom pb-2">Review Location Details</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Inventory Location</p>
+                        <p class="fw-semibold" id="reviewLocation">-</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Description</p>
+                        <p class="fw-semibold" id="reviewDescription">-</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Status</p>
+                        <p class="fw-semibold" id="reviewStatus">-</p>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(1)">Back</button>
+                    <button type="button" class="btn btn-danger px-4" onclick="goToStep(3)">Confirm & Submit</button>
+                </div>
             </div>
-            <!-- Modal Body -->
-            <div class="modal-body text-center py-5">
-                <p class="fs-5 mb-0 text-dark">Category has been successfully created.</p>
+
+            <!-- SECTION 3: SUCCESS ACKNOWLEDGEMENT -->
+            <div id="step-content-3" class="form-step-section d-none text-center py-4">
+                <!-- Green Success Icon Wrap -->
+                <div class="mb-3 text-success fs-1">
+                    <i class="bi bi-check-circle-fill"></i> <!-- standard Bootstrap Icon -->
+                </div>
+                <h5 class="fw-semibold mb-4">Inventory Location Created Successfully</h5>
+                
+                <div class="row g-3 justify-content-center text-start border p-3 rounded bg-light max-width-review mx-auto mb-4" style="max-width: 500px;">
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Inventory Location</p>
+                        <p class="fw-semibold" id="finalLocation">-</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Description</p>
+                        <p class="fw-semibold" id="finalDescription">-</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="text-muted small mb-1">Status</p>
+                        <p class="fw-semibold" id="finalStatus">-</p>
+                    </div>
+                </div>
+                
+                <button type="button" class="btn btn-danger px-5" onclick="resetWizard()">Done</button>
             </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer border-0 justify-content-center pb-4 pt-0">
-                <button type="button" class="btn btn-light border px-5 fw-bold text-muted" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
+
+        </form>
     </div>
 </div>
