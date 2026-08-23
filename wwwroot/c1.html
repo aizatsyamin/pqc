@@ -2,126 +2,112 @@
 <%@ taglib prefix="spring" uri="http://springframework.org" %>
 <%@ taglib prefix="form" uri="http://springframework.org/form" %>
 
-<div id="main-stepper" class="w-100 mt-4">
+<div id="category-stepper-container" class="w-100 mt-2">
     
-    <!-- 1. STEPPER HEADERS (Horizontal Track Layout) -->
-    <div class="row text-center g-3 mb-6" id="stepperNav">
-        <!-- Step 1: Initiate -->
+    <!-- 1. STEPPER HEADERS (Horizontal Navigation Track) -->
+    <div class="row text-center g-3 mb-6" id="categoryStepperNav">
+        <!-- Step 1 Header: Initiate -->
         <div class="col-md-4">
-            <div class="stepper-tab-card current-step p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-step-1">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-danger" style="width: 24px; height: 24px;">1</span>
-                <span class="step-title fw-semibold text-dark">Initiate</span>
+            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-cat-1" style="border-color: #dc3545 !important;">
+                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-danger" id="badge-cat-1" style="width: 24px; height: 24px;">1</span>
+                <span class="step-title fw-semibold text-dark" id="title-cat-1">Initiate</span>
             </div>
         </div>
-        <!-- Step 2: Confirm -->
+        <!-- Step 2 Header: Confirm -->
         <div class="col-md-4">
-            <div class="stepper-tab-card pending-step p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-step-2">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" style="width: 24px; height: 24px;">2</span>
-                <span class="step-title fw-semibold text-muted">Confirm</span>
+            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-cat-2" style="border-color: #ced4da;">
+                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-cat-2" style="width: 24px; height: 24px;">2</span>
+                <span class="step-title fw-semibold text-muted" id="title-cat-2">Confirm</span>
             </div>
         </div>
-        <!-- Step 3: Acknowledge -->
+        <!-- Step 3 Header: Acknowledge -->
         <div class="col-md-4">
-            <div class="stepper-tab-card pending-step p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-step-3">
-                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" style="width: 24px; height: 24px;">3</span>
-                <span class="step-title fw-semibold text-muted">Acknowledge</span>
+            <div class="p-3 bg-white rounded border d-flex align-items-center justify-content-center gap-2" id="nav-cat-3" style="border-color: #ced4da;">
+                <span class="step-badge rounded-circle d-inline-flex align-items-center justify-content-center text-white fw-bold bg-secondary" id="badge-cat-3" style="width: 24px; height: 24px;">3</span>
+                <span class="step-title fw-semibold text-muted" id="title-cat-3">Acknowledge</span>
             </div>
         </div>
     </div>
 
-    <!-- 2. MAIN CARD CONTENT WINDOW -->
-    <div class="card p-5 shadow-sm border rounded bg-white">
-        <form id="inventory-location-form" autocomplete="off" novalidate="novalidate">
+    <!-- 2. MAIN FORM CARD CONTEXT -->
+    <div class="card p-6 shadow-sm border rounded bg-white">
+        <form id="category-masterlist-form" autocomplete="off" novalidate="novalidate">
             
             <!-- =================================================== -->
-            <!-- SECTION 1: INITIATE (Form Input View)             -->
+            <!-- SECTION 1: INITIATE (Category Input Fields)        -->
             <!-- =================================================== -->
-            <div class="step-content-panel" id="panel-step-1">
-                <h6 class="text-gray-700 fw-bold mb-4">Location Details</h6>
+            <div class="cat-step-panel" id="panel-cat-1">
+                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Category Details</h6>
                 
-                <div class="row mb-3 align-items-center">
-                    <label class="col-md-3 text-muted small">Inventory Location <span class="text-danger">*</span></label>
-                    <div class="col-md-9">
-                        <input type="text" id="inventoryLocation" class="form-control" value="test" required />
+                <div class="row g-4">
+                    <!-- Category Name Input -->
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Category Name <span class="text-danger">*</span></label>
+                        <input type="text" id="categoryName" class="form-control" placeholder="Enter Category Name" required />
+                    </div>
+                    
+                    <!-- Description Input -->
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small fw-semibold">Description</label>
+                        <input type="text" id="categoryDesc" class="form-control" placeholder="Enter Description" />
                     </div>
                 </div>
 
-                <div class="row mb-3 align-items-center">
-                    <label class="col-md-3 text-muted small">Status <span class="text-danger">*</span></label>
-                    <div class="col-md-9">
-                        <select id="locationStatus" class="form-select">
-                            <option value="Active" selected>Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mb-4">
-                    <label class="col-md-3 text-muted small">Description</label>
-                    <div class="col-md-9">
-                        <textarea id="locationDesc" class="form-control" rows="2">test</textarea>
-                    </div>
-                </div>
-
-                <!-- Footer Action Buttons -->
-                <div class="d-flex justify-content-end gap-2 border-top pt-4 mt-4">
-                    <button type="button" class="btn btn-outline-secondary px-4">Cancel</button>
-                    <button type="button" class="btn btn-danger px-4" onclick="navigateStep(2)">Next</button>
+                <!-- Step 1 Footer Control Buttons -->
+                <div class="d-flex justify-content-end gap-2 border-top pt-4 mt-5">
+                    <button type="button" class="btn btn-outline-secondary px-5">Cancel</button>
+                    <button type="button" class="btn btn-danger px-5" onclick="switchCategoryStep(2)">Next</button>
                 </div>
             </div>
 
             <!-- =================================================== -->
-            <!-- SECTION 2: CONFIRM (Plain Text Review View)        -->
+            <!-- SECTION 2: CONFIRM (Review Plain-text Grid)        -->
             <!-- =================================================== -->
-            <div class="step-content-panel d-none" id="panel-step-2">
-                <h6 class="text-gray-700 fw-bold mb-4">Review Location Details</h6>
+            <div class="cat-step-panel d-none" id="panel-cat-2">
+                <h6 class="text-gray-700 fw-bold mb-4 pb-2 border-bottom">Review Category Details</h6>
                 
-                <div class="row mb-3 border-bottom pb-2">
-                    <span class="col-md-3 text-muted small">Inventory Location</span>
-                    <div class="col-md-9 fw-semibold text-dark" id="lblLocation">-</div>
-                </div>
-                <div class="row mb-3 border-bottom pb-2">
-                    <span class="col-md-3 text-muted small">Description</span>
-                    <div class="col-md-9 fw-semibold text-dark" id="lblDescription">-</div>
-                </div>
-                <div class="row mb-4 border-bottom pb-2">
-                    <span class="col-md-3 text-muted small">Status</span>
-                    <div class="col-md-9 fw-semibold text-dark" id="lblStatus">-</div>
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <span class="text-muted d-block small mb-1">Category Name</span>
+                        <div class="fw-bold text-dark border-bottom pb-2" id="reviewCatName">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="text-muted d-block small mb-1">Description</span>
+                        <div class="fw-bold text-dark border-bottom pb-2" id="reviewCatDesc">-</div>
+                    </div>
                 </div>
 
-                <!-- Footer Action Buttons -->
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-outline-secondary px-4" onclick="navigateStep(1)">Back</button>
-                    <button type="button" class="btn btn-danger px-4" onclick="navigateStep(3)">Confirm & Submit</button>
+                <!-- Step 2 Footer Control Buttons -->
+                <div class="d-flex justify-content-end gap-2 border-top pt-4">
+                    <button type="button" class="btn btn-outline-secondary px-5" onclick="switchCategoryStep(1)">Back</button>
+                    <button type="button" class="btn btn-danger px-5" onclick="switchCategoryStep(3)">Confirm & Submit</button>
                 </div>
             </div>
 
             <!-- =================================================== -->
-            <!-- SECTION 3: ACKNOWLEDGE (Success Summary View)      -->
+            <!-- SECTION 3: ACKNOWLEDGE (Success Notification Layout)-->
             <!-- =================================================== -->
-            <div class="step-content-panel d-none text-center py-4" id="panel-step-3">
-                <div class="text-success mb-3" style="font-size: 2.5rem;">
+            <div class="cat-step-panel d-none text-center py-5" id="panel-cat-3">
+                <!-- Circular Success Indicator Checkmark -->
+                <div class="mb-4 text-success" style="font-size: 3rem;">
                     <i class="bi bi-check-circle-fill"></i>
                 </div>
-                <h5 class="fw-bold text-dark mb-4">Inventory Location Created Successfully</h5>
                 
-                <!-- Display Grid Blocks matching row style layout -->
-                <div class="row g-3 text-start mx-auto p-4 border rounded bg-light mb-4" style="max-width: 600px;">
+                <h5 class="fw-bold text-dark mb-5">Category Created Successfully</h5>
+                
+                <!-- Summary Data Container Grid matching your reference layout screen -->
+                <div class="row g-3 text-start mx-auto p-4 border rounded bg-light mb-5" style="max-width: 600px;">
                     <div class="col-sm-6">
-                        <span class="text-muted d-block small">Inventory Location</span>
-                        <span class="fw-semibold text-dark" id="successLocation">-</span>
+                        <span class="text-muted d-block small mb-1">Category Name</span>
+                        <div class="fw-semibold text-dark p-2 bg-white rounded border border-light" id="finalCatName">-</div>
                     </div>
                     <div class="col-sm-6">
-                        <span class="text-muted d-block small">Description</span>
-                        <span class="fw-semibold text-dark" id="successDescription">-</span>
-                    </div>
-                    <div class="col-sm-12 mt-2">
-                        <span class="text-muted d-block small">Status</span>
-                        <span class="fw-semibold text-dark" id="successStatus">-</span>
+                        <span class="text-muted d-block small mb-1">Description</span>
+                        <div class="fw-semibold text-dark p-2 bg-white rounded border border-light" id="finalCatDesc">-</div>
                     </div>
                 </div>
                 
-                <button type="button" class="btn btn-danger px-5" onclick="resetFormWizard()">Done</button>
+                <button type="button" class="btn btn-danger px-6" onclick="resetCategoryWizard()">Done</button>
             </div>
 
         </form>
