@@ -1,56 +1,79 @@
-/* Step Card Styling */
-.step-card {
-    padding: 15px;
-    border-radius: 6px;
-    border: 1px solid #ced4da;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background-color: #fff;
-    color: #6c757d;
+/* Base Container */
+.choices {
+  font-family: inherit;
+  font-size: 14px;
+  color: #555555;
+  margin-bottom: 0;
 }
 
-/* Base style for circle indicators */
-.step-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    font-size: 13px;
-    font-weight: bold;
+/* Closed State Input Box */
+.choices__inner {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid #b0b0b0;
+  border-radius: 2px;
+  box-sizing: border-box;
 }
 
-/* Red Active Step layout */
-.step-active {
-    border: 1px solid #dc3545 !important;
-    color: #212529 !important;
-}
-.step-active .step-number {
-    background-color: #dc3545;
-    color: #fff;
+.choices.is-focused .choices__inner {
+  border-color: #777777;
 }
 
-/* Green Completed Step layout */
-.step-completed {
-    border: 1px solid #198754 !important;
-    color: #212529 !important;
-}
-.step-completed .step-number {
-    background-color: #198754;
-    color: #fff;
+/* Custom Dropdown Chevron Arrow */
+.choices[data-type*="select-one"]::after {
+  content: '';
+  height: 7px;
+  width: 7px;
+  border-style: solid;
+  border-color: #a81c1c; /* Crimson arrow */
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+  position: absolute;
+  right: 16px;
+  top: 45%;
+  margin-top: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease;
 }
 
-/* Disabled gray layout */
-.step-disabled {
-    background-color: #f8f9fa;
-    color: #6c757d;
-    opacity: 0.7;
+/* Rotate Chevron on Open */
+.choices[data-type*="select-one"].is-open::after {
+  border-color: #a81c1c;
+  transform: rotate(-135deg);
+  margin-top: 3px;
 }
-.step-disabled .step-number {
-    background-color: #6c757d;
-    color: #fff;
+
+/* Dropdown Menu Container */
+.choices__list--dropdown {
+  background-color: #ffffff;
+  border: 1px solid #b0b0b0;
+  border-top: none;
+  border-radius: 0 0 2px 2px;
+  box-shadow: none;
+  word-break: normal;
+  z-index: 100;
+}
+
+/* Individual Dropdown Item */
+.choices__list--dropdown .choices__item {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #4a4a4a;
+  background-color: transparent;
+}
+
+/* Active / Hover / Selected Item (Blue highlight) */
+.choices__list--dropdown .choices__item--selectable.is-highlighted,
+.choices__list--dropdown .choices__item--selectable:hover {
+  background-color: #005bb5 !important;
+  color: #ffffff !important;
+}
+
+/* Placeholder Styling */
+.choices__placeholder {
+  color: #666666;
+  opacity: 1;
 }
