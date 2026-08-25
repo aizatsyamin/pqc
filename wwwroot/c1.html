@@ -1,93 +1,288 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="container-fluid px-0">
-    <!-- Filter Card -->
-    <div class="card border-0 shadow-sm rounded-3 mb-3">
-        <div class="card-body p-3">
-            <div class="row g-3">
-                <div class="col-md-3">
-                    <label class="form-label text-secondary small fw-semibold mb-1">Location</label>
-                    <select id="filterLocation" class="form-select form-select-sm">
-                        <option value="">All Locations</option>
-                    </select>
+<div class="container-fluid py-4">
+    <!-- Breadcrumb & Back -->
+    <div class="mb-3">
+        <a href="${pageContext.request.contextPath}/inventory/masterlist" class="text-decoration-none text-muted small">
+            &larr; Back to Masterlist
+        </a>
+    </div>
+
+    <!-- Header Card -->
+    <div class="card border-0 shadow-sm mb-4" style="background-color: #fdf2f2;">
+        <div class="card-body py-3">
+            <h5 class="fw-bold mb-1">New Item</h5>
+            <div class="text-muted small">Masterlist &rsaquo; SKU & Product</div>
+        </div>
+    </div>
+
+    <!-- Step Progress Tracker Bar -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div id="step-badge-1" class="border rounded p-3 d-flex align-items-center border-danger bg-white">
+                <span class="badge rounded-circle bg-danger me-2 step-circle">1</span>
+                <span class="fw-semibold step-text text-danger">Initiate</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div id="step-badge-2" class="border rounded p-3 d-flex align-items-center border-secondary bg-white opacity-75">
+                <span class="badge rounded-circle bg-secondary me-2 step-circle">2</span>
+                <span class="fw-semibold step-text text-secondary">Confirm</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div id="step-badge-3" class="border rounded p-3 d-flex align-items-center border-secondary bg-white opacity-75">
+                <span class="badge rounded-circle bg-secondary me-2 step-circle">3</span>
+                <span class="fw-semibold step-text text-secondary">Acknowledge</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Container -->
+    <form id="item-wizard-form" autocomplete="off">
+        
+        <!-- STEP 1: INITIATE -->
+        <div id="panel-step-1" class="wizard-step">
+            <!-- Item Details Card -->
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3">Item Details</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">SKU Code <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="skuCode" id="skuCode" placeholder="Enter SKU Code" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Product Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="productName" id="productName" placeholder="Enter Product Name" required />
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Category <span class="text-danger">*</span></label>
+                            <select class="form-select" name="catId" id="catId" required>
+                                <option value="">Select Category</option>
+                                <c:forEach items="${categoryList}" var="cat">
+                                    <option value="${cat.catId}">${cat.catName}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Unit of Measure (UOM) <span class="text-danger">*</span></label>
+                            <select class="form-select" name="uom" id="uom" required>
+                                <option value="">Select Unit of Measure (UOM)</option>
+                                <option value="PCS">PCS</option>
+                                <option value="BOX">BOX</option>
+                                <option value="KG">KG</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" name="status" id="status">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Reorder Point</label>
+                            <input type="number" class="form-control" name="reorderPoint" id="reorderPoint" placeholder="Enter Reorder Point" />
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label text-secondary small fw-semibold mb-1">SKU</label>
-                    <select id="filterSku" class="form-select form-select-sm">
-                        <option value="">All SKUs</option>
-                    </select>
+            </div>
+
+            <!-- Pricing Card -->
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3">Pricing</h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Unit Cost (MYR) <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" class="form-control" name="unitCost" id="unitCost" placeholder="Enter Unit Cost" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Minimum Retail Price (MYR)</label>
+                            <input type="number" step="0.01" class="form-control" name="minRetailPrice" id="minRetailPrice" placeholder="Enter Minimum Retail Price" />
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Selling Price (MYR) <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" class="form-control" name="sellingPrice" id="sellingPrice" placeholder="Enter Selling Price" required />
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label text-secondary small fw-semibold mb-1">Expiry Date</label>
-                    <select id="filterExpiry" class="form-select form-select-sm">
-                        <option value="">All Expiry Dates</option>
-                    </select>
+            </div>
+
+            <!-- Break Bulk Card -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3">Break Bulk</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Break Bulk <span class="text-danger">*</span></label>
+                            <select class="form-select" name="breakBulk" id="breakBulk">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Conversion Quantity <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="conversionQty" id="conversionQty" placeholder="Enter Conversion Quantity" value="1" />
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label text-secondary small fw-semibold mb-1">Search</label>
-                    <div class="input-group input-group-sm">
-                        <span class="input-group-text bg-white text-muted border-end-0"><i class="bi bi-search"></i></span>
-                        <input type="text" id="customSearch" class="form-control border-start-0" placeholder="Search batch, barcode, product...">
+            </div>
+
+            <!-- Step 1 Footer -->
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary px-4" id="btnCancel">Cancel</button>
+                <button type="button" class="btn btn-danger px-4" id="btnGoToConfirm">Next</button>
+            </div>
+        </div>
+
+        <!-- STEP 2: CONFIRM -->
+        <div id="panel-step-2" class="wizard-step d-none">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-4 pb-2 border-bottom">Review Item Details</h6>
+                    
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">SKU Code</div>
+                        <div class="col-md-8 fw-semibold" id="rev-skuCode">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Product Name</div>
+                        <div class="col-md-8 fw-semibold" id="rev-productName">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Category</div>
+                        <div class="col-md-8 fw-semibold" id="rev-catName">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">UOM</div>
+                        <div class="col-md-8 fw-semibold" id="rev-uom">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Unit Cost (MYR)</div>
+                        <div class="col-md-8 fw-semibold" id="rev-unitCost">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Minimum Retail Price (MYR)</div>
+                        <div class="col-md-8 fw-semibold" id="rev-minRetailPrice">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Selling Price (MYR)</div>
+                        <div class="col-md-8 fw-semibold" id="rev-sellingPrice">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Reorder Point</div>
+                        <div class="col-md-8 fw-semibold" id="rev-reorderPoint">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Break Bulk</div>
+                        <div class="col-md-8 fw-semibold" id="rev-breakBulk">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Conversion Qty</div>
+                        <div class="col-md-8 fw-semibold" id="rev-conversionQty">-</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-4 text-muted small">Status</div>
+                        <div class="col-md-8 fw-semibold" id="rev-status">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 Footer -->
+            <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-outline-secondary px-4" id="btnBackToInitiate">Back</button>
+                <button type="button" class="btn btn-danger px-4" id="btnConfirmSubmit">Confirm & Submit</button>
+            </div>
+        </div>
+
+        <!-- STEP 3: ACKNOWLEDGE -->
+        <div id="panel-step-3" class="wizard-step d-none">
+            <div class="card shadow-sm border-0 py-5 px-4 mb-4">
+                <div class="card-body text-center">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 text-success mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-check-lg fs-2">✓</i>
+                    </div>
+                    <h5 class="fw-bold mb-4">Item Created Successfully</h5>
+
+                    <!-- Summary Grid -->
+                    <div class="row g-3 text-start max-w-75 mx-auto" style="max-width: 800px;">
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">SKU Code</span>
+                                <span class="fw-bold" id="ack-skuCode">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Product Name</span>
+                                <span class="fw-bold" id="ack-productName">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Category</span>
+                                <span class="fw-bold" id="ack-catName">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Unit Cost</span>
+                                <span class="fw-bold" id="ack-unitCost">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Minimum Retail Price</span>
+                                <span class="fw-bold" id="ack-minRetailPrice">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Reorder Point</span>
+                                <span class="fw-bold" id="ack-reorderPoint">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Break Bulk</span>
+                                <span class="fw-bold" id="ack-breakBulk">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Conversion Qty</span>
+                                <span class="fw-bold" id="ack-conversionQty">-</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 border rounded bg-light">
+                                <span class="text-muted d-block small">Status</span>
+                                <span class="fw-bold" id="ack-status">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Done Button -->
+                    <div class="mt-4">
+                        <a href="${pageContext.request.contextPath}/inventory/masterlist" class="btn btn-danger px-5">Done</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Summary Card (Total Inventory Stock Location) -->
-    <div class="card border-0 shadow-sm rounded-3 mb-3">
-        <div class="card-header bg-danger-subtle bg-opacity-25 border-bottom py-2 px-3">
-            <span class="fw-bold text-dark small">Total Inventory Stock Location</span>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light small text-muted">
-                        <tr>
-                            <th class="ps-3 py-2">Inventory Stock Location</th>
-                            <th class="text-end pe-3 py-2">Total Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody id="summaryTableBody" class="small"></tbody>
-                    <tfoot>
-                        <tr class="fw-bold text-danger border-top">
-                            <td class="ps-3 py-2">Grand Total (All Locations)</td>
-                            <td class="text-end pe-3 py-2" id="grandTotalQty">0</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Detail Card (Inventory Stock Location Detail) -->
-    <div class="card border-0 shadow-sm rounded-3">
-        <div class="card-header bg-danger-subtle bg-opacity-25 border-bottom d-flex justify-content-between align-items-center py-2 px-3">
-            <span class="fw-bold text-dark small">Inventory Stock Location Detail</span>
-            <button type="button" class="btn btn-outline-secondary btn-sm bg-white" id="btnExport">
-                <i class="bi bi-download me-1"></i> Export
-            </button>
-        </div>
-        <div class="card-body p-3">
-            <div class="table-responsive">
-                <table id="stockLocationDetailTable" class="table table-hover align-middle w-100 mb-0">
-                    <thead class="table-light small text-muted">
-                        <tr>
-                            <th>Inventory Stock Location</th>
-                            <th>SKU</th>
-                            <th>Product Name</th>
-                            <th>Batch / Lot No.</th>
-                            <th>Expiry Date</th>
-                            <th>Barcode</th>
-                            <th class="text-end">Batch Availability Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody class="small"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    </form>
 </div>
 
-<script src="${pageContext.request.contextPath}/resources/js/inventoryStockLocation.js"></script>
+<!-- Context Path variable for external JS -->
+<script>
+    var contextPath = "${pageContext.request.contextPath}";
+</script>
+<script src="${pageContext.request.contextPath}/js/1700eInventory/itemAdd.js"></script>
