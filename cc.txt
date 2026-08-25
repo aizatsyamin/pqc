@@ -1,5 +1,17 @@
-//site
-6LfgG4ksAAAAAPdoDxN8ecwu0gGJ3d7MtNiMZcm7
+@RequestMapping(value = "/category/editView", method = {RequestMethod.GET, RequestMethod.POST})
+public String editCategoryView(Locale locale, Model model, HttpServletRequest request,
+                               @RequestParam(value = "catId", required = true) String catId,
+                               @RequestParam(value = "catName", required = false) String catName,
+                               @RequestParam(value = "catStatus", required = false) String catStatus) {
+    
+    // Fetch base entity from service
+    String companyId = customerInfo.getCompanyId();
+    InvCategory category = inventorySvc.getCategoryById(companyId, catId);
 
-//secret
-6LfgG4ksAAAAAEmoFqsOxp9RnruYLPWfsLwjNPsG
+    // Pass data to JSP view
+    model.addAttribute("category", category);
+    model.addAttribute("selectedName", catName);
+    model.addAttribute("selectedStatus", catStatus);
+
+    return "1700eInventory/category/categoryEdit";
+}
