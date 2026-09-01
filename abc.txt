@@ -1,18 +1,37 @@
--- 1. Create the sequence
-CREATE SEQUENCE SEQ_FE_STKID
-  START WITH 1
-  INCREMENT BY 1
-  NOCACHE
-  NOCYCLE;
+INSERT INTO FE_INVSTOCK (
+    FE_STKCOMPANYID,
+    FE_STKSKU,
+    FE_STKLOCATIONID,
+    FE_STKQUANTITY_INITBAL,
+    FE_STKQUANTITY_AVAIL,
+    FE_STKQUANTITY_MIN,
+    FE_STKQUANTITY_MAX,
+    FE_STKPRODUCT_NAME,
+    FE_STKCATEGORY_NAME,
+    FE_STKREORDER_POINT,
+    FE_STKUNIT_COST,
+    FE_STKVALUE,
+    FE_STKLAST_MVMT,
+    FE_STKBATCH_NAME,
+    FE_STKEXPIRED_DETAILS,
+    FE_STKBAR_CODE
+) VALUES (
+    69,
+    1001,
+    1,
+    50,
+    50,
+    5,
+    500,
+    'Trigger Test Product',
+    'Electronics',
+    10,
+    25.50,
+    1275.00,
+    SYSTIMESTAMP,
+    'BATCH-TEST-01',
+    SYSDATE + 30,
+    'BAR-998877'
+);
 
--- 2. Create the auto-increment trigger
-CREATE OR REPLACE TRIGGER TRG_FE_INVSTOCK_BI
-BEFORE INSERT ON FE_INVSTOCK
-FOR EACH ROW
-BEGIN
-    -- If FE_STKID is not provided, generate the next value from the sequence
-    IF :NEW.FE_STKID IS NULL OR :NEW.FE_STKID = 0 THEN
-        :NEW.FE_STKID := SEQ_FE_STKID.NEXTVAL;
-    END IF;
-END;
-/
+COMMIT;
