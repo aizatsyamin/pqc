@@ -1,37 +1,7 @@
-INSERT INTO FE_INVSTOCK (
-    FE_STKCOMPANYID,
-    FE_STKSKU,
-    FE_STKLOCATIONID,
-    FE_STKQUANTITY_INITBAL,
-    FE_STKQUANTITY_AVAIL,
-    FE_STKQUANTITY_MIN,
-    FE_STKQUANTITY_MAX,
-    FE_STKPRODUCT_NAME,
-    FE_STKCATEGORY_NAME,
-    FE_STKREORDER_POINT,
-    FE_STKUNIT_COST,
-    FE_STKVALUE,
-    FE_STKLAST_MVMT,
-    FE_STKBATCH_NAME,
-    FE_STKEXPIRED_DETAILS,
-    FE_STKBAR_CODE
-) VALUES (
-    69,
-    1001,
-    1,
-    50,
-    50,
-    5,
-    500,
-    'Trigger Test Product',
-    'Electronics',
-    10,
-    25.50,
-    1275.00,
-    SYSTIMESTAMP,
-    'BATCH-TEST-01',
-    SYSDATE + 30,
-    'BAR-998877'
-);
+-- DBA command to release locks on FE_INVSTOCK:
+SELECT sid, serial# FROM v$session s 
+JOIN v$locked_object l ON s.sid = l.session_id 
+JOIN dba_objects o ON l.object_id = o.object_id 
+WHERE o.object_name = 'FE_INVSTOCK';
 
-COMMIT;
+ALTER SYSTEM KILL SESSION '<sid>,<serial#>' IMMEDIATE;
