@@ -1,7 +1,1 @@
--- DBA command to release locks on FE_INVSTOCK:
-SELECT sid, serial# FROM v$session s 
-JOIN v$locked_object l ON s.sid = l.session_id 
-JOIN dba_objects o ON l.object_id = o.object_id 
-WHERE o.object_name = 'FE_INVSTOCK';
-
-ALTER SYSTEM KILL SESSION '<sid>,<serial#>' IMMEDIATE;
+https://nonprodfpxexchange.publicweb.inet.paynet.my/?utm_source=chatgpt.com
