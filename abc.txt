@@ -1,19 +1,9 @@
-<script>
-    window.contextPath = "${pageContext.request.contextPath}";
-    window.categoryMap = {
-        <%
-            java.util.Map<?, ?> catMap = (java.util.Map<?, ?>) request.getAttribute("categoryMap");
-            if (catMap != null) {
-                java.util.Iterator<?> it = catMap.entrySet().iterator();
-                while (it.hasNext()) {
-                    java.util.Map.Entry<?, ?> entry = (java.util.Map.Entry<?, ?>) it.next();
-                    out.print("\"" + entry.getKey() + "\": \"" + entry.getValue() + "\"");
-                    if (it.hasNext()) {
-                        out.print(",");
-                    }
-                }
-            }
-        %>
-    };
-</script>
+$('.moneyFormat').text((_, currentText) => {
+  const num = parseFloat(currentText.replace(/[^0-9.-]+/g, '')) || 0;
+  return moneyFormatter.format(num);
+});
 
+$('.numberFormat').text((_, currentText) => {
+  const num = parseFloat(currentText.replace(/[^0-9.-]+/g, '')) || 0;
+  return num.toLocaleString();
+});
