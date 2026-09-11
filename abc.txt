@@ -1,9 +1,9 @@
-$('.moneyFormat').text((_, currentText) => {
-  const num = parseFloat(currentText.replace(/[^0-9.-]+/g, '')) || 0;
-  return moneyFormatter.format(num);
-});
+Dear DA,
 
-$('.numberFormat').text((_, currentText) => {
-  const num = parseFloat(currentText.replace(/[^0-9.-]+/g, '')) || 0;
-  return num.toLocaleString();
-});
+Kindly assist with the firewall access request below.
+
+Following the earlier configuration, we were informed that an additional firewall rule is required to allow our developers to proceed with the necessary testing. My team has since submitted the firewall request, and it is currently pending for further action.
+
+eSec has reached out on 9/9 and 10/9 regarding the request, and we would appreciate your kind assistance in providing an update.
+
+As the UAT is targeted for completion by next week, kindly let us know who the PIC is for this request, and we will follow up accordingly.
