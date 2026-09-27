@@ -1,52 +1,199 @@
-The error ReferenceError: sortDataset is not defined means the helper function was either not added or is placed in a different scope where dataSrc cannot reach it.
-You have two simple options to fix this:
-Option 1: Place the helper function right above the table (Recommended)
-Place this function directly before line const tableSBOMNew = new DataTable(...) in newSite.js:
-function sortDataset(dataArray) {
-    return dataArray.sort(function (a, b) {
-        var rankA = (typeof customOrder !== 'undefined' && customOrder[a.assetCategory]) ? customOrder[a.assetCategory] : 999;
-        var rankB = (typeof customOrder !== 'undefined' && customOrder[b.assetCategory]) ? customOrder[b.assetCategory] : 999;
-        if (rankA !== rankB) return rankA - rankB;
+Here is the complete configuration for your CBOM table (#tableCBOMReportNew).
+This implementation:
+ * Calculates the 1.1.1, 1.1.2, 1.2.1 hierarchical numbering self-contained inside dataSrc.
+ * Sorts using your customOrder first so categories match Inventory and SBOM.
+ * Formats column 0 to display displayIndex cleanly.
+ * Configures the Excel button with row group headers and cleans up <br> tags.
+Update tableCBOMReportNew in newSite.js
+Replace lines 702–715 (and its columns definition) with this:
+const tableCBOMReportNew = new DataTable('#tableCBOMReportNew', {
+    ajax: {
+        url: "/newreport/getCBOMReport", // or your CBOM endpoint[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)
+        dataType: "json",
+        dataSrc: function (json) {
+            var list = Array.isArray(json) ? json : (json.data || []);
 
-        if (a.assetId !== b.assetId) return (a.assetId || 0) - (b.assetId || 0);
-        if (a.componentId !== b.componentId) return (a.componentId || 0) - (b.componentId || 0);
-        return (a.cryptoId || 0) - (b.cryptoId || 0);
-    });
-}
+            // 1. Sort by custom category order, then assetId, componentId, cryptoId[span_13](start_span)[span_13](end_span)[span_14](start_span)[span_14](end_span)
+            list.sort(function (a, b) {
+                var rankA = (typeof customOrder !== 'undefined' && customOrder[a.assetCategory]) ? customOrder[a.assetCategory] : 999;
+                var rankB = (typeof customOrder !== 'undefined' && customOrder[b.assetCategory]) ? customOrder[b.assetCategory] : 999;
+                if (rankA !== rankB) return rankA - rankB;
 
-Option 2: Put the sorting inline directly in dataSrc
-If you don't want a separate helper function, replace the line list = sortDataset(list); with this direct inline sort:
-dataSrc: function (json) {
-    var list = Array.isArray(json) ? json : (json.data || []);
+                if (a.assetId !== b.assetId) return (a.assetId || 0) - (b.assetId || 0);
+                if (a.componentId !== b.componentId) return (a.componentId || 0) - (b.componentId || 0);
+                return (a.cryptoId || 0) - (b.cryptoId || 0);
+            });
 
-    // Sort inline without calling an external function
-    list.sort(function (a, b) {
-        var rankA = (typeof customOrder !== 'undefined' && customOrder[a.assetCategory]) ? customOrder[a.assetCategory] : 999;
-        var rankB = (typeof customOrder !== 'undefined' && customOrder[b.assetCategory]) ? customOrder[b.assetCategory] : 999;
-        if (rankA !== rankB) return rankA - rankB;
+            // 2. Generate 1.1.1, 1.1.2, 1.2.1 hierarchical numbering
+            var assetCounter = 0;
+            var lastAssetId = null;
 
-        if (a.assetId !== b.assetId) return (a.assetId || 0) - (b.assetId || 0);
-        if (a.componentId !== b.componentId) return (a.componentId || 0) - (b.componentId || 0);
-        return (a.cryptoId || 0) - (b.cryptoId || 0);
-    });
+            var compCounter = 0;
+            var lastCompId = null;
 
-    var assetCounter = 0;
-    var lastAssetId = null;
-    var compCounter = 0;
+            var cryptoCounter = 0;
 
-    for (var i = 0; i < list.length; i++) {
-        var item = list[i];
+            for (var i = 0; i < list.length; i++) {
+                var item = list[i];
 
-        if (item.assetId !== lastAssetId) {
-            assetCounter++;
-            lastAssetId = item.assetId;
-            compCounter = 0;
+                // If Asset changes (1 -> 2)
+                if (item.assetId !== lastAssetId) {
+                    assetCounter++;
+                    lastAssetId = item.assetId;
+                    compCounter = 0;
+                    lastCompId = null;
+                }
+
+                // If Component changes (1.1 -> 1.2)
+                if (item.componentId !== lastCompId) {
+                    compCounter++;
+                    lastCompId = item.componentId;
+                    cryptoCounter = 0;
+                }
+
+                // Increment crypto counter (1.1.1 -> 1.1.2)
+                cryptoCounter++;
+                item.displayIndex = assetCounter + "." + compCounter + "." + cryptoCounter;
+            }
+
+            return list;
         }
+    },
+    ordering: true,
+    order: [[1, 'asc']], // Order by assetCategory column[span_15](start_span)[span_15](end_span)
+    columnDefs: [
+        {
+            targets: '_all',
+            orderable: false // Prevent user click sorting from breaking group hierarchy[span_16](start_span)[span_16](end_span)
+        },
+        {
+            target: 1, // assetCategory column index[span_17](start_span)[span_17](end_span)[span_18](start_span)[span_18](end_span)
+            visible: false,
+            searchable: true,
+            render: function (data, type, row) {
+                if (type === 'sort') {
+                    return (typeof customOrder !== 'undefined' && customOrder[data]) ? customOrder[data] : 999;
+                }
+                return data;
+            }
+        }
+    ],
+    rowGroup: {
+        dataSrc: 'assetCategory[span_19](start_span)[span_20](start_span)'[span_19](end_span)[span_20](end_span)
+    },
+    columns: [
+        // Column 0: Replaces old string concatenation with clean hierarchical index[span_21](start_span)[span_21](end_span)
+        {
+            data: "displayIndex",
+            defaultContent: ""
+        },
+        // Column 1: Hidden Asset Category for grouping[span_22](start_span)[span_22](end_span)[span_23](start_span)[span_23](end_span)
+        {
+            data: function (row) {
+                return row["assetCategory"];
+            }
+        },
+        // Column 2: Asset Name[span_24](start_span)[span_24](end_span)
+        {
+            data: function (row) {
+                return row["assetName"];
+            }
+        },
+        // Column 3: Component Name[span_25](start_span)[span_25](end_span)
+        {
+            data: function (row) {
+                return row["componentName"];
+            }
+        },
+        // Column 4: Component Version[span_26](start_span)[span_26](end_span)
+        {
+            data: function (row) {
+                return row["componentVersion"];
+            }
+        },
+        // Column 5: Component Sub[span_27](start_span)[span_27](end_span)
+        {
+            data: function (row) {
+                return row["componentSub"];
+            }
+        },
+        // Column 6: Crypto Primitive[span_28](start_span)[span_28](end_span)
+        {
+            data: function (row) {
+                return row["cryptoPrimitive"];
+            }
+        },
+        // Column 7: Crypto Algorithm[span_29](start_span)[span_29](end_span)
+        {
+            data: function (row) {
+                return row["cryptoAlgorithm"];
+            }
+        },
+        // Column 8: Crypto Size[span_30](start_span)[span_30](end_span)
+        {
+            data: function (row) {
+                return row["cryptoSize"];
+            }
+        },
+        // Column 9: Crypto Protocol[span_31](start_span)[span_31](end_span)
+        {
+            data: function (row) {
+                return row["cryptoProtocol"];
+            }
+        }
+        // ... include remaining CBOM columns here
+    ],
+    layout: {
+        topStart: {
+            buttons: [
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':visible', // Hides the assetCategory column from Excel output[span_32](start_span)[span_32](end_span)[span_33](start_span)[span_33](end_span)
+                        format: {
+                            body: function (data, column, row) {
+                                if (typeof data === 'string' || data instanceof String) {
+                                    data = data.replace(/<br\s*\/?>/ig, "\r\n"); // Replace break tags[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span)
+                                }
+                                return data;
+                            }
+                        },
+                        customizeData: function (d) {
+                            var table = $('#tableCBOMReportNew').DataTable();
+                            var groupField = 'assetCategory';
+                            var rowsData = table.rows({ search: 'applied', order: 'applied' }).data();
+                            
+                            var newBody = [];
+                            var lastGroup = null;
+                            var totalColumns = d.header.length;
 
-        compCounter++;
-        item.displayIndex = assetCounter + "." + compCounter;
-    }
+                            for (var i = 0; i < d.body.length; i++) {
+                                var rowData = rowsData[i];
+                                var currentGroup = rowData ? (rowData[groupField] || '') : '';
 
-    return list;
-}
+                                // Insert rowGroup header when category changes
+                                if (currentGroup !== lastGroup && currentGroup !== '') {
+                                    lastGroup = currentGroup;
+                                    var groupRow = new Array(totalColumns).fill('');
+                                    groupRow[0] = currentGroup; // Put group title in column A
+                                    newBody.push(groupRow);
+                                }
 
+                                newBody.push(d.body[i]);
+                            }
+
+                            d.body = newBody;
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    scrollCollapse: true,
+    scrollX: true,
+    scrollY: "100%",
+    search: false
+});
+
+Important cleanups to check in newSite.js:
+ * Remove old preDrawCallback: If you still have lines 682–699 (sbomMap = {}, compCounts = {}) around your CBOM initialization, delete them so they don't overwrite or interfere with the calculations.
