@@ -1,51 +1,5 @@
-buttons: [
-  {
-    extend: 'excel',
-    exportOptions: {
-      format: {
-        body: function (data, column, row) {
-          if (typeof data === 'string' || data instanceof String) {
-            data = data.replace(/<br\s*\/?>/ig, "\r\n");
-          }
-          return data;
-        }
-      },
-      customizeData: function (d) {
-        var table = $('#yourTableId').DataTable(); // <-- Ensure table selector matches yours
-        var groupField = 'assetCategory';
-
-        // 1. Get filtered & ordered data
-        var rowsData = table.rows({ search: 'applied', order: 'applied' }).data();
-        
-        var newBody = [];
-        var lastGroup = null;
-        var totalColumns = d.header.length;
-        var runningNumber = 1;
-
-        for (var i = 0; i < d.body.length; i++) {
-          var rowData = rowsData[i];
-          var currentGroup = rowData ? (rowData[groupField] || '') : '';
-
-          // 2. Insert group row when group changes
-          if (currentGroup !== lastGroup && currentGroup !== '') {
-            lastGroup = currentGroup;
-
-            var groupRow = new Array(totalColumns).fill('');
-            groupRow[0] = currentGroup; // Put group title in the first column
-
-            newBody.push(groupRow);
-          }
-
-          // 3. Fix the 'NaN': assign sequential 1, 2, 3... to the first column (#)
-          d.body[i][0] = runningNumber++;
-
-          // Push the data row
-          newBody.push(d.body[i]);
-        }
-
-        // Replace export body
-        d.body = newBody;
-      }
-    }
-  }
-]
+ordering: true, // <-- Change this to true (or remove ordering: false entirely)
+order: [[1, 'asc']],
+rowGroup: {
+    dataSrc: 'assetCategory'
+},
