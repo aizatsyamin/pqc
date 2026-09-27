@@ -1,50 +1,52 @@
-The error "Requested unknown parameter 'displayIndex' for row 0, column 0" occurs because in your tableSBOMNew config (lines 527–534), you still have:
-dataSrc: "",
+The error ReferenceError: sortDataset is not defined means the helper function was either not added or is placed in a different scope where dataSrc cannot reach it.
+You have two simple options to fix this:
+Option 1: Place the helper function right above the table (Recommended)
+Place this function directly before line const tableSBOMNew = new DataTable(...) in newSite.js:
+function sortDataset(dataArray) {
+    return dataArray.sort(function (a, b) {
+        var rankA = (typeof customOrder !== 'undefined' && customOrder[a.assetCategory]) ? customOrder[a.assetCategory] : 999;
+        var rankB = (typeof customOrder !== 'undefined' && customOrder[b.assetCategory]) ? customOrder[b.assetCategory] : 999;
+        if (rankA !== rankB) return rankA - rankB;
 
-and then column 0 expects "data": "displayIndex". Because the backend API /newreport/getSBOMReport does not have a property named displayIndex in its raw JSON, DataTables warns that it cannot find that field.
-Also, you have leftover preDrawCallback logic using sbomMap. You should remove that mixed approach and let dataSrc attach displayIndex right when data arrives.
-The Fix
-Update lines 527–535 in tableSBOMNew so that dataSrc is a function that calculates displayIndex on each row before passing the data to the columns:
-const tableSBOMNew = new DataTable('#tableSBOMNew', {
-    ajax: {
-        url: "/newreport/getSBOMReport",
-        dataType: "json",
-        dataSrc: function (json) {
-            var list = Array.isArray(json) ? json : (json.data || []);
-            
-            // Sort by category first, then by IDs so groupings match Inventory
-            list = sortDataset(list);
+        if (a.assetId !== b.assetId) return (a.assetId || 0) - (b.assetId || 0);
+        if (a.componentId !== b.componentId) return (a.componentId || 0) - (b.componentId || 0);
+        return (a.cryptoId || 0) - (b.cryptoId || 0);
+    });
+}
 
-            var assetCounter = 0;
-            var lastAssetId = null;
-            var compCounter = 0;
+Option 2: Put the sorting inline directly in dataSrc
+If you don't want a separate helper function, replace the line list = sortDataset(list); with this direct inline sort:
+dataSrc: function (json) {
+    var list = Array.isArray(json) ? json : (json.data || []);
 
-            for (var i = 0; i < list.length; i++) {
-                var item = list[i];
+    // Sort inline without calling an external function
+    list.sort(function (a, b) {
+        var rankA = (typeof customOrder !== 'undefined' && customOrder[a.assetCategory]) ? customOrder[a.assetCategory] : 999;
+        var rankB = (typeof customOrder !== 'undefined' && customOrder[b.assetCategory]) ? customOrder[b.assetCategory] : 999;
+        if (rankA !== rankB) return rankA - rankB;
 
-                // When asset changes, increment major number (1, 2, 3...)
-                if (item.assetId !== lastAssetId) {
-                    assetCounter++;
-                    lastAssetId = item.assetId;
-                    compCounter = 0; // Reset component counter
-                }
+        if (a.assetId !== b.assetId) return (a.assetId || 0) - (b.assetId || 0);
+        if (a.componentId !== b.componentId) return (a.componentId || 0) - (b.componentId || 0);
+        return (a.cryptoId || 0) - (b.cryptoId || 0);
+    });
 
-                compCounter++;
-                // Creates "1.1", "1.2", "2.1", etc.
-                item.displayIndex = assetCounter + "." + compCounter;
-            }
+    var assetCounter = 0;
+    var lastAssetId = null;
+    var compCounter = 0;
 
-            return list;
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+
+        if (item.assetId !== lastAssetId) {
+            assetCounter++;
+            lastAssetId = item.assetId;
+            compCounter = 0;
         }
-    },
-    columns: [
-        {
-            data: "displayIndex",
-            defaultContent: ""
-        },
-        // ... rest of your columns remain as they are
 
-Steps to finalize:
- * Replace dataSrc: "" on line 529 with the dataSrc: function (json) above.
- * Add defaultContent: "" inside { data: "displayIndex" } on line 534 as a fallback safety guard so DataTables never triggers a popup alert.
- * Delete the old preDrawCallback: function (settings) { ... } block (lines 682–699) so it doesn't conflict.
+        compCounter++;
+        item.displayIndex = assetCounter + "." + compCounter;
+    }
+
+    return list;
+}
+
