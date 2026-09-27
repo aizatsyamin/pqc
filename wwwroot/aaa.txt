@@ -1,5 +1,16 @@
-ordering: true, // <-- Change this to true (or remove ordering: false entirely)
+ordering: true,
 order: [[1, 'asc']],
+columnDefs: [
+    {
+        targets: '_all',
+        orderable: false // Keeps column sorting disabled for users, but lets order: [[1, 'asc']] work
+    },
+    {
+        target: 1,
+        visible: false,
+        searchable: true
+    }
+],
 rowGroup: {
     dataSrc: 'assetCategory'
 },
