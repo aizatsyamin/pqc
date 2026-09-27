@@ -1,16 +1,18 @@
-ordering: true,
-order: [[1, 'asc']],
 columnDefs: [
     {
         targets: '_all',
-        orderable: false // Keeps column sorting disabled for users, but lets order: [[1, 'asc']] work
+        orderable: false // Keeps column sorting disabled for users
     },
     {
         target: 1,
         visible: false,
-        searchable: true
+        searchable: true,
+        render: function (data, type, row) {
+            // When DataTables sorts, return the number from customOrder
+            if (type === 'sort') {
+                return customOrder[data] !== undefined ? customOrder[data] : 999;
+            }
+            return data;
+        }
     }
 ],
-rowGroup: {
-    dataSrc: 'assetCategory'
-},
