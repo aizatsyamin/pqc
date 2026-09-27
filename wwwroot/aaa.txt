@@ -1,97 +1,50 @@
-To make the index hierarchy clean (1, 1.1, 1.1.1) instead of showing raw database primary keys (like 4.4 or 4.4.3), generate a shared mapping index based on the ordered Inventory rows, and then use that map in SBOM and CBOM.
-Step 1: Create Global Map Dictionaries
-Place this above your DataTable initializations in newSite.js:
-// Global maps to keep numbering consistent across tables
-var inventoryMap = {}; // assetId -> 1, 2, 3...
-var sbomMap = {};      // assetId_componentId -> 1.1, 1.2...
-var cbomCounter = {};  // assetId_componentId -> count of cryptos (1, 2...)
+The error "Requested unknown parameter 'displayIndex' for row 0, column 0" occurs because in your tableSBOMNew config (lines 527–534), you still have:
+dataSrc: "",
 
-Step 2: Inventory Table (Builds 1, 2, 3, 4)
-Inside your tableInventoryNew configuration:
- * In the first column definition (columns[0]):
-{
-  "data": function (row, type, set, meta) {
-    if (type === 'display' || type === 'filter') {
-      return inventoryMap[row.assetId] || (meta.row + 1);
-    }
-    return row.assetId;
-  }
-}
+and then column 0 expects "data": "displayIndex". Because the backend API /newreport/getSBOMReport does not have a property named displayIndex in its raw JSON, DataTables warns that it cannot find that field.
+Also, you have leftover preDrawCallback logic using sbomMap. You should remove that mixed approach and let dataSrc attach displayIndex right when data arrives.
+The Fix
+Update lines 527–535 in tableSBOMNew so that dataSrc is a function that calculates displayIndex on each row before passing the data to the columns:
+const tableSBOMNew = new DataTable('#tableSBOMNew', {
+    ajax: {
+        url: "/newreport/getSBOMReport",
+        dataType: "json",
+        dataSrc: function (json) {
+            var list = Array.isArray(json) ? json : (json.data || []);
+            
+            // Sort by category first, then by IDs so groupings match Inventory
+            list = sortDataset(list);
 
- * Inside ajax.dataFilter or initComplete / drawCallback to populate inventoryMap based on display order:
-drawCallback: function (settings) {
-  var api = this.api();
-  // Clear map on draw
-  inventoryMap = {};
-  
-  // Assign 1, 2, 3... based on current table sort/order
-  api.rows({ search: 'applied', order: 'applied' }).every(function (rowIdx, tableLoop, rowLoop) {
-    var data = this.data();
-    if (data && data.assetId !== undefined) {
-      inventoryMap[data.assetId] = rowLoop + 1;
-    }
-  });
+            var assetCounter = 0;
+            var lastAssetId = null;
+            var compCounter = 0;
 
-  // Redraw the first column text cleanly
-  api.rows().invalidate('display');
-}
+            for (var i = 0; i < list.length; i++) {
+                var item = list[i];
 
-Step 3: SBOM Table (Generates 1.1, 1.2, 2.1...)
-In tableSBOMReport, use inventoryMap for the prefix and maintain an internal count for each component:
- * Add a reset in preDrawCallback:
-preDrawCallback: function (settings) {
-  sbomMap = {};
-  var compCounts = {};
+                // When asset changes, increment major number (1, 2, 3...)
+                if (item.assetId !== lastAssetId) {
+                    assetCounter++;
+                    lastAssetId = item.assetId;
+                    compCounter = 0; // Reset component counter
+                }
 
-  var api = this.api();
-  api.rows({ search: 'applied', order: 'applied' }).every(function () {
-    var d = this.data();
-    var aId = d.assetId;
-    var cId = d.componentId;
-    var key = aId + '_' + cId;
+                compCounter++;
+                // Creates "1.1", "1.2", "2.1", etc.
+                item.displayIndex = assetCounter + "." + compCounter;
+            }
 
-    if (!sbomMap[key]) {
-      compCounts[aId] = (compCounts[aId] || 0) + 1;
-      var invIndex = inventoryMap[aId] || aId; // Uses 1, 2, etc. from Inventory
-      sbomMap[key] = invIndex + '.' + compCounts[aId]; // e.g. 1.1, 1.2
-    }
-  });
-}
+            return list;
+        }
+    },
+    columns: [
+        {
+            data: "displayIndex",
+            defaultContent: ""
+        },
+        // ... rest of your columns remain as they are
 
- * In the SBOM first column definition:
-{
-  "data": function (row, type) {
-    var key = row.assetId + '_' + row.componentId;
-    return sbomMap[key] || (row.assetId + '.' + row.componentId);
-  }
-}
-
-Step 4: CBOM Table (Generates 1.1.1, 1.1.2...)
-In tableCBOMReportNew (replaces line 663 in your screenshot):
- * Add a reset in preDrawCallback:
-preDrawCallback: function (settings) {
-  cbomCounter = {};
-}
-
- * Replace column 0 at line 663 with:
-{
-  "data": function (row, type) {
-    var sbomKey = row.assetId + '_' + row.componentId;
-    var sbomPrefix = sbomMap[sbomKey] || (row.assetId + '.' + row.componentId);
-
-    // Track running count of cryptos for this specific asset+component
-    if (type === 'display' || type === 'filter') {
-      var cryptoTrackingKey = row.assetId + '_' + row.componentId + '_' + row.cryptoId;
-      if (!this._cbomCache) this._cbomCache = {};
-
-      if (!this._cbomCache[cryptoTrackingKey]) {
-        cbomCounter[sbomKey] = (cbomCounter[sbomKey] || 0) + 1;
-        this._cbomCache[cryptoTrackingKey] = sbomPrefix + '.' + cbomCounter[sbomKey];
-      }
-      return this._cbomCache[cryptoTrackingKey];
-    }
-
-    return row.assetId + '.' + row.componentId + '.' + row.cryptoId;
-  }
-}
-
+Steps to finalize:
+ * Replace dataSrc: "" on line 529 with the dataSrc: function (json) above.
+ * Add defaultContent: "" inside { data: "displayIndex" } on line 534 as a fallback safety guard so DataTables never triggers a popup alert.
+ * Delete the old preDrawCallback: function (settings) { ... } block (lines 682–699) so it doesn't conflict.
