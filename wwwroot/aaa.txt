@@ -2,7 +2,6 @@ buttons: [
   {
     extend: 'excel',
     exportOptions: {
-      // 1. Clean line breaks
       format: {
         body: function (data, column, row) {
           if (typeof data === 'string' || data instanceof String) {
@@ -11,47 +10,42 @@ buttons: [
           return data;
         }
       },
-      // 2. Insert rowGroup headers into the export data stream
       customizeData: function (d) {
-        var table = $('#yourTableId').DataTable(); // <-- Ensure this matches your DataTable selector or variable
+        var table = $('#yourTableId').DataTable(); // <-- Ensure table selector matches yours
         var groupField = 'assetCategory';
 
-        // Get the current ordered/filtered table rows data
+        // 1. Get filtered & ordered data
         var rowsData = table.rows({ search: 'applied', order: 'applied' }).data();
         
         var newBody = [];
         var lastGroup = null;
         var totalColumns = d.header.length;
+        var runningNumber = 1;
 
         for (var i = 0; i < d.body.length; i++) {
           var rowData = rowsData[i];
           var currentGroup = rowData ? (rowData[groupField] || '') : '';
 
-          // When group changes, insert a group header row
+          // 2. Insert group row when group changes
           if (currentGroup !== lastGroup && currentGroup !== '') {
             lastGroup = currentGroup;
 
-            // Create a row where the first cell has the group title, followed by empty cells
             var groupRow = new Array(totalColumns).fill('');
-            groupRow[0] = currentGroup;
+            groupRow[0] = currentGroup; // Put group title in the first column
 
             newBody.push(groupRow);
           }
 
-          // Push the standard data row
+          // 3. Fix the 'NaN': assign sequential 1, 2, 3... to the first column (#)
+          d.body[i][0] = runningNumber++;
+
+          // Push the data row
           newBody.push(d.body[i]);
         }
 
-        // Replace the exported body with our new grouped body
+        // Replace export body
         d.body = newBody;
       }
-    },
-    // Optional: make the inserted group rows stand out (grey/bold)
-    customize: function (xlsx) {
-      var sheet = xlsx.xl.worksheets['sheet1.xml'];
-      
-      // Target rows where only cell A has text and the rest are empty
-      // Or simply let DataTables handle the clean structure natively
     }
   }
 ]
