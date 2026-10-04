@@ -1,31 +1,29 @@
-using Newtonsoft.Json;
-using System.Reflection;
-using Umbraco.Cms.Core.Composing;
-using Umbraco.Cms.Core.DependencyInjection;
-using Umbraco.Cms.Core.Serialization;
-using Umbraco.Cms.Infrastructure.Serialization;
+$(document).on('change keyup', '.inputCryptoCertValidityNumber, .selectCryptoCertValidity', function () {
+    var gNum = parseInt($('.inputCryptoCertValidityNumber').val(), 10) || 0;
+    var gType = ($('.selectCryptoCertValidity').val() || '').toLowerCase();
 
-namespace UmbracoProject.Composers;
+    // Start with today's date
+    var targetDate = new Date();
 
-public class DeepBlockNestingJsonSerializerComposer : IComposer
-{
-    private const int MaxDepth = 256;
+    if (gType.includes('day')) {
+        targetDate.setDate(targetDate.getDate() + gNum);
+    } else if (gType.includes('month')) {
+        targetDate.setMonth(targetDate.getMonth() + gNum);
+    } else if (gType.includes('year')) {
+        targetDate.setFullYear(targetDate.getFullYear() + gNum);
+    }
 
-    public void Compose(IUmbracoBuilder builder)
-    {
-        builder.Services.AddUnique<IJsonSerializer>(serviceProvider =>
-        {
-            var serializer = new JsonNetSerializer();
+    // Check if target year exceeds 2030
+    var isPast2030 = targetDate.getFullYear() > 2030;
 
-            PropertyInfo settingsProperty = typeof(JsonNetSerializer).GetProperty(
-                "JsonSerializerSettings",
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                ?? throw new InvalidOperationException("Could not find JsonSerializerSettings on JsonNetSerializer.");
-
-            var settings = (JsonSerializerSettings)settingsProperty.GetValue(serializer)!;
-            settings.MaxDepth = MaxDepth;
-
-            return serializer;
+    if (isPast2030) {
+        // Exceeds year 2030
+        console.warn("Target date exceeds 2030:", targetDate);
+        Swal.fire({
+            icon: 'warning',
+            title: 'Invalid Validity',
+            text: 'Validity cannot extend past the year 2030.',
+            confirmButtonColor: '#1C2534'
         });
     }
-}
+});
