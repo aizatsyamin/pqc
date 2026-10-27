@@ -1,0 +1,62 @@
+@using Umbraco.Forms.Web
+@using Umbraco.Forms.Core.Providers.FieldTypes
+@model Umbraco.Forms.Web.Models.FieldViewModel
+
+@{
+    var isValid = (Model.Mandatory && Model.Values != null && Model.Values.Any()) || (!Model.Mandatory);
+    if (Model.AdditionalSettings.TryGetValue("SelectedFilesListHeading", out string? selectedFilesLabel) == false ||
+        string.IsNullOrWhiteSpace(selectedFilesLabel))
+    {
+        selectedFilesLabel = "Current file(s)";
+    }
+}
+<input type="file" class="@Html.GetFormFieldClass(Model.FieldTypeName)" name="@Model.Name" id="@Model.Id" data-umb="@Model.Id" @(Model.AllowMultipleFileUploads ? "multiple" : string.Empty)
+       data-val="@(isValid == false ? "true" : null)"
+       data-val-required="@(isValid == false ? Model.RequiredErrorMessage : null)"
+       aria-describedby="@(Model.Id)_validation@(!string.IsNullOrEmpty(Model.ToolTip) ? $" {Model.Id}_description" : "")" />
+
+@if (Model.Values != null && Model.Values.Any())
+{
+    <p>
+        <strong>@selectedFilesLabel:</strong>
+
+        @if (!Model.AllowMultipleFileUploads || Model.Values.Count() == 1)
+        {
+            string? filePath = Model.Values.FirstOrDefault()?.ToString();
+
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                <br />
+                <span>
+                    @{
+                        RenderFileItem(filePath);
+                    }
+                </span>
+            }
+        }
+    </p>
+    @if (Model.AllowMultipleFileUploads && Model.Values.Count() > 1)
+    {
+        <ul>
+            @foreach (string filePath in Model.Values)
+            {
+                <li>
+                    @{
+                        RenderFileItem(filePath);
+                    }
+                </li>
+            }
+        </ul>
+    }
+}
+
+
+@functions {
+    void RenderFileItem(string filePath)
+    {
+        var fileName = filePath.Split(new[] { FileUpload.EncryptedFilePathAndFileNameSeparator }, StringSplitOptions.None).Last();
+
+        <a>@fileName</a><br />
+        <input type="hidden" name="@(Model.Name)_file_@(fileName)" value="@filePath" />
+    }
+}

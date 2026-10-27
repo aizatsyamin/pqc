@@ -1,0 +1,26 @@
+@using Umbraco.Forms.Web
+@model Umbraco.Forms.Web.Models.FieldViewModel
+@{
+    var maxLength = Model.GetSettingValue<int>("MaximumLength", 255);
+    var fieldType = Model.GetSettingValue<string>("FieldType", "text");
+    var autocompleteAttribute = Model.GetSettingValue<string>("AutocompleteAttribute", string.Empty);
+
+    // "email" and "url" input types are automatically validated by the client-side validation frameworks using their
+    // own built-in (English) messages. When a custom error message is configured, emit the matching data-val attribute
+    // so that message is used for these validations instead. If no custom message is configured we leave it unset, so
+    // the framework's own default message is shown rather than an empty one.
+    // See: https://github.com/umbraco/Umbraco.Forms.Issues/issues/858
+    var nativeValidationRule = (fieldType == "email" || fieldType == "url") && string.IsNullOrEmpty(Model.InvalidErrorMessage) == false ? fieldType : null;
+}
+<input type="@fieldType" name="@Model.Name" id="@Model.Id" data-umb="@Model.Id" class="text @Html.GetFormFieldClass(Model.FieldTypeName)" value="@Model.ValueAsHtmlString" maxlength="@maxLength"
+       @{if (string.IsNullOrEmpty(Model.PlaceholderText) == false) { <text> placeholder="@Model.PlaceholderText" </text>  }}
+       @{if (string.IsNullOrEmpty(autocompleteAttribute) == false) { <text> autocomplete="@autocompleteAttribute" </text>  }}
+       @{if (Model.Mandatory || Model.Validate || nativeValidationRule != null) { <text> data-val="true" </text>  }}
+       @{if (Model.Mandatory) { <text> data-val-required="@Model.RequiredErrorMessage" aria-required="true" </text>  }}
+       @{if (Model.Validate) { <text> data-val-regex="@Model.InvalidErrorMessage" data-val-regex-pattern="@Model.Regex" </text>  }}
+       @{if (string.IsNullOrEmpty(Model.Regex) == false) { <text> pattern="@Model.Regex" </text>  }}
+       @{if (nativeValidationRule != null) { <text> data-val-@(nativeValidationRule)="@Model.InvalidErrorMessage" </text>  }}
+       aria-describedby="@(Model.Id)_validation@(!string.IsNullOrEmpty(Model.ToolTip) ? $" {Model.Id}_description" : "")"/>
+
+
+
