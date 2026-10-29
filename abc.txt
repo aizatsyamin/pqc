@@ -1,9 +1,40 @@
-Dear DA,
+using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.Models.Blocks;
+using Umbraco.Cms.Core.Serialization;
+using Umbraco.Cms.Core.Services;
 
-Kindly assist with the firewall access request below.
+public class BlockExposeRepairService
+{
+    private readonly IContentService _contentService;
+    private readonly IJsonSerializer _jsonSerializer;
 
-Following the earlier configuration, we were informed that an additional firewall rule is required to allow our developers to proceed with the necessary testing. My team has since submitted the firewall request, and it is currently pending for further action.
+    public BlockExposeRepairService(IContentService contentService, IJsonSerializer jsonSerializer)
+    {
+        _contentService = contentService;
+        _jsonSerializer = jsonSerializer;
+    }
 
-eSec has reached out on 9/9 and 10/9 regarding the request, and we would appreciate your kind assistance in providing an update.
+    public void FixBlockListExpose(int contentId, string propertyAlias, string? culture = null)
+    {
+        var content = _contentService.GetById(contentId);
+        if (content == null) return;
 
-As the UAT is targeted for completion by next week, kindly let us know who the PIC is for this request, and we will follow up accordingly.
+        var rawJson = content.GetValue<string>(propertyAlias, culture);
+        if (string.IsNullOrWhiteSpace(rawJson)) return;
+
+        var blockListValue = _jsonSerializer.Deserialize<BlockListValue>(rawJson);
+        if (blockListValue == null || blockListValue.ContentData.Count == 0) return;
+
+        // Rebuild the expose list for all existing contentData blocks
+        blockListValue.Expose.Clear();
+        foreach (var block in blockListValue.ContentData)
+        {
+            blockListValue.Expose.Add(new BlockItemVariation(block.Key, culture, segment: null));
+        }
+
+        // Save back the normalized JSON and publish
+        content.SetValue(propertyAlias, _jsonSerializer.Serialize(blockListValue), culture);
+        _contentService.Save(content);
+        _contentService.Publish(content, new[] { culture ?? "*" });
+    }
+}
