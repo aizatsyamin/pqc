@@ -1,40 +1,193 @@
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Microsoft.Extensions.Logging;
+using Umbraco.Cms.Core;
+using Umbraco.Cms.Core.Composing;
+using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Models;
-using Umbraco.Cms.Core.Models.Blocks;
-using Umbraco.Cms.Core.Serialization;
+using Umbraco.Cms.Core.Notifications;
 using Umbraco.Cms.Core.Services;
 
-public class BlockExposeRepairService
+namespace YourProjectNamespace.Migrations;
+
+// 1. Composer automatically registers the notification handler in Umbraco 17
+public class BlockExposeRepairComposer : IComposer
+{
+    public void Compose(IUmbracoBuilder builder)
+    {
+        builder.AddNotificationAsyncHandler<UmbracoApplicationStartedNotification, BlockExposeRepairHandler>();
+    }
+}
+
+// 2. Notification Handler runs automatically once Umbraco finishes starting up
+public class BlockExposeRepairHandler : INotificationAsyncHandler<UmbracoApplicationStartedNotification>
 {
     private readonly IContentService _contentService;
-    private readonly IJsonSerializer _jsonSerializer;
+    private readonly IRuntimeState _runtimeState;
+    private readonly ILogger<BlockExposeRepairHandler> _logger;
 
-    public BlockExposeRepairService(IContentService contentService, IJsonSerializer jsonSerializer)
+    // Covers Block List, Block Grid, Single Block, and Rich Text Editor blocks
+    private static readonly HashSet<string> BlockPropertyEditors = new(StringComparer.OrdinalIgnoreCase)
+    {
+        Constants.PropertyEditors.Aliases.BlockList,
+        Constants.PropertyEditors.Aliases.BlockGrid,
+        Constants.PropertyEditors.Aliases.RichText,
+        "Umbraco.SingleBlock"
+    };
+
+    public BlockExposeRepairHandler(
+        IContentService contentService,
+        IRuntimeState runtimeState,
+        ILogger<BlockExposeRepairHandler> logger)
     {
         _contentService = contentService;
-        _jsonSerializer = jsonSerializer;
+        _runtimeState = runtimeState;
+        _logger = logger;
     }
 
-    public void FixBlockListExpose(int contentId, string propertyAlias, string? culture = null)
+    public Task HandleAsync(UmbracoApplicationStartedNotification notification, CancellationToken cancellationToken)
     {
-        var content = _contentService.GetById(contentId);
-        if (content == null) return;
-
-        var rawJson = content.GetValue<string>(propertyAlias, culture);
-        if (string.IsNullOrWhiteSpace(rawJson)) return;
-
-        var blockListValue = _jsonSerializer.Deserialize<BlockListValue>(rawJson);
-        if (blockListValue == null || blockListValue.ContentData.Count == 0) return;
-
-        // Rebuild the expose list for all existing contentData blocks
-        blockListValue.Expose.Clear();
-        foreach (var block in blockListValue.ContentData)
+        // Only run when Umbraco is in normal Run mode (skip during install/upgrade screens)
+        if (_runtimeState.Level != RuntimeLevel.Run)
         {
-            blockListValue.Expose.Add(new BlockItemVariation(block.Key, culture, segment: null));
+            return Task.CompletedTask;
         }
 
-        // Save back the normalized JSON and publish
-        content.SetValue(propertyAlias, _jsonSerializer.Serialize(blockListValue), culture);
-        _contentService.Save(content);
-        _contentService.Publish(content, new[] { culture ?? "*" });
+        _logger.LogInformation("Starting automatic check for unexposed Block properties...");
+        int fixedNodesCount = 0;
+
+        // Fetch all root content nodes and traverse descendants in batches
+        var rootNodes = _contentService.GetRootContent();
+        foreach (var root in rootNodes)
+        {
+            if (RepairContentNode(root)) fixedNodesCount++;
+
+            long totalRecords;
+            int pageIndex = 0;
+            const int pageSize = 500;
+
+            do
+            {
+                var descendants = _contentService.GetPagedDescendants(root.Id, pageIndex, pageSize, out totalRecords);
+                foreach (var node in descendants)
+                {
+                    if (RepairContentNode(node)) fixedNodesCount++;
+                }
+                pageIndex++;
+            }
+            while (pageIndex * pageSize < totalRecords);
+        }
+
+        _logger.LogInformation("Block Expose repair finished. Total content nodes repaired: {Count}", fixedNodesCount);
+        return Task.CompletedTask;
+    }
+
+    private bool RepairContentNode(IContent content)
+    {
+        bool isNodeModified = false;
+
+        foreach (var property in content.Properties)
+        {
+            if (!BlockPropertyEditors.Contains(property.PropertyType.PropertyEditorAlias))
+                continue;
+
+            foreach (var propVal in property.Values)
+            {
+                // Inspect both the edited (draft) value and look to repair it
+                var rawJson = propVal.EditedValue as string ?? propVal.PublishedValue as string;
+                if (string.IsNullOrWhiteSpace(rawJson) || !rawJson.TrimStart().StartsWith('{'))
+                    continue;
+
+                if (TryRepairBlockJson(rawJson, propVal.Culture, propVal.Segment, out string repairedJson))
+                {
+                    content.SetValue(property.Alias, repairedJson, propVal.Culture, propVal.Segment);
+                    isNodeModified = true;
+                }
+            }
+        }
+
+        if (!isNodeModified)
+            return false;
+
+        // If the node was already published before, Save & Publish it so the front-end and backoffice sync.
+        // If it was strictly a draft node, only Save it so we don't accidentally publish unfinished work.
+        if (content.Published)
+        {
+            var culturesToPublish = content.ContentType.VariesByCulture()
+                ? content.PublishedCultures.ToArray()
+                : new[] { "*" };
+
+            _contentService.Save(content);
+            _contentService.Publish(content, culturesToPublish);
+        }
+        else
+        {
+            _contentService.Save(content);
+        }
+
+        _logger.LogInformation("Repaired missing Block Expose data on node '{Name}' (ID: {Id})", content.Name, content.Id);
+        return true;
+    }
+
+    private static bool TryRepairBlockJson(string rawJson, string? culture, string? segment, out string repairedJson)
+    {
+        repairedJson = rawJson;
+
+        try
+        {
+            var rootNode = JsonNode.Parse(rawJson) as JsonObject;
+            if (rootNode == null) return false;
+
+            // Check if this is an RTE with nested "blocks" object or a direct BlockList/BlockGrid JSON
+            JsonObject? blockRoot = rootNode.ContainsKey("contentData")
+                ? rootNode
+                : rootNode["blocks"] as JsonObject;
+
+            if (blockRoot == null) return false;
+
+            var contentData = blockRoot["contentData"] as JsonArray;
+            if (contentData == null || contentData.Count == 0) return false;
+
+            var exposeArray = blockRoot["expose"] as JsonArray ?? new JsonArray();
+
+            // Collect existing exposed contentKeys so we don't duplicate entries
+            var exposedKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var item in exposeArray)
+            {
+                var key = item?["contentKey"]?.GetValue<string>();
+                if (!string.IsNullOrEmpty(key))
+                {
+                    exposedKeys.Add(key);
+                }
+            }
+
+            bool modified = false;
+
+            // Ensure every block in contentData has a matching entry in expose
+            foreach (var block in contentData)
+            {
+                var key = block?["key"]?.GetValue<string>();
+                if (string.IsNullOrEmpty(key) || exposedKeys.Contains(key))
+                    continue;
+
+                exposeArray.Add(new JsonObject
+                {
+                    ["contentKey"] = key,
+                    ["culture"] = culture,
+                    ["segment"] = segment
+                });
+                modified = true;
+            }
+
+            if (!modified) return false;
+
+            blockRoot["expose"] = exposeArray;
+            repairedJson = rootNode.ToJsonString(new JsonSerializerOptions { WriteIndented = false });
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
