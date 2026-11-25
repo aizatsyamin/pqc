@@ -1,1 +1,41 @@
-https://claude.ai/artifact/GTZ482H4tuKZujuhJTWtDM#a9236911-0f3e
+public class PromoService
+{
+    private readonly HttpClient _http;              // from IHttpClientFactory, Timeout = 5s
+    private static readonly SemaphoreSlim _loginLock = new(1, 1);
+    private static DateTime _skipUntil = DateTime.MinValue;
+    private static object? _lastGood;             // last successful promotions
+
+    public async Task<object?> GetPromotionsAsync(string kType, string kLang, CancellationToken ct)
+    {
+        if (DateTime.UtcNow < _skipUntil) return _lastGood;          // cooldown
+        try
+        {
+            var token = await GetTokenAsync(ct);
+            var data = await HZGetAsync(token, kType, kLang, ct);     // uses _http (5s)
+            _lastGood = data;
+            return data;
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
+        {
+            _logger.LogWarning(ex, "Hazelcast unavailable, serving fallback for 30s");
+            _skipUntil = DateTime.UtcNow.AddSeconds(30);
+            return _lastGood;                                          // or read from Umbraco
+        }
+    }
+
+    private async Task<string> GetTokenAsync(CancellationToken ct)
+    {
+        if (TryGetCachedToken(out var t)) return t;
+        await _loginLock.WaitAsync(ct);
+        try
+        {
+            if (TryGetCachedToken(out t)) return t;                   // someone else logged in
+            var sw = Stopwatch.StartNew();
+            t = await HZLoginAsync(ct);                               // uses _http (5s)
+            _logger.LogInformation("HZ login to {Url} took {Ms}ms", _serverUrl, sw.ElapsedMilliseconds);
+            CacheToken(t);
+            return t;
+        }
+        finally { _loginLock.Release(); }
+    }
+}
