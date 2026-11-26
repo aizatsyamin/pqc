@@ -1,17 +1,4 @@
-@RequestMapping(value = "/category/editView", method = {RequestMethod.GET, RequestMethod.POST})
-public String editCategoryView(Locale locale, Model model, HttpServletRequest request,
-                               @RequestParam(value = "catId", required = true) String catId,
-                               @RequestParam(value = "catName", required = false) String catName,
-                               @RequestParam(value = "catStatus", required = false) String catStatus) {
-    
-    // Fetch base entity from service
-    String companyId = customerInfo.getCompanyId();
-    InvCategory category = inventorySvc.getCategoryById(companyId, catId);
+Two small suggestions for the developer (not blockers)
 
-    // Pass data to JSP view
-    model.addAttribute("category", category);
-    model.addAttribute("selectedName", catName);
-    model.addAttribute("selectedStatus", catStatus);
-
-    return "1700eInventory/category/categoryEdit";
-}
+	•	Request 2's lock wait logged as a failure and restarted the 30s cooldown. That's harmless, but logging it at Debug, or not resetting the cooldown on a lock-wait cancel, would keep the logs cleaner.
+	•	Add one log line per cooldown period saying "serving fallback, N requests". During an incident that shows how many MyPB calls were affected.
